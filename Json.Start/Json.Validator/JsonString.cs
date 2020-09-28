@@ -11,6 +11,11 @@ namespace Json
                 return false;
             }
 
+            return IsWrappedInDoubleQuotes(input);
+        }
+
+        static bool IsWrappedInDoubleQuotes(string input)
+        {
             return input[0] == '"' && input[^1] == '"';
         }
     }
