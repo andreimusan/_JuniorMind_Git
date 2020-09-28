@@ -16,7 +16,7 @@ namespace Json
 
         static bool IsWrappedInDoubleQuotes(string input)
         {
-            return input[0] == '"' && input[^1] == '"';
+            return input.Length > 1 + 1 && input[0] == '"' && input[^1] == '"';
         }
     }
 }
