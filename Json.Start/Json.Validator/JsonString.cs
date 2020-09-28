@@ -7,12 +7,18 @@ namespace Json
         public static bool IsJsonString(string input)
         {
             return HasContent(input)
-                && IsWrappedInDoubleQuotes(input);
+                && HasDoubleQuotes(input)
+                && HasSimpleQuotes(input);
         }
 
-        static bool IsWrappedInDoubleQuotes(string input)
+        static bool HasDoubleQuotes(string input)
         {
             return input.Length >= 1 && input[0] == '"' && input[^1] == '"';
+        }
+
+        static bool HasSimpleQuotes(string input)
+        {
+            return input.Length >= 1 && input[0] == '\'' && input[^1] == '\'';
         }
 
         static bool HasContent(string input)
