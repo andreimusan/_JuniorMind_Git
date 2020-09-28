@@ -8,7 +8,8 @@ namespace Json
         {
             return HasContent(input)
                 && HasDoubleQuotes(input)
-                && HasSimpleQuotes(input);
+                && HasSimpleQuotes(input)
+                && !ContainsControlCharacters(input);
         }
 
         static bool HasDoubleQuotes(string input)
@@ -24,6 +25,19 @@ namespace Json
         static bool HasContent(string input)
         {
             return !string.IsNullOrEmpty(input);
+        }
+
+        static bool ContainsControlCharacters(string input)
+        {
+            foreach (char c in input)
+            {
+                if (char.IsControl(c))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
