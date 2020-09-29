@@ -18,6 +18,11 @@ namespace Json
 
         static bool IsFormedFromDigits(string input)
         {
+            if (StartsWithMinus(input))
+            {
+                input = input.Remove(0, 1);
+            }
+
             foreach (char c in input)
             {
                 if (char.IsDigit(c))
@@ -31,6 +36,11 @@ namespace Json
 
         static bool StartsWithZero(string input)
         {
+            if (StartsWithMinus(input))
+            {
+                input = input.Remove(0, 1);
+            }
+
             return input.Length > 1 && input[0] == '0';
         }
 
