@@ -24,7 +24,8 @@ namespace Json
         static bool IsJsonCharacter(string input)
         {
             return ContainsLargeUnicodeCharacters(input)
-                && !ContainsControlCharacters(input);
+                && !ContainsControlCharacters(input)
+                && CheckEscapeCharacter(input);
         }
 
         static bool ContainsControlCharacters(string input)
@@ -56,13 +57,37 @@ namespace Json
             return false;
         }
 
-        static bool CompareHexValues(char c)
+        static bool CheckEscapeCharacter(string input)
         {
-            const int min = 0x20;
-            const int max = 0xFFFF;
-            int charHexValue = Convert.ToInt32(c);
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '\\')
+                {
+                    return CheckCharacterFollowingEscapeCharacter(input, i);
+                }
+            }
 
-            return Convert.ToInt32(c) >= min && Convert.ToInt32(c) <= max;
+            return true;
+        }
+
+        static bool CheckCharacterFollowingEscapeCharacter(string input, int position)
+        {
+            char[] escapeSymbols = { '\'', '"', '\\', '0', 'a', 'b', 'f', 'n', 'r', 't', 'v', 'u' };
+
+            if (position < input.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < escapeSymbols.Length; i++)
+            {
+                if (input[position + 1] != escapeSymbols[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

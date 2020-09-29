@@ -120,13 +120,13 @@ namespace Json.Facts
             Assert.False(IsJsonString(Quoted(@"a\x")));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void DoesNotEndWithReverseSolidus()
         {
             Assert.False(IsJsonString(Quoted(@"a\")));
         }
 
-        [Fact(Skip = "Remove this Skip as you implement")]
+        [Fact]
         public void DoesNotEndWithAnUnfinishedHexNumber()
         {
             Assert.False(IsJsonString(Quoted(@"a\u")));
