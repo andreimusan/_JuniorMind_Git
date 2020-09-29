@@ -6,8 +6,13 @@ namespace Json
     {
         public static bool IsJsonNumber(string input)
         {
+            if (HasContent(input) && StartsWithMinus(input))
+            {
+                input = input.Remove(0, 1);
+            }
+
             return HasContent(input)
-                && IsFormedFromDigits(input)
+                && IsRealNumber(input)
                 && !StartsWithZero(input);
         }
 
@@ -16,16 +21,11 @@ namespace Json
             return !string.IsNullOrEmpty(input);
         }
 
-        static bool IsFormedFromDigits(string input)
+        static bool IsRealNumber(string input)
         {
-            if (StartsWithMinus(input))
-            {
-                input = input.Remove(0, 1);
-            }
-
             foreach (char c in input)
             {
-                if (char.IsDigit(c))
+                if (char.IsDigit(c) || c == '.')
                 {
                     return true;
                 }
@@ -36,30 +36,12 @@ namespace Json
 
         static bool StartsWithZero(string input)
         {
-            if (StartsWithMinus(input))
-            {
-                input = input.Remove(0, 1);
-            }
-
             return input.Length > 1 && input[0] == '0';
         }
 
         static bool StartsWithMinus(string input)
         {
             return input.Length > 1 && input[0] == '-';
-        }
-
-        static bool IsFractional(string input)
-        {
-            foreach (char c in input)
-            {
-                if (c == '.')
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
