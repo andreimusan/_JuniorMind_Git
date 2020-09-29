@@ -59,35 +59,41 @@ namespace Json
 
         static bool CheckEscapeCharacter(string input)
         {
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 1; i < input.Length - 1; i++)
             {
                 if (input[i] == '\\')
                 {
-                    return CheckCharacterFollowingEscapeCharacter(input, i);
+                    return CheckEscapeSymbols(input, i);
                 }
             }
 
             return true;
         }
 
-        static bool CheckCharacterFollowingEscapeCharacter(string input, int position)
+        static bool CheckEscapeSymbols(string input, int position)
         {
-            char[] escapeSymbols = { '\'', '"', '\\', '0', 'a', 'b', 'f', 'n', 'r', 't', 'v', 'u' };
-
-            if (position < input.Length)
+            if (position + 1 == input.Length - 1)
             {
                 return false;
             }
 
+            char[] escapeSymbols = { '\'', '"', '\\', '/', '0', 'a', 'b', 'f', 'n', 'r', 't', 'v' };
+            const int minHexUnits = 4;
+
             for (int i = 0; i < escapeSymbols.Length; i++)
             {
-                if (input[position + 1] != escapeSymbols[i])
+                if (input[position + 1] == escapeSymbols[i])
                 {
-                    return false;
+                    return true;
+                }
+
+                if (input[position + 1] == 'u' && input.Length - 1 - (position + 1) > minHexUnits)
+                {
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
     }
 }
