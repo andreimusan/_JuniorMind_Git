@@ -7,7 +7,8 @@ namespace Json
         public static bool IsJsonNumber(string input)
         {
             return HasContent(input)
-                && IsFormedFromDigits(input);
+                && IsFormedFromDigits(input)
+                && !StartsWithZero(input);
         }
 
         static bool HasContent(string input)
@@ -26,6 +27,29 @@ namespace Json
             }
 
             return false;
+        }
+
+        static bool StartsWithZero(string input)
+        {
+            return input.Length > 1 && input[0] == '0';
+        }
+
+        static bool StartsWithMinus(string input)
+        {
+            return input.Length > 1 && input[0] == '-';
+        }
+
+        static bool IsFractional(string input)
+        {
+            foreach (char c in input)
+            {
+                if (c == '.')
+                {
+                    return true;
+                }
             }
+
+            return false;
+        }
     }
 }
