@@ -7,30 +7,24 @@ namespace Json
         public static bool IsJsonString(string input)
         {
             return HasContent(input)
-                && HasQuotes(input)
-                && !ContainsControlCharacters(input)
-                && ContainsLargeUnicodeCharacters(input);
-        }
-
-        static bool HasQuotes(string input)
-        {
-            return HasDoubleQuotes(input)
-                && HasSimpleQuotes(input);
+                && HasDoubleQuotes(input)
+                && IsJsonCharacter(input);
         }
 
         static bool HasDoubleQuotes(string input)
         {
-            return input.Length >= 1 && input[0] == '"' && input[^1] == '"';
-        }
-
-        static bool HasSimpleQuotes(string input)
-        {
-            return input.Length >= 1 && input[0] == '\'' && input[^1] == '\'';
+            return input.Length > 1 && input[0] == '"' && input[^1] == '"';
         }
 
         static bool HasContent(string input)
         {
             return !string.IsNullOrEmpty(input);
+        }
+
+        static bool IsJsonCharacter(string input)
+        {
+            return ContainsLargeUnicodeCharacters(input)
+                && !ContainsControlCharacters(input);
         }
 
         static bool ContainsControlCharacters(string input)
@@ -48,9 +42,12 @@ namespace Json
 
         static bool ContainsLargeUnicodeCharacters(string input)
         {
+            const int min = 0x20;
+            const int max = 0xFFFF;
+
             foreach (char c in input)
             {
-                if (CompareHexValues(c))
+                if (Convert.ToInt32(c) >= min && Convert.ToInt32(c) <= max)
                 {
                     return true;
                 }
@@ -61,11 +58,11 @@ namespace Json
 
         static bool CompareHexValues(char c)
         {
-            int min = Convert.ToInt32("0020", 16);
-            int max = Convert.ToInt32("10FFFF", 16);
-            int charHexValue = Convert.ToInt32(c.ToString(), 16);
+            const int min = 0x20;
+            const int max = 0xFFFF;
+            int charHexValue = Convert.ToInt32(c);
 
-            return charHexValue >= min && charHexValue <= max;
+            return Convert.ToInt32(c) >= min && Convert.ToInt32(c) <= max;
         }
     }
 }
