@@ -103,7 +103,8 @@ namespace Json
                 return false;
             }
 
-            return !(c >= 'a' && c <= 'f') || !(c >= 'A' && c <= 'F');
+            return c >= 'a' && c <= 'f'
+                || c >= 'A' && c <= 'F';
         }
     }
 }
