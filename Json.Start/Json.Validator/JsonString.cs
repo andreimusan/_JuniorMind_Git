@@ -77,7 +77,7 @@ namespace Json
                 return false;
             }
 
-            char[] escapeSymbols = { '\'', '"', '\\', '/', '0', 'a', 'b', 'f', 'n', 'r', 't', 'v' };
+            const string escapeSymbols = "\"\\/0abfnrtv";
             const int minHexUnits = 4;
 
             for (int i = 0; i < escapeSymbols.Length; i++)
@@ -88,6 +88,23 @@ namespace Json
                 }
 
                 if (input[position + 1] == 'u' && input.Length - 1 - (position + 1) > minHexUnits)
+                {
+                    return IsHexValue(input, position + 1);
+                }
+            }
+
+            return false;
+        }
+
+        static bool IsHexValue(string input, int postion)
+        {
+            for (int i = postion + 1; i < input.Length; i++)
+            {
+                if (char.IsDigit(input[i]))
+                {
+                    return true;
+                }
+                else if ((input[i] >= 'a' && input[i] <= 'f') || (input[i] >= 'A' && input[i] <= 'F'))
                 {
                     return true;
                 }
