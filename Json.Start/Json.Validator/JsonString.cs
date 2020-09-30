@@ -98,13 +98,10 @@ namespace Json
 
         static bool IsHexChar(char c)
         {
-            if (!char.IsDigit(c))
-            {
-                return false;
-            }
+            c = char.ToLower(c);
 
-            return c >= 'a' && c <= 'f'
-                || c >= 'A' && c <= 'F';
+            return char.IsDigit(c)
+                || c >= 'a' && c <= 'f';
         }
     }
 }
