@@ -28,15 +28,15 @@ namespace Json
                 return false;
             }
 
-            foreach (char c in input)
+            for (int i = 0; i < input.Length; i++)
             {
-                if (!char.IsDigit(c) && (c != '.' || CountDots(input) > 1) && !CheckExponent(c))
+                if (!char.IsDigit(input[i]) && !CheckExponent(input, i) && input[i] != '.' || !CountElement(input))
                 {
                     return false;
                 }
             }
 
-            return true;
+            return CheckExponentIndex(input);
         }
 
         static bool StartsWithZero(string input)
@@ -49,23 +49,42 @@ namespace Json
             return input.Length > 1 && input[0] == '-';
         }
 
-        static int CountDots(string input)
+        static bool CountElement(string input)
         {
-            int count = 0;
+            int countDots = 0;
+            int countExponent = 0;
+
             foreach (char c in input)
             {
                 if (c == '.')
                 {
-                    count++;
+                    countDots++;
+                }
+
+                if (c == 'e' || c == 'E')
+                {
+                    countExponent++;
                 }
             }
 
-            return count;
+            return countDots <= 1 && countExponent <= 1;
         }
 
-        static bool CheckExponent(char c)
+        static bool CheckExponent(string input, int index)
         {
-            return c == 'e' || c == 'E';
+            if (index == input.Length - 1)
+            {
+                return false;
+            }
+
+            return input[index] == 'e' || input[index] == 'E' || input[index] == '+' || input[index] == '-';
+        }
+
+        static bool CheckExponentIndex(string input)
+        {
+            input = input.ToLower();
+
+            return input.IndexOf('.') < 0 || input.IndexOf('e') < 0 || input.IndexOf('.') <= input.IndexOf('e');
         }
     }
 }
