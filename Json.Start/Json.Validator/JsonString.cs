@@ -11,14 +11,14 @@ namespace Json
                 && IsJsonCharacter(input);
         }
 
-        static bool HasDoubleQuotes(string input)
-        {
-            return input.Length > 1 && input[0] == '"' && input[^1] == '"';
-        }
-
         static bool HasContent(string input)
         {
             return !string.IsNullOrEmpty(input);
+        }
+
+        static bool HasDoubleQuotes(string input)
+        {
+            return input.Length > 1 && input[0] == '"' && input[^1] == '"';
         }
 
         static bool IsJsonCharacter(string input)
@@ -72,16 +72,6 @@ namespace Json
 
         static bool IsEscapeSymbols(string input, int position)
         {
-            if (position + 1 == input.Length - 1)
-            {
-                return false;
-            }
-
-            if (input[position - 1] == '\\')
-            {
-                return true;
-            }
-
             const string escapeSymbols = "\"\\/bfnrt";
             const int minHexUnits = 4;
 
@@ -90,7 +80,7 @@ namespace Json
                 return IsHexValue(input, position + 1, minHexUnits);
             }
 
-            return escapeSymbols.Contains(input[position + 1]);
+            return position + 1 != input.Length - 1 && escapeSymbols.Contains(input[position + 1]) || input[position - 1] == '\\';
         }
 
         static bool IsHexValue(string input, int min, int max)
@@ -112,12 +102,8 @@ namespace Json
             {
                 return false;
             }
-            else if (!(c >= 'a' && c <= 'f') || !(c >= 'A' && c <= 'F'))
-            {
-                return false;
-            }
 
-            return true;
+            return !(c >= 'a' && c <= 'f') || !(c >= 'A' && c <= 'F');
         }
     }
 }
