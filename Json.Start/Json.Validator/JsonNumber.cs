@@ -30,7 +30,7 @@ namespace Json
 
             foreach (char c in input)
             {
-                if (!char.IsDigit(c) && c != '.' || CountDots(input) > 1)
+                if (!char.IsDigit(c) && (c != '.' || CountDots(input) > 1) && !CheckExponent(c))
                 {
                     return false;
                 }
@@ -61,6 +61,11 @@ namespace Json
             }
 
             return count;
+        }
+
+        static bool CheckExponent(char c)
+        {
+            return c == 'e' || c == 'E';
         }
     }
 }
