@@ -77,40 +77,32 @@ namespace Json
                 return false;
             }
 
-            const string escapeSymbols = "\"\\/0abfnrtv";
+            const string escapeSymbols = "\"\\/bfnrt";
             const int minHexUnits = 4;
 
-            for (int i = 0; i < escapeSymbols.Length; i++)
+            if (input[position + 1] == 'u' && input.Length - 1 - (position + 1) > minHexUnits)
             {
-                if (input[position + 1] == escapeSymbols[i])
-                {
-                    return true;
-                }
-
-                if (input[position + 1] == 'u' && input.Length - 1 - (position + 1) > minHexUnits)
-                {
-                    return IsHexValue(input, position + 1);
-                }
+                return IsHexValue(input, position + 1, minHexUnits);
             }
 
-            return false;
+            return escapeSymbols.Contains(input[position + 1]);
         }
 
-        static bool IsHexValue(string input, int postion)
+        static bool IsHexValue(string input, int min, int max)
         {
-            for (int i = postion + 1; i < input.Length; i++)
+            for (int i = min + 1; i <= max; i++)
             {
-                if (char.IsDigit(input[i]))
+                if (!char.IsDigit(input[i]))
                 {
-                    return true;
+                    return false;
                 }
-                else if ((input[i] >= 'a' && input[i] <= 'f') || (input[i] >= 'A' && input[i] <= 'F'))
+                else if (!(input[i] >= 'a' && input[i] <= 'f') || !(input[i] >= 'A' && input[i] <= 'F'))
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
     }
 }
