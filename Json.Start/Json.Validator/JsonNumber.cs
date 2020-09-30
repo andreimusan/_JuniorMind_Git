@@ -23,15 +23,20 @@ namespace Json
 
         static bool IsRealNumber(string input)
         {
+            if (input[^1] == '.')
+            {
+                return false;
+            }
+
             foreach (char c in input)
             {
-                if (char.IsDigit(c) || c == '.')
+                if (!char.IsDigit(c) && c != '.')
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
         static bool StartsWithZero(string input)
