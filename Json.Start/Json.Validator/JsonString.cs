@@ -61,20 +61,25 @@ namespace Json
         {
             for (int i = 1; i < input.Length - 1; i++)
             {
-                if (input[i] == '\\')
+                if (input[i] == '\\' && !IsEscapeSymbols(input, i))
                 {
-                    return CheckEscapeSymbols(input, i);
+                    return false;
                 }
             }
 
             return true;
         }
 
-        static bool CheckEscapeSymbols(string input, int position)
+        static bool IsEscapeSymbols(string input, int position)
         {
             if (position + 1 == input.Length - 1)
             {
                 return false;
+            }
+
+            if (input[position - 1] == '\\')
+            {
+                return true;
             }
 
             const string escapeSymbols = "\"\\/bfnrt";
@@ -92,14 +97,24 @@ namespace Json
         {
             for (int i = min + 1; i <= max; i++)
             {
-                if (!char.IsDigit(input[i]))
+                if (!IsHexChar(input[i]))
                 {
                     return false;
                 }
-                else if (!(input[i] >= 'a' && input[i] <= 'f') || !(input[i] >= 'A' && input[i] <= 'F'))
-                {
-                    return false;
-                }
+            }
+
+            return true;
+        }
+
+        static bool IsHexChar(char c)
+        {
+            if (!char.IsDigit(c))
+            {
+                return false;
+            }
+            else if (!(c >= 'a' && c <= 'f') || !(c >= 'A' && c <= 'F'))
+            {
+                return false;
             }
 
             return true;
