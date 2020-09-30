@@ -30,7 +30,7 @@ namespace Json
 
             foreach (char c in input)
             {
-                if (!char.IsDigit(c) && c != '.')
+                if (!char.IsDigit(c) && c != '.' || CountDots(input) > 1)
                 {
                     return false;
                 }
@@ -47,6 +47,20 @@ namespace Json
         static bool StartsWithMinus(string input)
         {
             return input.Length > 1 && input[0] == '-';
+        }
+
+        static int CountDots(string input)
+        {
+            int count = 0;
+            foreach (char c in input)
+            {
+                if (c == '.')
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
     }
 }
