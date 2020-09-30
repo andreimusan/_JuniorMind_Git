@@ -36,7 +36,7 @@ namespace Json
 
         static bool StartsWithZero(string input)
         {
-            return input.Length > 1 && input[0] == '0';
+            return input.Length > 1 && input[0] == '0' && input[1] != '.';
         }
 
         static bool StartsWithMinus(string input)
