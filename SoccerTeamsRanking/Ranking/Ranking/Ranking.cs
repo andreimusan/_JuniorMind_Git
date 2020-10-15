@@ -2,14 +2,13 @@
 
 namespace Ranking
 {
-    public class Ranking
+    public class GeneralRanking
     {
         private SoccerTeam[] teams;
 
-        public Ranking(SoccerTeam[] teams)
+        public GeneralRanking(SoccerTeam[] teams)
         {
             this.teams = teams;
-            this.GeneralRanking();
         }
 
         public void AddTeam(SoccerTeam newTeam)
@@ -22,16 +21,17 @@ namespace Ranking
             Array.Resize(ref this.teams, this.teams.Length + 1);
             this.teams[this.teams.GetUpperBound(0)].Name = newTeam.Name;
             this.teams[this.teams.GetUpperBound(0)].Points = newTeam.Points;
-            this.GeneralRanking();
         }
 
-        public int GetTeamNameFromPosition(int position)
+        public string GetTeamNameFromPosition(int position)
         {
-            return Array.IndexOf(teams, position);
+            this.GetGeneralRanking();
+            return teams[position - 1].Name;
         }
 
         public int GetTeamPosition(string toFind)
         {
+            this.GetGeneralRanking();
             return this.GetTeamPosition(toFind, 0, this.teams.Length - 1);
         }
 
@@ -59,7 +59,7 @@ namespace Ranking
                                           : this.GetTeamPosition(toFind, start, mid - 1);
         }
 
-        private void GeneralRanking()
+        private void GetGeneralRanking()
         {
             for (int i = 0; i < this.teams.Length - 1; i++)
             {
