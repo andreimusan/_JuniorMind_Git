@@ -12,16 +12,15 @@ namespace Ranking.Facts
             SoccerTeam t2 = new SoccerTeam("FCSB", 31);
             SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
             SoccerTeam t4 = new SoccerTeam("Dinamo", 24);
+            SoccerTeam t5 = new SoccerTeam("Astra Giurgiu", 25);
+
             SoccerTeam[] teams = new SoccerTeam[] { t1, t2, t3, t4 };
+            SoccerTeam[] newTeams = new SoccerTeam[] { t1, t2, t3, t4, t5 };
 
             GeneralRanking ranking = new GeneralRanking(teams);
-
-            SoccerTeam t6 = new SoccerTeam("Astra Giurgiu", 25);
-            SoccerTeam[] newTeams = new SoccerTeam[] { t1, t2, t3, t4, t6 };
-
             GeneralRanking newRanking = new GeneralRanking(newTeams);
 
-            ranking.AddTeam(t6);
+            ranking.AddTeam(t5);
 
             Assert.Equal(ranking, newRanking);
         }
@@ -37,7 +36,7 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            Assert.Equal(1, ranking.GetTeamPosition("CFR Cluj"));
+            Assert.Equal(4, ranking.GetTeamPosition(t4));
         }
 
         [Fact]
@@ -51,7 +50,7 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            Assert.Equal("CFR Cluj", ranking.GetTeamNameFromPosition(1));
+            Assert.Equal("U Craiova", ranking.GetTeamNameFromPosition(2));
         }
     }
 }

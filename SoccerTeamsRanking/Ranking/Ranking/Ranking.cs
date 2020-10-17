@@ -18,21 +18,39 @@ namespace Ranking
                 return;
             }
 
-            Array.Resize(ref this.teams, this.teams.Length + 1);
-            this.teams[this.teams.GetUpperBound(0)].Name = newTeam.Name;
-            this.teams[this.teams.GetUpperBound(0)].Points = newTeam.Points;
+            Array.Resize(ref teams, teams.Length + 1);
+            teams[^1] = newTeam;
         }
 
         public string GetTeamNameFromPosition(int position)
         {
-            this.GetGeneralRanking();
-            return teams[position - 1].Name;
+            GetGeneralRanking();
+            return teams[position - 1].GetTeamName();
         }
 
-        public int GetTeamPosition(string toFind)
+        public int GetTeamPosition(SoccerTeam team)
         {
             this.GetGeneralRanking();
-            return this.GetTeamPosition(toFind, 0, this.teams.Length - 1);
+            for (int i = 0; i < teams.Length; i++)
+            {
+                if (teams[i].IsNameEqual(team))
+                {
+                    return i + 1;
+                }
+            }
+
+            return -1;
+        }
+
+        public void UpdateTeamPoints(SoccerTeam team)
+        {
+            for (int i = 0; i < teams.Length; i++)
+            {
+                if (teams[i].IsNameEqual(team))
+                {
+                    teams[i].AddPoints(team);
+                }
+            }
         }
 
         private static void Swap(SoccerTeam[] teams, int firstIndex, int secondIndex)
@@ -42,32 +60,15 @@ namespace Ranking
             teams[secondIndex] = temp;
         }
 
-        private int GetTeamPosition(string toFind, int start, int end)
-        {
-            if (start > end)
-            {
-                return -1;
-            }
-
-            int mid = (start + end) / 2;
-            if (string.Compare(this.teams[mid].Name, toFind, true) == 0)
-            {
-                return mid;
-            }
-
-            return string.Compare(this.teams[mid].Name, toFind, true) < 0 ? this.GetTeamPosition(toFind, mid + 1, end)
-                                          : this.GetTeamPosition(toFind, start, mid - 1);
-        }
-
         private void GetGeneralRanking()
         {
-            for (int i = 0; i < this.teams.Length - 1; i++)
+            for (int i = 0; i < teams.Length - 1; i++)
             {
-                for (int j = 0; j < this.teams.Length - 1; j++)
+                for (int j = 0; j < teams.Length - 1; j++)
                 {
-                    if (this.teams[j].Points < this.teams[j + 1].Points)
+                    if (teams[j].HasFewerPoint(teams[j + 1]))
                     {
-                        Swap(this.teams, j, j + 1);
+                        Swap(teams, j, j + 1);
                     }
                 }
             }
