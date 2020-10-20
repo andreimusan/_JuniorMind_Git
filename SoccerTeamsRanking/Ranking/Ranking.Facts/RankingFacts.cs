@@ -24,6 +24,24 @@ namespace Ranking.Facts
         }
 
         [Fact]
+        public void CheckAddNewTeamToNotAddSameTeam()
+        {
+            SoccerTeam t1 = new SoccerTeam("CFR Cluj", 36);
+            SoccerTeam t2 = new SoccerTeam("FCSB", 31);
+            SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
+            SoccerTeam t4 = new SoccerTeam("Dinamo", 24);
+            SoccerTeam t5 = new SoccerTeam("FCSB", 25);
+
+            SoccerTeam[] teams = new SoccerTeam[] { t1, t2, t3, t4 };
+
+            GeneralRanking ranking = new GeneralRanking(teams);
+
+            ranking.AddTeam(t5);
+
+            Assert.Equal(4, ranking.GetTeamPosition(t4));
+        }
+
+        [Fact]
         public void CheckTeamPositionFirst()
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);

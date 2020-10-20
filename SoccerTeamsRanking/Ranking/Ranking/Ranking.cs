@@ -24,6 +24,14 @@ namespace Ranking
                 return;
             }
 
+            for (int i = 0; i < teams.Length; i++)
+            {
+                if (teams[i].IsNameEqual(newTeam))
+                {
+                    return;
+                }
+            }
+
             Array.Resize(ref teams, teams.Length + 1);
             teams[^1] = newTeam;
         }
