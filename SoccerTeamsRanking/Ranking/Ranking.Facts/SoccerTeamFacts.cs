@@ -72,9 +72,8 @@ namespace Ranking.Facts
         public void CheckAddPoints()
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 36);
-            SoccerTeam t2 = new SoccerTeam("CFR Cluj", 4);
 
-            Assert.Equal(40, t1.AddPoints(t2));
+            Assert.Equal(40, t1.AddPoints(4));
         }
     }
 }

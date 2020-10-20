@@ -11,11 +11,6 @@
             this.points = points;
         }
 
-        public string GetTeamName()
-        {
-            return this.name;
-        }
-
         public bool HasFewerPoint(SoccerTeam otherTeam)
         {
             if (otherTeam is null)
@@ -36,14 +31,9 @@
             return name == team.name;
         }
 
-        public int AddPoints(SoccerTeam team)
+        public int AddPoints(int newPoints)
         {
-            if (team is null)
-            {
-                return 0;
-            }
-
-            return points += team.points;
+            return points += newPoints;
         }
     }
 }

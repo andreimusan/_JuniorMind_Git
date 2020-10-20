@@ -114,10 +114,10 @@ namespace Ranking.Facts
         }
 
         [Fact]
-        public void CheckUpdateTeamPointsWithPositiveValue()
+        public void CheckUpdateTeamPointsWithDrawValue()
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
-            SoccerTeam t2 = new SoccerTeam("FCSB", 31);
+            SoccerTeam t2 = new SoccerTeam("FCSB", 32);
             SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
             SoccerTeam t4 = new SoccerTeam("Dinamo", 24);
             SoccerTeam t5 = new SoccerTeam("FC Vaslui", 36);
@@ -125,17 +125,15 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            SoccerTeam updateT3 = new SoccerTeam("U Craiova", 5);
+            ranking.UpdateTeamPoints(t2, t4, 2, 2);
 
-            ranking.UpdateTeamPoints(updateT3);
-
-            Assert.Equal(1, ranking.GetTeamPosition(t3));
+            Assert.Equal(3, ranking.GetTeamPosition(t2));
         }
 
         [Fact]
-        public void CheckUpdateTeamPointsWithNegativeValue()
+        public void CheckUpdateTeamPointsWithWinValue()
         {
-            SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
+            SoccerTeam t1 = new SoccerTeam("CFR Cluj", 34);
             SoccerTeam t2 = new SoccerTeam("FCSB", 31);
             SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
             SoccerTeam t4 = new SoccerTeam("Dinamo", 24);
@@ -144,30 +142,9 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            SoccerTeam updateT3 = new SoccerTeam("U Craiova", -10);
+            ranking.UpdateTeamPoints(t2, t3, 0, 2);
 
-            ranking.UpdateTeamPoints(updateT3);
-
-            Assert.Equal(5, ranking.GetTeamPosition(t3));
-        }
-
-        [Fact]
-        public void CheckUpdateTeamPointsWithValueZero()
-        {
-            SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
-            SoccerTeam t2 = new SoccerTeam("FCSB", 31);
-            SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
-            SoccerTeam t4 = new SoccerTeam("Dinamo", 24);
-            SoccerTeam t5 = new SoccerTeam("FC Vaslui", 36);
-            SoccerTeam[] teams = new SoccerTeam[] { t1, t2, t3, t4, t5 };
-
-            GeneralRanking ranking = new GeneralRanking(teams);
-
-            SoccerTeam updateT3 = new SoccerTeam("U Craiova", 0);
-
-            ranking.UpdateTeamPoints(updateT3);
-
-            Assert.Equal(3, ranking.GetTeamPosition(t3));
+            Assert.Equal(2, ranking.GetTeamPosition(t3));
         }
     }
 }

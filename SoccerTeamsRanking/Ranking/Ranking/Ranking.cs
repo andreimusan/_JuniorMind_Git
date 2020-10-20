@@ -11,6 +11,12 @@ namespace Ranking
             this.teams = teams;
         }
 
+        enum GamePoints
+        {
+            Draw = 1,
+            Win = 3
+        }
+
         public void AddTeam(SoccerTeam newTeam)
         {
             if (newTeam is null)
@@ -42,14 +48,25 @@ namespace Ranking
             return -1;
         }
 
-        public void UpdateTeamPoints(SoccerTeam team)
+        public void UpdateTeamPoints(SoccerTeam team1, SoccerTeam team2, int team1GameResult, int team2GameResult)
         {
-            for (int i = 0; i < teams.Length; i++)
+            if (team1 == null || team2 == null)
             {
-                if (teams[i].IsNameEqual(team))
-                {
-                    teams[i].AddPoints(team);
-                }
+                return;
+            }
+
+            if (team1GameResult == team2GameResult)
+            {
+                team1.AddPoints((int)GamePoints.Draw);
+                team2.AddPoints((int)GamePoints.Draw);
+            }
+            else if (team1GameResult > team2GameResult)
+            {
+                team1.AddPoints((int)GamePoints.Win);
+            }
+            else
+            {
+                team2.AddPoints((int)GamePoints.Win);
             }
         }
 
