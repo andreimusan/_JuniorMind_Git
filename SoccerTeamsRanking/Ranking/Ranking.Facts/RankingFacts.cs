@@ -15,14 +15,12 @@ namespace Ranking.Facts
             SoccerTeam t5 = new SoccerTeam("Astra Giurgiu", 25);
 
             SoccerTeam[] teams = new SoccerTeam[] { t1, t2, t3, t4 };
-            SoccerTeam[] newTeams = new SoccerTeam[] { t1, t2, t3, t4, t5 };
 
             GeneralRanking ranking = new GeneralRanking(teams);
-            GeneralRanking newRanking = new GeneralRanking(newTeams);
 
             ranking.AddTeam(t5);
 
-            Assert.Equal(ranking, newRanking);
+            Assert.Equal(4, ranking.GetTeamPosition(t5));
         }
 
         [Fact]
@@ -71,7 +69,7 @@ namespace Ranking.Facts
         }
 
         [Fact]
-        public void CheckTeamNameFirst()
+        public void CheckGetTeamAtPostionFirst()
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
             SoccerTeam t2 = new SoccerTeam("FCSB", 31);
@@ -82,11 +80,11 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            Assert.Equal("FC Vaslui", ranking.GetTeamNameFromPosition(1));
+            Assert.Equal(t5, ranking.GetTeamAtPostion(1));
         }
 
         [Fact]
-        public void CheckTeamNameLast()
+        public void CheckGetTeamAtPostionLast()
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
             SoccerTeam t2 = new SoccerTeam("FCSB", 31);
@@ -97,11 +95,11 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            Assert.Equal("Dinamo", ranking.GetTeamNameFromPosition(5));
+            Assert.Equal(t4, ranking.GetTeamAtPostion(5));
         }
 
         [Fact]
-        public void CheckTeamNameRandom()
+        public void CheckGetTeamAtPostionRandom()
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
             SoccerTeam t2 = new SoccerTeam("FCSB", 31);
@@ -112,7 +110,7 @@ namespace Ranking.Facts
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            Assert.Equal("U Craiova", ranking.GetTeamNameFromPosition(3));
+            Assert.Equal(t3, ranking.GetTeamAtPostion(3));
         }
 
         [Fact]

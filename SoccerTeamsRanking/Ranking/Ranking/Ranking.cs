@@ -22,10 +22,10 @@ namespace Ranking
             teams[^1] = newTeam;
         }
 
-        public string GetTeamNameFromPosition(int position)
+        public SoccerTeam GetTeamAtPostion(int position)
         {
             GetGeneralRanking();
-            return teams[position - 1].GetTeamName();
+            return teams[position - 1];
         }
 
         public int GetTeamPosition(SoccerTeam team)
