@@ -90,9 +90,10 @@ namespace Ranking
 
         private void Update()
         {
-            for (int i = 0; i < teams.Length - 1; i++)
+            bool swapped;
+            do
             {
-                bool swapped = false;
+                swapped = false;
                 for (int j = 0; j < teams.Length - 1; j++)
                 {
                     if (teams[j].HasFewerPoint(teams[j + 1]))
@@ -101,12 +102,8 @@ namespace Ranking
                         Swap(teams, j, j + 1);
                     }
                 }
-
-                if (!swapped)
-                {
-                    return;
-                }
             }
+            while (swapped);
         }
     }
 }
