@@ -136,16 +136,16 @@ namespace Ranking.Facts
         {
             SoccerTeam t1 = new SoccerTeam("CFR Cluj", 35);
             SoccerTeam t2 = new SoccerTeam("FCSB", 32);
-            SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
+            SoccerTeam t3 = new SoccerTeam("U Craiova", 31);
             SoccerTeam t4 = new SoccerTeam("Dinamo", 24);
             SoccerTeam t5 = new SoccerTeam("FC Vaslui", 36);
             SoccerTeam[] teams = new SoccerTeam[] { t1, t2, t3, t4, t5 };
 
             GeneralRanking ranking = new GeneralRanking(teams);
 
-            ranking.UpdateTeamPoints(t2, t4, 2, 2);
+            ranking.UpdateTeamPoints(t3, t4, 2, 2);
 
-            Assert.Equal(3, ranking.GetTeamPosition(t2));
+            Assert.Equal(4, ranking.GetTeamPosition(t3));
         }
 
         [Fact]
