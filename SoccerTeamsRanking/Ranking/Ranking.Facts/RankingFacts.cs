@@ -164,5 +164,22 @@ namespace Ranking.Facts
 
             Assert.Equal(2, ranking.GetTeamPosition(t3));
         }
+
+        [Fact]
+        public void CheckAlreadySortedRanking()
+        {
+            SoccerTeam t1 = new SoccerTeam("CFR Cluj", 36);
+            SoccerTeam t2 = new SoccerTeam("FCSB", 34);
+            SoccerTeam t3 = new SoccerTeam("U Craiova", 32);
+            SoccerTeam t4 = new SoccerTeam("Dinamo", 31);
+            SoccerTeam t5 = new SoccerTeam("FC Vaslui", 24);
+            SoccerTeam[] teams = new SoccerTeam[] { t1, t2, t3, t4, t5 };
+
+            GeneralRanking ranking = new GeneralRanking(teams);
+
+            ranking.UpdateTeamPoints(t4, t5, 0, 2);
+
+            Assert.Equal(5, ranking.GetTeamPosition(t5));
+        }
     }
 }

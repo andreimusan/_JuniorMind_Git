@@ -9,7 +9,7 @@ namespace Ranking
         public GeneralRanking(SoccerTeam[] teams)
         {
             this.teams = teams;
-            UpdateGeneralRanking();
+            Update();
         }
 
         enum GamePoints
@@ -36,7 +36,7 @@ namespace Ranking
             Array.Resize(ref teams, teams.Length + 1);
             teams[^1] = newTeam;
 
-            UpdateGeneralRanking();
+            Update();
         }
 
         public SoccerTeam GetTeamAtPostion(int position)
@@ -78,7 +78,7 @@ namespace Ranking
                 team2.AddPoints((int)GamePoints.Win);
             }
 
-            UpdateGeneralRanking();
+            Update();
         }
 
         private static void Swap(SoccerTeam[] teams, int firstIndex, int secondIndex)
@@ -88,16 +88,23 @@ namespace Ranking
             teams[secondIndex] = temp;
         }
 
-        private void UpdateGeneralRanking()
+        private void Update()
         {
             for (int i = 0; i < teams.Length - 1; i++)
             {
-                for (int j = i + 1; j < teams.Length; j++)
+                bool swapped = false;
+                for (int j = 0; j < teams.Length - 1; j++)
                 {
-                    if (teams[i].HasFewerPoint(teams[j]))
+                    if (teams[j].HasFewerPoint(teams[j + 1]))
                     {
-                        Swap(teams, i, j);
+                        swapped = true;
+                        Swap(teams, j, j + 1);
                     }
+                }
+
+                if (!swapped)
+                {
+                    return;
                 }
             }
         }
