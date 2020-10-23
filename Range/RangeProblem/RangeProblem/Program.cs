@@ -20,12 +20,9 @@ namespace RangeProblem
                 return false;
             }
 
-            for (int i = 0; i < text.Length; i++)
+            if (text[0] < start || text[0] > end)
             {
-                if (text[i] < start || text[i] > end)
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
