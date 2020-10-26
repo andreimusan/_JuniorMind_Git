@@ -2,7 +2,7 @@
 
 namespace RangeProblem
 {
-    public class Character
+    public class Character : IPattern
     {
         private readonly char character;
 

@@ -1,6 +1,6 @@
 ﻿namespace RangeProblem
 {
-    interface IPattern
+    public interface IPattern
     {
         bool Match(string text);
     }
