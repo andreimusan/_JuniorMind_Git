@@ -279,5 +279,41 @@ namespace RangeProblem.Facts
 
             Assert.False(hex.Match(string.Empty));
         }
+
+        [Fact]
+        public void IsAValidIntValue()
+        {
+            var digit = new Choice(
+                new Character('0'),
+                new Range('1', '9')
+            );
+
+            var intValue = new Choice(
+                        new Choice(
+                            new Character('-')
+                        ),
+                        digit
+                    );
+
+            Assert.True(intValue.Match("12"));
+        }
+
+        [Fact]
+        public void IsAValidNegativeIntValue()
+        {
+            var digit = new Choice(
+                new Character('0'),
+                new Range('1', '9')
+            );
+
+            var intValue = new Choice(
+                        new Choice(
+                            new Character('-')
+                        ),
+                        digit
+                    );
+
+            Assert.True(intValue.Match("-12"));
+        }
     }
 }

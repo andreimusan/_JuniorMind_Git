@@ -2,18 +2,24 @@
 {
     public class Choice : IPattern
     {
-        private readonly IPattern character;
-        private readonly IPattern range;
+        private readonly IPattern[] digitPatterns;
 
         public Choice(params IPattern[] patterns)
         {
-            this.character = patterns[0];
-            this.range = patterns[1];
+            this.digitPatterns = patterns;
         }
 
         public bool Match(string text)
         {
-            return character.Match(text) || range.Match(text);
+            foreach (var pattern in digitPatterns)
+            {
+                if (pattern.Match(text))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
