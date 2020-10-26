@@ -1,6 +1,6 @@
 ﻿namespace RangeProblem
 {
-    public class Choice
+    public class Choice : IPattern
     {
         private readonly IPattern character;
         private readonly IPattern range;
