@@ -2,16 +2,16 @@
 {
     public class Choice : IPattern
     {
-        private readonly IPattern[] digitPatterns;
+        private readonly IPattern[] patterns;
 
         public Choice(params IPattern[] patterns)
         {
-            this.digitPatterns = patterns;
+            this.patterns = patterns;
         }
 
         public bool Match(string text)
         {
-            foreach (var pattern in digitPatterns)
+            foreach (var pattern in patterns)
             {
                 if (pattern.Match(text))
                 {
