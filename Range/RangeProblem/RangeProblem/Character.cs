@@ -11,9 +11,9 @@ namespace RangeProblem
             this.character = character;
         }
 
-        public bool Match(string text)
+        public IMatch Match(string text)
         {
-            return !string.IsNullOrEmpty(text) && text[0] == character;
+            return new Match(!string.IsNullOrEmpty(text) && text[0] == character);
         }
     }
 }
