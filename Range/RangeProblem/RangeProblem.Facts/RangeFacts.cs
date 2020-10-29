@@ -10,7 +10,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Range('a', 'f');
 
-            Assert.False(digit.Match(null));
+            Assert.Equal(digit.Match(null), new FailedMatch(null));
         }
 
         [Fact]
@@ -18,23 +18,25 @@ namespace RangeProblem.Facts
         {
             var digit = new Range('a', 'f');
 
-            Assert.False(digit.Match(string.Empty));
+            Assert.Equal(digit.Match(string.Empty), new FailedMatch(string.Empty));
         }
 
         [Fact]
         public void IsAValidString()
         {
             var digit = new Range('a', 'f');
+            var text = "fab";
 
-            Assert.True(digit.Match("fab"));
+            Assert.Equal(digit.Match(text), new SuccessMatch(text));
         }
 
         [Fact]
         public void IsNotAValidString()
         {
             var digit = new Range('a', 'f');
+            var text = "1ab";
 
-            Assert.False(digit.Match("1ab"));
+            Assert.Equal(digit.Match(text), new FailedMatch(text));
         }
     }
 }

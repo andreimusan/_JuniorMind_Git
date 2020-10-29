@@ -13,7 +13,9 @@ namespace RangeProblem
 
         public IMatch Match(string text)
         {
-            return new Match(!string.IsNullOrEmpty(text) && text[0] == character);
+            return !string.IsNullOrEmpty(text) && text[0] == character
+                ? new SuccessMatch(text.Substring(1))
+                : (IMatch)new FailedMatch(text);
         }
     }
 }

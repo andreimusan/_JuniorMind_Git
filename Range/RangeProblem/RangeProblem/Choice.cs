@@ -13,13 +13,13 @@
         {
             foreach (var pattern in patterns)
             {
-                if (pattern.Match(text))
+                if (pattern.Match(text) == new SuccessMatch(text))
                 {
-                    return true;
+                    return new SuccessMatch(text);
                 }
             }
 
-            return false;
+            return new FailedMatch(text);
         }
     }
 }
