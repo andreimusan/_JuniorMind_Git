@@ -9,34 +9,36 @@ namespace RangeProblem.Facts
         public void IsNotNull()
         {
             var digit = new Range('a', 'f');
-
-            Assert.Equal(digit.Match(null).RemainingText(), new FailedMatch(null).RemainingText());
+            var actual = digit.Match(null);
+            Assert.False(actual.Success());
+            Assert.Null(actual.RemainingText());
         }
 
         [Fact]
         public void IsNotAnEmptyString()
         {
             var digit = new Range('a', 'f');
-
-            Assert.True(Object.ReferenceEquals(digit.Match(string.Empty).RemainingText(), new FailedMatch(string.Empty).RemainingText()));
+            var actual = digit.Match(string.Empty);
+            Assert.False(actual.Success());
+            Assert.Equal(string.Empty, actual.RemainingText());
         }
 
         [Fact]
         public void IsAValidString()
         {
             var digit = new Range('a', 'f');
-            var text = "fab";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text.Substring(1)).RemainingText());
+            var actual = digit.Match("fab");
+            Assert.True(actual.Success());
+            Assert.Equal("ab", actual.RemainingText());
         }
 
         [Fact]
         public void IsNotAValidString()
         {
             var digit = new Range('a', 'f');
-            var text = "1ab";
-
-            Assert.True(Object.ReferenceEquals(digit.Match(text).RemainingText(), new FailedMatch(text).RemainingText()));
+            var actual = digit.Match("1ab");
+            Assert.False(actual.Success());
+            Assert.Equal("1ab", actual.RemainingText());
         }
     }
 }

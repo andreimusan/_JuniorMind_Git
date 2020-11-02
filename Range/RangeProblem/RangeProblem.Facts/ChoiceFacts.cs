@@ -13,7 +13,9 @@ namespace RangeProblem.Facts
                 new Range('1', '9')
             );
 
-            Assert.Equal(digit.Match(null).RemainingText(), new FailedMatch(null).RemainingText());
+            var actual = digit.Match(null);
+            Assert.False(actual.Success());
+            Assert.Null(actual.RemainingText());
         }
 
         [Fact]
@@ -24,7 +26,9 @@ namespace RangeProblem.Facts
                 new Range('1', '9')
             );
 
-            Assert.Equal(digit.Match(string.Empty).RemainingText(), new FailedMatch(string.Empty).RemainingText());
+            var actual = digit.Match(string.Empty);
+            Assert.False(actual.Success());
+            Assert.Equal(string.Empty, actual.RemainingText());
         }
 
         [Fact]
@@ -34,9 +38,10 @@ namespace RangeProblem.Facts
                 new Character('0'),
                 new Range('1', '9')
             );
-            var text = "012";
 
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = digit.Match("012");
+            Assert.True(actual.Success());
+            Assert.Equal("12", actual.RemainingText());
         }
 
         [Fact]
@@ -46,9 +51,10 @@ namespace RangeProblem.Facts
                 new Character('0'),
                 new Range('1', '9')
             );
-            var text = "12";
 
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = digit.Match("12");
+            Assert.True(actual.Success());
+            Assert.Equal("2", actual.RemainingText());
         }
 
         [Fact]
@@ -58,9 +64,10 @@ namespace RangeProblem.Facts
                 new Character('0'),
                 new Range('1', '9')
             );
-            var text = "92";
 
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = digit.Match("92");
+            Assert.True(actual.Success());
+            Assert.Equal("2", actual.RemainingText());
         }
 
         [Fact]
@@ -70,9 +77,10 @@ namespace RangeProblem.Facts
                 new Character('0'),
                 new Range('1', '9')
             );
-            var text = "a9";
 
-            Assert.Equal(digit.Match(text).RemainingText(), new FailedMatch(text).RemainingText());
+            var actual = digit.Match("a9");
+            Assert.False(actual.Success());
+            Assert.Equal("a9", actual.RemainingText());
         }
 
         [Fact]
@@ -91,9 +99,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "012";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("012");
+            Assert.True(actual.Success());
+            Assert.Equal("12", actual.RemainingText());
         }
 
         [Fact]
@@ -112,9 +120,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "12";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("12");
+            Assert.True(actual.Success());
+            Assert.Equal("2", actual.RemainingText());
         }
 
         [Fact]
@@ -133,9 +141,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "92";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("92");
+            Assert.True(actual.Success());
+            Assert.Equal("2", actual.RemainingText());
         }
 
         [Fact]
@@ -154,9 +162,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "a9";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("a9");
+            Assert.True(actual.Success());
+            Assert.Equal("9", actual.RemainingText());
         }
 
         [Fact]
@@ -175,9 +183,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "f8";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("f8");
+            Assert.True(actual.Success());
+            Assert.Equal("8", actual.RemainingText());
         }
 
         [Fact]
@@ -196,9 +204,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "A9";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("A9");
+            Assert.True(actual.Success());
+            Assert.Equal("9", actual.RemainingText());
         }
 
         [Fact]
@@ -217,9 +225,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "F8";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = hex.Match("F8");
+            Assert.True(actual.Success());
+            Assert.Equal("8", actual.RemainingText());
         }
 
         [Fact]
@@ -238,9 +246,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "g8";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new FailedMatch(text).RemainingText());
+            var actual = hex.Match("g8");
+            Assert.False(actual.Success());
+            Assert.Equal("g8", actual.RemainingText());
         }
 
         [Fact]
@@ -259,9 +267,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            var text = "G8";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new FailedMatch(text).RemainingText());
+            var actual = hex.Match("G8");
+            Assert.False(actual.Success());
+            Assert.Equal("G8", actual.RemainingText());
         }
 
         [Fact]
@@ -280,7 +288,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            Assert.Equal(digit.Match(null).RemainingText(), new FailedMatch(null).RemainingText());
+            var actual = hex.Match(null);
+            Assert.False(actual.Success());
+            Assert.Null(actual.RemainingText());
         }
 
         [Fact]
@@ -299,7 +309,9 @@ namespace RangeProblem.Facts
                         )
                     );
 
-            Assert.Equal(digit.Match(string.Empty).RemainingText(), new FailedMatch(string.Empty).RemainingText());
+            var actual = hex.Match(string.Empty);
+            Assert.False(actual.Success());
+            Assert.Equal(string.Empty, actual.RemainingText());
         }
 
         [Fact]
@@ -317,9 +329,9 @@ namespace RangeProblem.Facts
                         digit
                     );
 
-            var text = "12";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = intValue.Match("12");
+            Assert.True(actual.Success());
+            Assert.Equal("2", actual.RemainingText());
         }
 
         [Fact]
@@ -337,9 +349,9 @@ namespace RangeProblem.Facts
                         digit
                     );
 
-            var text = "-12";
-
-            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text).RemainingText());
+            var actual = intValue.Match("-12");
+            Assert.True(actual.Success());
+            Assert.Equal("12", actual.RemainingText());
         }
     }
 }

@@ -11,16 +11,11 @@
 
         public IMatch Match(string text)
         {
-            if (text == null)
-            {
-                return new FailedMatch(text);
-            }
-
             foreach (var pattern in patterns)
             {
-                if (text.Length > 1 && pattern.Match(text).RemainingText() == new SuccessMatch(text.Substring(1)).RemainingText())
+                if (text != null && pattern.Match(text).Success())
                 {
-                    return new SuccessMatch(text);
+                    return new SuccessMatch(text.Substring(1));
                 }
             }
 
