@@ -10,7 +10,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Range('a', 'f');
 
-            Assert.Equal(digit.Match(null), new FailedMatch(null));
+            Assert.Equal(digit.Match(null).RemainingText(), new FailedMatch(null).RemainingText());
         }
 
         [Fact]
@@ -18,7 +18,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Range('a', 'f');
 
-            Assert.Equal(digit.Match(string.Empty), new FailedMatch(string.Empty));
+            Assert.True(Object.ReferenceEquals(digit.Match(string.Empty).RemainingText(), new FailedMatch(string.Empty).RemainingText()));
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace RangeProblem.Facts
             var digit = new Range('a', 'f');
             var text = "fab";
 
-            Assert.Equal(digit.Match(text), new SuccessMatch(text));
+            Assert.Equal(digit.Match(text).RemainingText(), new SuccessMatch(text.Substring(1)).RemainingText());
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace RangeProblem.Facts
             var digit = new Range('a', 'f');
             var text = "1ab";
 
-            Assert.Equal(digit.Match(text), new FailedMatch(text));
+            Assert.True(Object.ReferenceEquals(digit.Match(text).RemainingText(), new FailedMatch(text).RemainingText()));
         }
     }
 }

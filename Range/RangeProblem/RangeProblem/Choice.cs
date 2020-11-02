@@ -11,9 +11,14 @@
 
         public IMatch Match(string text)
         {
+            if (text == null)
+            {
+                return new FailedMatch(text);
+            }
+
             foreach (var pattern in patterns)
             {
-                if (pattern.Match(text) == new SuccessMatch(text))
+                if (text.Length > 1 && pattern.Match(text).RemainingText() == new SuccessMatch(text.Substring(1)).RemainingText())
                 {
                     return new SuccessMatch(text);
                 }
