@@ -13,9 +13,9 @@
         {
             foreach (var pattern in patterns)
             {
-                if (text != null && pattern.Match(text).Success())
+                if (pattern.Match(text).Success())
                 {
-                    return new SuccessMatch(text.Substring(1));
+                    return new SuccessMatch(pattern.Match(text).RemainingText());
                 }
             }
 
