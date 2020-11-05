@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RangeProblem", "RangeProblem\RangeProblem.csproj", "{BE74457B-293E-4013-86C7-374F50D0F875}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeProblem.Facts", "RangeProblem.Facts\RangeProblem.Facts.csproj", "{54A381A0-BBE9-49ED-BC66-B28A3CA20BB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RangeProblem.Facts", "RangeProblem.Facts\RangeProblem.Facts.csproj", "{54A381A0-BBE9-49ED-BC66-B28A3CA20BB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
