@@ -11,7 +11,7 @@
 
         public IMatch Match(string text)
         {
-            return text?.IndexOf(prefix) == 0
+            return text?.StartsWith(prefix) == true
                 ? new SuccessMatch(text.Substring(prefix.Length))
                 : (IMatch)new FailedMatch(text);
         }
