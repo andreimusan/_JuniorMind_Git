@@ -11,21 +11,19 @@
 
         public IMatch Match(string text)
         {
-            var remainingText = text;
+            IMatch match = new SuccessMatch(text);
 
             foreach (var pattern in patterns)
             {
-                var match = pattern.Match(remainingText);
+                match = pattern.Match(match.RemainingText());
 
                 if (!match.Success())
                 {
                     return new FailedMatch(text);
                 }
-
-                remainingText = match.RemainingText();
             }
 
-            return new SuccessMatch(remainingText);
+            return match;
         }
     }
 }

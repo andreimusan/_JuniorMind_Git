@@ -17,7 +17,7 @@
 
                 if (match.Success())
                 {
-                    return new SuccessMatch(match.RemainingText());
+                    return match;
                 }
             }
 
