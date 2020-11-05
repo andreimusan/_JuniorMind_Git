@@ -11,15 +11,9 @@
 
         public IMatch Match(string text)
         {
-            foreach (var character in accepted)
-            {
-                if (!string.IsNullOrEmpty(text) && character == text[0])
-                {
-                    return new SuccessMatch(text.Substring(1));
-                }
-            }
-
-            return new FailedMatch(text);
+            return !string.IsNullOrEmpty(text) && accepted.Contains(text[0])
+                ? new SuccessMatch(text.Substring(1))
+                : (IMatch)new FailedMatch(text);
         }
     }
 }
