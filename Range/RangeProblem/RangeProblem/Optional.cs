@@ -11,9 +11,7 @@
 
         public IMatch Match(string text)
         {
-            IMatch match = new SuccessMatch(text);
-
-            return new SuccessMatch(pattern.Match(match.RemainingText()).RemainingText());
+            return new SuccessMatch(pattern.Match(text).RemainingText());
         }
     }
 }
