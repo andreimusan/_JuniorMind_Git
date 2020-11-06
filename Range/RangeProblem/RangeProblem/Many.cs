@@ -1,6 +1,6 @@
 ﻿namespace RangeProblem
 {
-    public class Many
+    public class Many : IPattern
     {
         private readonly IPattern pattern;
 
