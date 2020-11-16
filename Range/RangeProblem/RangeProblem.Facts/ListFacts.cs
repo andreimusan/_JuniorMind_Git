@@ -74,6 +74,17 @@ namespace RangeProblem.Facts
         }
 
         [Fact]
+        public void IsAValidString5()
+        {
+            var a = new List(new Range('0', '9'), new Character(','));
+
+            var actual = a.Match("12a");
+
+            Assert.True(actual.Success());
+            Assert.Equal("2a", actual.RemainingText());
+        }
+
+        [Fact]
         public void IsAValidList1()
         {
             var digits = new OneOrMore(new Range('0', '9'));

@@ -80,8 +80,8 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("07");
 
-            Assert.False(actual.Success());
-            Assert.Equal("07", actual.RemainingText());
+            Assert.True(actual.Success());
+            Assert.Equal("7", actual.RemainingText());
         }
 
         [Fact]

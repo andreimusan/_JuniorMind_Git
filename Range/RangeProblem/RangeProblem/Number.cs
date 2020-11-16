@@ -16,7 +16,7 @@
             var whitespace = new Many(new Any(" \r\n\t"));
             var separator = new Choice(sign, fraction, exponent);
 
-            pattern = new Choice(new Sequence(digits, zero), digits, zero);
+            pattern = new Choice(new Sequence(sign, digits, zero), new Sequence(digits, zero), digits, zero);
         }
 
         public IMatch Match(string text)

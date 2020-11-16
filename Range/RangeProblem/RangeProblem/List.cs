@@ -6,7 +6,7 @@
 
         public List(IPattern element, IPattern separator)
         {
-            this.pattern = new Many(new Choice(new Sequence(new Choice(element, separator), element), element));
+            this.pattern = new Optional(new Choice(new OneOrMore(new Sequence(element, separator)), element));
         }
 
         public IMatch Match(string text)
