@@ -147,7 +147,7 @@ namespace RangeProblem.Facts
             var actual = number.Match("12.");
 
             Assert.False(actual.Success());
-            Assert.Equal(".", actual.RemainingText());
+            Assert.Equal("", actual.RemainingText());
         }
 
         [Fact]

@@ -11,12 +11,12 @@
             var digits = new OneOrMore(new Range('1', '9'));
             var zero = new OneOrMore(new Character('0'));
             var sign = new OneOrMore(new Any("+-"));
-            var fraction = new Optional(new Character('.'));
+            var fraction = new Character('.');
             var exponent = new Optional(new Any("eE"));
             var whitespace = new Many(new Any(" \r\n\t"));
             var separator = new Choice(sign, fraction, exponent);
 
-            pattern = new Choice(new Sequence(sign, digits, zero), new Sequence(digits, zero), digits, zero);
+            pattern = new Choice(zero, new Sequence(sign, zero), new OneOrMore(new Choice(new Sequence(digits, zero), digits, sign)), new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits)));
         }
 
         public IMatch Match(string text)
