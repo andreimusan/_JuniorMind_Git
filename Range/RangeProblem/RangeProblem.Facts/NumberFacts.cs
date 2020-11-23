@@ -221,7 +221,7 @@ namespace RangeProblem.Facts
         {
             var number = new Number();
 
-            var actual = number.Match("12.34E");
+            var actual = number.Match("12.34E3");
 
             Assert.True(actual.Success());
             Assert.Equal("", actual.RemainingText());
