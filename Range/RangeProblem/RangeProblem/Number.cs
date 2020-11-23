@@ -18,13 +18,13 @@
 
             var minusZero = new Sequence(sign, zero);
             var intNumber = new OneOrMore(new Choice(new Sequence(digits, zero), digits, sign));
-            var factionalNumber = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits));
+            var fractionalNumber = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits));
             var numberWithExponent = new Sequence(new OneOrMore(digits), exponent, new OneOrMore(digits));
             var numberWithPosOrNegExponent = new Sequence(new OneOrMore(digits), exponent, sign, new OneOrMore(digits));
             var factionalNumberWithExponent = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits), exponent, new OneOrMore(digits));
             var factionalNumberWithPosOrNegExponent = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits), exponent, sign, new OneOrMore(digits));
 
-            pattern = new Choice(zero, minusZero, factionalNumberWithExponent, factionalNumberWithPosOrNegExponent, factionalNumber, numberWithExponent, numberWithPosOrNegExponent, intNumber);
+            pattern = new Choice(zero, minusZero, factionalNumberWithExponent, factionalNumberWithPosOrNegExponent, fractionalNumber, numberWithExponent, numberWithPosOrNegExponent, intNumber);
         }
 
         public IMatch Match(string text)
