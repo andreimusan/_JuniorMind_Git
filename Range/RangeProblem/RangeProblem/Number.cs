@@ -8,17 +8,16 @@
         {
             // aici construiește patternul pentru
             // un JSON number
-            var oneNine = new Range('1', '9');
-            var digit = new Choice(new Character('0'), oneNine);
+            var digit = new Range('0', '9');
             var digits = new OneOrMore(digit);
-            var sign = new Optional(new Any("+-"));
-            var integer = new Choice(new Sequence(sign, digit), new Sequence(sign, oneNine, digits));
+            var integer = new Sequence(new Optional(new Character('-')), new Choice(new Character('0'), digits));
             var fractionSymbol = new Character('.');
-            var fraction = new Sequence(fractionSymbol, digits);
+            var fraction = new Optional(new Sequence(fractionSymbol, digits));
             var exponentSymbol = new Any("eE");
-            var exponent = new Sequence(exponentSymbol, sign, digits);
+            var sign = new Optional(new Any("+-"));
+            var exponent = new Optional(new Sequence(exponentSymbol, sign, digits));
 
-            pattern = new OneOrMore(new Choice(integer, fraction, exponent));
+            pattern = new Sequence(integer, fraction, exponent);
         }
 
         public IMatch Match(string text)
