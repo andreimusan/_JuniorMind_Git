@@ -146,8 +146,8 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("12.");
 
-            Assert.False(actual.Success());
-            Assert.Equal("", actual.RemainingText());
+            Assert.True(actual.Success());
+            Assert.Equal(".", actual.RemainingText());
         }
 
         [Fact]
@@ -157,7 +157,7 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("12.34.56");
 
-            Assert.False(actual.Success());
+            Assert.True(actual.Success());
             Assert.Equal(".56", actual.RemainingText());
         }
 
@@ -168,7 +168,7 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("12.3x");
 
-            Assert.False(actual.Success());
+            Assert.True(actual.Success());
             Assert.Equal("x", actual.RemainingText());
         }
 
@@ -195,7 +195,7 @@ namespace RangeProblem.Facts
         }
 
         [Fact]
-        public void TheExponentCanHavePositive()
+        public void TheExponentCanBePositive()
         {
             var number = new Number();
 
@@ -234,7 +234,7 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("22e3x3");
 
-            Assert.False(actual.Success());
+            Assert.True(actual.Success());
             Assert.Equal("x3", actual.RemainingText());
         }
 
@@ -245,7 +245,7 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("22e323e33");
 
-            Assert.False(actual.Success());
+            Assert.True(actual.Success());
             Assert.Equal("e33", actual.RemainingText());
         }
 
@@ -256,7 +256,7 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("22e");
 
-            Assert.False(actual.Success());
+            Assert.True(actual.Success());
             Assert.Equal("e", actual.RemainingText());
         }
 
@@ -267,8 +267,8 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("22e+");
 
-            Assert.False(actual.Success());
-            Assert.Equal("+", actual.RemainingText());
+            Assert.True(actual.Success());
+            Assert.Equal("e+", actual.RemainingText());
         }
 
         [Fact]
@@ -278,8 +278,8 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("23E-");
 
-            Assert.False(actual.Success());
-            Assert.Equal("-", actual.RemainingText());
+            Assert.True(actual.Success());
+            Assert.Equal("E-", actual.RemainingText());
         }
 
         [Fact]
@@ -289,7 +289,7 @@ namespace RangeProblem.Facts
 
             var actual = number.Match("22e3.3");
 
-            Assert.False(actual.Success());
+            Assert.True(actual.Success());
             Assert.Equal(".3", actual.RemainingText());
         }
     }

@@ -8,23 +8,16 @@
         {
             // aici construiește patternul pentru
             // un JSON number
-            var digits = new OneOrMore(new Range('1', '9'));
-            var zero = new OneOrMore(new Character('0'));
-            var sign = new OneOrMore(new Any("+-"));
-            var fraction = new Character('.');
-            var exponent = new Any("eE");
-            var whitespace = new Many(new Any(" \r\n\t"));
-            var separator = new Choice(sign, fraction, exponent);
+            var digit = new Choice(new Character('0'), new Range('1', '9'));
+            var digits = new OneOrMore(digit);
+            var sign = new Any("+-");
+            var integer = new Sequence(new Optional(sign), digits);
+            var fractionSymbol = new Character('.');
+            var fraction = new Sequence(fractionSymbol, digits);
+            var exponentSymbol = new Any("eE");
+            var exponent = new Sequence(exponentSymbol, new Optional(sign), digits);
 
-            var minusZero = new Sequence(sign, zero);
-            var intNumber = new OneOrMore(new Choice(new Sequence(digits, zero), digits, sign));
-            var fractionalNumber = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits));
-            var numberWithExponent = new Sequence(new OneOrMore(digits), exponent, new OneOrMore(digits));
-            var numberWithPosOrNegExponent = new Sequence(new OneOrMore(digits), exponent, sign, new OneOrMore(digits));
-            var fractionalNumberWithExponent = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits), exponent, new OneOrMore(digits));
-            var factionalNumberWithPosOrNegExponent = new Sequence(new OneOrMore(digits), fraction, new OneOrMore(digits), exponent, sign, new OneOrMore(digits));
-
-            pattern = new Choice(zero, minusZero, fractionalNumberWithExponent, factionalNumberWithPosOrNegExponent, fractionalNumber, numberWithExponent, numberWithPosOrNegExponent, intNumber);
+            pattern = new OneOrMore(new Choice(integer, fraction, exponent));
         }
 
         public IMatch Match(string text)
