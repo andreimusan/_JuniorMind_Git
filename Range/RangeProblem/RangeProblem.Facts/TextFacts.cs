@@ -56,10 +56,10 @@ namespace RangeProblem.Facts
         {
             var trueValue = new Text("true");
 
-            var actual = trueValue.Match(String.Empty);
+            var actual = trueValue.Match(string.Empty);
 
             Assert.False(actual.Success());
-            Assert.Equal(String.Empty, actual.RemainingText());
+            Assert.Equal(string.Empty, actual.RemainingText());
         }
 
         [Fact]

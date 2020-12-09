@@ -23,10 +23,10 @@ namespace RangeProblem.Facts
         {
             var a = new Many(new Character('a'));
 
-            var actual = a.Match(String.Empty);
+            var actual = a.Match(string.Empty);
 
             Assert.True(actual.Success());
-            Assert.Equal(String.Empty, actual.RemainingText());
+            Assert.Equal(string.Empty, actual.RemainingText());
         }
 
         [Fact]

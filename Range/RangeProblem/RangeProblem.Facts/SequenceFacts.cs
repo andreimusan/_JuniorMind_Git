@@ -28,9 +28,9 @@ namespace RangeProblem.Facts
                 new Character('b')
             );
 
-            var actual = ab.Match(String.Empty);
+            var actual = ab.Match(string.Empty);
             Assert.False(actual.Success());
-            Assert.Equal(String.Empty, actual.RemainingText());
+            Assert.Equal(string.Empty, actual.RemainingText());
         }
 
         [Fact]
