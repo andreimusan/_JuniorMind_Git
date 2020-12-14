@@ -11,8 +11,8 @@ namespace RangeProblem
             // aici construiește patternul pentru
             // un JSON string
             var quote = new Character('"');
-            var character = new Range(Convert.ToChar(0x20), Convert.ToChar(0xFFFF));
-            var characters = new OneOrMore(character);
+            var character = new Choice(new Range(Convert.ToChar(0x20), '!'), new Range('#', '['), new Range(']', Convert.ToChar(0xFFFF)));
+            var characters = new Optional(new OneOrMore(character));
             var escapeSymbol = new Character('\\');
             var escapeCharacters = new Any("\"\\/bfnrt");
             var escapeValue = new Optional(new Sequence(escapeSymbol, escapeCharacters));

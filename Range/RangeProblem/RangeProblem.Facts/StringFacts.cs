@@ -25,7 +25,7 @@ namespace RangeProblem.Facts
 
             var actual = stringValue.Match("abc\"");
 
-            Assert.True(actual.Success());
+            Assert.False(actual.Success());
             Assert.Equal("abc\"", actual.RemainingText());
         }
 
@@ -36,8 +36,8 @@ namespace RangeProblem.Facts
 
             var actual = stringValue.Match("\"abc");
 
-            Assert.True(actual.Success());
-            Assert.Equal("", actual.RemainingText());
+            Assert.False(actual.Success());
+            Assert.Equal("\"abc", actual.RemainingText());
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace RangeProblem.Facts
             var actual = stringValue.Match(Quoted(string.Empty));
 
             Assert.True(actual.Success());
-            Assert.Equal(Quoted(string.Empty), actual.RemainingText());
+            Assert.Equal((string.Empty), actual.RemainingText());
         }
 
         [Fact]
@@ -92,8 +92,8 @@ namespace RangeProblem.Facts
 
             var actual = stringValue.Match(Quoted("a\nb\rc"));
 
-            Assert.True(actual.Success());
-            Assert.Equal("\nb\rc\"", actual.RemainingText());
+            Assert.False(actual.Success());
+            Assert.Equal(Quoted("a\nb\rc"), actual.RemainingText());
         }
 
         [Fact]
