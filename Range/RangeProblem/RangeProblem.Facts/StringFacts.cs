@@ -213,7 +213,7 @@ namespace RangeProblem.Facts
 
             var actual = stringValue.Match(Quoted(@"a\x"));
 
-            Assert.True(actual.Success());
+            Assert.False(actual.Success());
             Assert.Equal(@"\x", actual.RemainingText());
         }
 
@@ -224,23 +224,30 @@ namespace RangeProblem.Facts
 
             var actual = stringValue.Match(Quoted(@"a\"));
 
-            Assert.True(actual.Success());
+            Assert.False(actual.Success());
             Assert.Equal(@"\", actual.RemainingText());
         }
 
         [Fact]
-        public void DoesNotEndWithAnUnfinishedHexNumber()
+        public void DoesNotEndWithAnUnfinishedHexNumber1()
         {
             var stringValue = new String();
 
             var actual = stringValue.Match(Quoted(@"a\u"));
-            var actual2 = stringValue.Match(Quoted(@"a\u123"));
 
-            Assert.True(actual.Success());
+            Assert.False(actual.Success());
             Assert.Equal(@"\u", actual.RemainingText());
+        }
 
-            Assert.True(actual2.Success());
-            Assert.Equal(@"\u123", actual2.RemainingText());
+        [Fact]
+        public void DoesNotEndWithAnUnfinishedHexNumber2()
+        {
+            var stringValue = new String();
+
+            var actual = stringValue.Match(Quoted(@"a\u123"));
+
+            Assert.False(actual.Success());
+            Assert.Equal(@"\u123", actual.RemainingText());
         }
 
         public static string Quoted(string text)

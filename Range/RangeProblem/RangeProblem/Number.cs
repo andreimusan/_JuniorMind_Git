@@ -8,7 +8,7 @@
         {
             // aici construiește patternul pentru
             // un JSON number
-            var digit = new Range('0', '9');
+            var digit = new Range('0', '9', "");
             var digits = new OneOrMore(digit);
             var integer = new Sequence(new Optional(new Character('-')), new Choice(new Character('0'), digits));
             var fractionSymbol = new Character('.');

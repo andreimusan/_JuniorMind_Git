@@ -10,7 +10,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidNull()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match(null);
 
@@ -21,7 +21,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidEmptyString()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match(string.Empty);
 
@@ -32,7 +32,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString1()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match("1,2,3");
 
@@ -43,7 +43,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString2()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match("1,2,3,");
 
@@ -54,7 +54,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString3()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match("1a");
 
@@ -65,7 +65,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString4()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match("abc");
 
@@ -76,7 +76,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString5()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match("12a");
 
@@ -87,7 +87,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString6()
         {
-            var a = new List(new Range('0', '9'), new Character(','));
+            var a = new List(new Range('0', '9', ""), new Character(','));
 
             var actual = a.Match("1,2,34");
 
@@ -98,7 +98,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidList1()
         {
-            var digits = new OneOrMore(new Range('0', '9'));
+            var digits = new OneOrMore(new Range('0', '9', ""));
             var whitespace = new Many(new Any(" \r\n\t"));
             var separator = new Sequence(whitespace, new Character(';'), whitespace);
             var list = new List(digits, separator);
@@ -112,7 +112,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidList2()
         {
-            var digits = new OneOrMore(new Range('0', '9'));
+            var digits = new OneOrMore(new Range('0', '9', ""));
             var whitespace = new Many(new Any(" \r\n\t"));
             var separator = new Sequence(whitespace, new Character(';'), whitespace);
             var list = new List(digits, separator);
@@ -126,7 +126,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidList3()
         {
-            var digits = new OneOrMore(new Range('0', '9'));
+            var digits = new OneOrMore(new Range('0', '9', ""));
             var whitespace = new Many(new Any(" \r\n\t"));
             var separator = new Sequence(whitespace, new Character(';'), whitespace);
             var list = new List(digits, separator);

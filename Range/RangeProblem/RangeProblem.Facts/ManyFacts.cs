@@ -65,7 +65,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidStringWithDigits1()
         {
-            var digits = new Many(new Range('0', '9'));
+            var digits = new Many(new Range('0', '9', ""));
 
             var actual = digits.Match("12345ab123");
 
@@ -76,7 +76,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidStringWithDigits2()
         {
-            var digits = new Many(new Range('0', '9'));
+            var digits = new Many(new Range('0', '9', ""));
 
             var actual = digits.Match("ab");
 
