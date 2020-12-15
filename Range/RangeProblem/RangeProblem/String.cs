@@ -12,19 +12,20 @@ namespace RangeProblem
             // un JSON string
             var quote = new Character('"');
 
-            var escapeSeq = new Sequence(
-                                new Character('\\'),
-                                new Any("\"\\/bfnrt"));
-
             var hex = new Choice(
                         new Range('0', '9'),
                         new Range('a', 'f'),
                         new Range('A', 'F'));
 
             var hexSeq = new Sequence(
-                            new Character('\\'),
                             new Character('u'),
                             new Sequence(hex, hex, hex, hex));
+
+            var escapeSeq = new Sequence(
+                                new Character('\\'),
+                                new Choice(
+                                    new Any("\"\\/bfnrt"),
+                                    hexSeq));
 
             var character = new Choice(
                                 new Range(Convert.ToChar(0x20), Convert.ToChar(0xFFFF), "\"\\"),

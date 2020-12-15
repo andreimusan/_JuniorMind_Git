@@ -214,7 +214,7 @@ namespace RangeProblem.Facts
             var actual = stringValue.Match(Quoted(@"a\x"));
 
             Assert.False(actual.Success());
-            Assert.Equal(@"\x", actual.RemainingText());
+            Assert.Equal(Quoted(@"a\x"), actual.RemainingText());
         }
 
         [Fact]
@@ -225,7 +225,7 @@ namespace RangeProblem.Facts
             var actual = stringValue.Match(Quoted(@"a\"));
 
             Assert.False(actual.Success());
-            Assert.Equal(@"\", actual.RemainingText());
+            Assert.Equal(Quoted(@"a\"), actual.RemainingText());
         }
 
         [Fact]
@@ -236,7 +236,7 @@ namespace RangeProblem.Facts
             var actual = stringValue.Match(Quoted(@"a\u"));
 
             Assert.False(actual.Success());
-            Assert.Equal(@"\u", actual.RemainingText());
+            Assert.Equal(Quoted(@"a\u"), actual.RemainingText());
         }
 
         [Fact]
@@ -247,7 +247,7 @@ namespace RangeProblem.Facts
             var actual = stringValue.Match(Quoted(@"a\u123"));
 
             Assert.False(actual.Success());
-            Assert.Equal(@"\u123", actual.RemainingText());
+            Assert.Equal(Quoted(@"a\u123"), actual.RemainingText());
         }
 
         public static string Quoted(string text)
