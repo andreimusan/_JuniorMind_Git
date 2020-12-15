@@ -179,9 +179,9 @@ namespace RangeProblem.Facts
         public void IsAValidHexSequence1()
         {
             var hex = new Choice(
-                new Range('0', '9', ""),
-                new Range('a', 'f', ""),
-                new Range('A', 'F', "")
+                new Range('0', '9'),
+                new Range('a', 'f'),
+                new Range('A', 'F')
             );
 
             var hexSeq = new Sequence(
@@ -203,9 +203,9 @@ namespace RangeProblem.Facts
         public void IsAValidHexSequence2()
         {
             var hex = new Choice(
-                new Range('0', '9', ""),
-                new Range('a', 'f', ""),
-                new Range('A', 'F', "")
+                new Range('0', '9'),
+                new Range('a', 'f'),
+                new Range('A', 'F')
             );
 
             var hexSeq = new Sequence(
@@ -227,9 +227,9 @@ namespace RangeProblem.Facts
         public void IsAValidHexSequence3()
         {
             var hex = new Choice(
-                new Range('0', '9', ""),
-                new Range('a', 'f', ""),
-                new Range('A', 'F', "")
+                new Range('0', '9'),
+                new Range('a', 'f'),
+                new Range('A', 'F')
             );
 
             var hexSeq = new Sequence(
@@ -251,9 +251,9 @@ namespace RangeProblem.Facts
         public void IsNotAValidHexSequence()
         {
             var hex = new Choice(
-                new Range('0', '9', ""),
-                new Range('a', 'f', ""),
-                new Range('A', 'F', "")
+                new Range('0', '9'),
+                new Range('a', 'f'),
+                new Range('A', 'F')
             );
 
             var hexSeq = new Sequence(
@@ -275,9 +275,9 @@ namespace RangeProblem.Facts
         public void IsNotNullHexSequence()
         {
             var hex = new Choice(
-                new Range('0', '9', ""),
-                new Range('a', 'f', ""),
-                new Range('A', 'F', "")
+                new Range('0', '9'),
+                new Range('a', 'f'),
+                new Range('A', 'F')
             );
 
             var hexSeq = new Sequence(

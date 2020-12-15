@@ -10,7 +10,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var actual = digit.Match(null);
@@ -23,7 +23,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var actual = digit.Match(string.Empty);
@@ -36,7 +36,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var actual = digit.Match("012");
@@ -49,7 +49,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var actual = digit.Match("12");
@@ -62,7 +62,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var actual = digit.Match("92");
@@ -75,7 +75,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var actual = digit.Match("a9");
@@ -88,14 +88,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -109,14 +109,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -130,14 +130,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -151,14 +151,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -172,14 +172,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -193,14 +193,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -214,14 +214,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -235,14 +235,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -256,14 +256,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -277,14 +277,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -298,14 +298,14 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var hex = new Choice(
                         digit,
                         new Choice(
-                            new Range('a', 'f', ""),
-                            new Range('A', 'F', "")
+                            new Range('a', 'f'),
+                            new Range('A', 'F')
                         )
                     );
 
@@ -319,7 +319,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var intValue = new Choice(
@@ -339,7 +339,7 @@ namespace RangeProblem.Facts
         {
             var digit = new Choice(
                 new Character('0'),
-                new Range('1', '9', "")
+                new Range('1', '9')
             );
 
             var intValue = new Choice(

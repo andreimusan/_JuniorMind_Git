@@ -10,7 +10,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsNotNull()
         {
-            var a = new OneOrMore(new Range('0', '9', ""));
+            var a = new OneOrMore(new Range('0', '9'));
 
             var actual = a.Match(null);
 
@@ -21,7 +21,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsNotAnEmptyString()
         {
-            var a = new OneOrMore(new Range('0', '9', ""));
+            var a = new OneOrMore(new Range('0', '9'));
 
             var actual = a.Match(string.Empty);
 
@@ -32,7 +32,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString1()
         {
-            var a = new OneOrMore(new Range('0', '9', ""));
+            var a = new OneOrMore(new Range('0', '9'));
 
             var actual = a.Match("123");
 
@@ -43,7 +43,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString2()
         {
-            var a = new OneOrMore(new Range('0', '9', ""));
+            var a = new OneOrMore(new Range('0', '9'));
 
             var actual = a.Match("1a");
 
@@ -54,7 +54,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsAValidString3()
         {
-            var a = new OneOrMore(new Range('0', '9', ""));
+            var a = new OneOrMore(new Range('0', '9'));
 
             var actual = a.Match("12a");
 
@@ -65,7 +65,7 @@ namespace RangeProblem.Facts
         [Fact]
         public void IsNotAValidString()
         {
-            var a = new OneOrMore(new Range('0', '9', ""));
+            var a = new OneOrMore(new Range('0', '9'));
 
             var actual = a.Match("bc");
 
