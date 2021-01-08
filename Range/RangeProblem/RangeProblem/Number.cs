@@ -1,6 +1,6 @@
 ﻿namespace RangeProblem
 {
-    public class Number
+    public class Number : IPattern
     {
         private readonly IPattern pattern;
 
