@@ -362,37 +362,14 @@ namespace RangeProblem.Facts
 
             var value = new Choice(
                             stringValue,
-                            number,
-                            new Text("true"),
-                            new Text("false"),
-                            new Text("null")
+                            number
                         );
 
-            var quote = new Character('"');
-            var openBracket = new Character('[');
-            var closeBracket = new Character(']');
-            var space = new Character(Convert.ToChar(0020));
-            var horizontalTabulation = new Character(Convert.ToChar(0009));
-            var ws = new Choice(new Sequence(quote, quote), space, horizontalTabulation);
+            value.Add(new Text("true"));
 
-            var element = new Sequence(ws, value, ws);
-            var elements = new List(element, new Character(','));
-
-            var array = new Choice(new Sequence(openBracket, ws, closeBracket), new Sequence(openBracket, elements, closeBracket));
-            value.Add(array);
-
-            var openCurlyBracket = new Character('{');
-            var closeCurlyBracket = new Character('}');
-
-            var member = new Sequence(ws, stringValue, ws, new Character(':'), element);
-            var members = new List(member, new Character(','));
-
-            var objectValue = new Choice(new Sequence(openCurlyBracket, ws, closeCurlyBracket), new Sequence(openCurlyBracket, members, closeCurlyBracket));
-            value.Add(objectValue);
-
-            var actual = value.Match("[12]");
+            var actual = value.Match("true");
             Assert.True(actual.Success());
-            Assert.Equal("12]", actual.RemainingText());
+            Assert.Equal("", actual.RemainingText());
         }
     }
 }
