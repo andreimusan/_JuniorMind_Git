@@ -138,5 +138,17 @@ namespace RangeProblem.Facts
             Assert.True(actual.Success());
             Assert.Equal("", actual.RemainingText());
         }
+
+        [Fact]
+        public void IsAValidJSON()
+        {
+            var value = new Value();
+            var jsonText = "[ { \"dose\": \"\", \"strength\": 500 }, { \"type\": \"donut\", \"name\": \"Cake\" } ]";
+
+            var actual = value.Match(jsonText);
+
+            Assert.True(actual.Success());
+            Assert.Equal("", actual.RemainingText());
+        }
     }
 }

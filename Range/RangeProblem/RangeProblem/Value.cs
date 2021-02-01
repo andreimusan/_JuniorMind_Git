@@ -24,7 +24,7 @@ namespace RangeProblem
             var quote = new Character('"');
             var openBracket = new Character('[');
             var closeBracket = new Character(']');
-            var whitespace = new Choice(new Sequence(quote, quote), new Many(new Any(" \r\n\t")));
+            var whitespace = new Optional(new Many(new Any(" \r\n\t")));
             var separator = new Sequence(whitespace, new Character(','), whitespace);
 
             var element = new Sequence(whitespace, value, whitespace);

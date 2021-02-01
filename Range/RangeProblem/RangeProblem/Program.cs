@@ -10,7 +10,7 @@ namespace RangeProblem
             var value = new Value();
             var actual = value.Match(text);
 
-            Console.WriteLine(actual.Success() && actual.RemainingText() == "" ? "The selected file is a valid JSON file" : "The selected file is NOT a valid JSON file");
+            Console.WriteLine(actual.Success() && actual.RemainingText() == "" ? "TRUE - The selected file is a valid JSON file." : "FALSE - The selected file is NOT a valid JSON file.");
 
             Console.Read();
         }
