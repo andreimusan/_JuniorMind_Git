@@ -143,7 +143,7 @@ namespace RangeProblem.Facts
         public void IsAValidJSON()
         {
             var value = new Value();
-            var jsonText = "[ { \"dose\": \"\", \"strength\": 500 }, { \"type\": \"donut\", \"name\": \"Cake\" } ]";
+            var jsonText = "[ { \"dose\": \"\", \"strength\": [ 500, 100, 200 ] }, { \"type\": \"donut\", \"name\": \"Cake\" } ]";
 
             var actual = value.Match(jsonText);
 

@@ -24,13 +24,13 @@ namespace RangeProblem
             var quote = new Character('"');
             var openBracket = new Character('[');
             var closeBracket = new Character(']');
-            var whitespace = new Optional(new Many(new Any(" \r\n\t")));
+            var whitespace = new Many(new Any(" \r\n\t"));
             var separator = new Sequence(whitespace, new Character(','), whitespace);
 
             var element = new Sequence(whitespace, value, whitespace);
             var elements = new List(element, separator);
 
-            var array = new Choice(new Sequence(openBracket, whitespace, closeBracket), new Sequence(openBracket, elements, closeBracket));
+            var array = new Sequence(openBracket, whitespace, elements, closeBracket);
             value.Add(array);
 
             var openCurlyBracket = new Character('{');
@@ -39,10 +39,10 @@ namespace RangeProblem
             var member = new Sequence(whitespace, stringValue, whitespace, new Character(':'), element);
             var members = new List(member, separator);
 
-            var objectValue = new Choice(new Sequence(openCurlyBracket, whitespace, closeCurlyBracket), new Sequence(openCurlyBracket, members, closeCurlyBracket));
+            var objectValue = new Sequence(openCurlyBracket, whitespace, members, closeCurlyBracket);
             value.Add(objectValue);
 
-            pattern = value;
+            pattern = element;
         }
 
         public IMatch Match(string text)
