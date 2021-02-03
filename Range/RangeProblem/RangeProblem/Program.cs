@@ -4,9 +4,16 @@ namespace RangeProblem
 {
     public class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\andre\OneDrive\Documente\DOCS\_JuniorMind\JSON_file.txt");
+            if (args == null || args.Length == 0)
+            {
+                Console.WriteLine("Error: please specify the file to read!");
+                Console.ReadKey();
+                return;
+            }
+
+            string text = System.IO.File.ReadAllText(args[0]);
             var value = new Value();
             var actual = value.Match(text);
 
