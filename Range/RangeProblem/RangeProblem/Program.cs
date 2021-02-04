@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace RangeProblem
 {
@@ -13,12 +14,11 @@ namespace RangeProblem
                 return;
             }
 
-            string text = System.IO.File.ReadAllText(args[0]);
+            string text = File.ReadAllText(args[0]);
             var value = new Value();
             var actual = value.Match(text);
 
             Console.WriteLine(actual.Success() && actual.RemainingText() == "" ? "TRUE - The selected file is a valid JSON file." : "FALSE - The selected file is NOT a valid JSON file.");
-
             Console.Read();
         }
     }
