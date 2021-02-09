@@ -58,5 +58,16 @@ namespace RangeProblem.Facts
             Assert.False(actual.Success());
             Assert.Equal("( 31 )Oct( 2019 )00:70:35( (+)0245)", actual.RemainingText());
         }
+
+        [Fact]
+        public void ValidDateTimeFull()
+        {
+            var value = new DateAndTime();
+
+            var actual = value.Match("( Tue),( 9 )Feb( 2021 )19:34:35( (+)0245)");
+
+            Assert.True(actual.Success());
+            Assert.Equal("", actual.RemainingText());
+        }
     }
 }
