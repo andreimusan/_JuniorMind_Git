@@ -24,7 +24,7 @@ namespace RangeProblem
             var ccontent = new Choice(ctext, new Sequence(new Character('"'), new Character('"')));
             var comment = new Sequence(openBracket, openBracket, fws, ccontent, closeBracket, fws, closeBracket);
             ccontent.Add(comment);
-            var cfws = new Sequence(openBracket, openBracket, fws, comment, closeBracket, fws, closeBracket);
+            var cfws = new Choice(new Sequence(openBracket, openBracket, fws, comment, closeBracket, fws, closeBracket), fws);
 
             var sign = new Any("+-");
             var zone = new Sequence(openBracket, fws, openBracket, sign, closeBracket, hour, minuteOrSecond, closeBracket);
