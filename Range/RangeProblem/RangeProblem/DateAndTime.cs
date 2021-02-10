@@ -22,21 +22,24 @@ namespace RangeProblem
             ccontent.Add(comment);
             var cfws = new Choice(new Sequence(openBracket, new Optional(fws), comment, new Optional(fws), closeBracket), fws);
 
-            var secOrMinOrH = new Sequence(new Range('0', '9'), new Range('0', '9'));
-            var timeOfDayShort = new Sequence(secOrMinOrH, new Character(':'), secOrMinOrH);
-            var timeOfDayLong = new Sequence(secOrMinOrH, new Character(':'), secOrMinOrH, new Character(':'), secOrMinOrH);
+            var digit = new Range('0', '9');
+            var colon = new Character(':');
+
+            var secOrMinOrH = new Sequence(digit, digit);
+            var timeOfDayShort = new Sequence(secOrMinOrH, colon, secOrMinOrH);
+            var timeOfDayLong = new Sequence(secOrMinOrH, colon, secOrMinOrH, colon, secOrMinOrH);
 
             var sign = new Any("+-");
             var zone = new Sequence(fws, sign, secOrMinOrH, secOrMinOrH);
 
             var time = new Sequence(new Choice(timeOfDayLong, timeOfDayShort), zone);
 
-            var year = new Sequence(fws, new Range('0', '9'), new Range('0', '9'), new Range('0', '9'), new Range('0', '9'), fws);
+            var year = new Sequence(fws, digit, digit, digit, digit, fws);
 
             var oddMonth = new Choice(new Text("Jan"), new Text("Mar"), new Text("May"), new Text("Jul"), new Text("Aug"), new Text("Oct"), new Text("Dec"));
             var evenMonth = new Choice(new Text("Feb"), new Text("Apr"), new Text("Jun"), new Text("Sep"), new Text("Nov"));
 
-            var day = new Sequence(new Optional(fws), new Range('0', '9'), new Range('0', '9'), fws);
+            var day = new Sequence(new Optional(fws), digit, digit, fws);
 
             var date = new Sequence(day, new Choice(oddMonth, evenMonth), year);
 
