@@ -5,22 +5,22 @@ namespace RangeProblem.Facts
     public class DateAndTimeFacts
     {
         [Fact]
-        public void ValidDateTime()
+        public void ValidDateTimeLong()
         {
             var value = new DateAndTime();
 
-            var actual = value.Match("( 31 )Dec( 1945 )00:12:35( (+)0245)");
+            var actual = value.Match("   Mon, 31 Dec 1756 00:12:35 +0245");
 
             Assert.True(actual.Success());
             Assert.Equal("", actual.RemainingText());
         }
 
         [Fact]
-        public void ValidDateTimeLeapYear()
+        public void ValidDateTimeShort()
         {
             var value = new DateAndTime();
 
-            var actual = value.Match("( 29 )Feb( 3088 )00:12:35( (+)0245)");
+            var actual = value.Match("29 Feb 3088 00:12 -0000");
 
             Assert.True(actual.Success());
             Assert.Equal("", actual.RemainingText());
@@ -31,21 +31,10 @@ namespace RangeProblem.Facts
         {
             var value = new DateAndTime();
 
-            var actual = value.Match("( 31 )Nov( 1945 )00:12:35( (+)0245)");
+            var actual = value.Match("31Dec175600:12:35+0245");
 
             Assert.False(actual.Success());
-            Assert.Equal("( 31 )Nov( 1945 )00:12:35( (+)0245)", actual.RemainingText());
-        }
-
-        [Fact]
-        public void InvalidDateLeapYear()
-        {
-            var value = new DateAndTime();
-
-            var actual = value.Match("( 29 )Feb( 2021 )00:12:35( (+)0245)");
-
-            Assert.False(actual.Success());
-            Assert.Equal("( 29 )Feb( 2021 )00:12:35( (+)0245)", actual.RemainingText());
+            Assert.Equal("31Dec175600:12:35+0245", actual.RemainingText());
         }
 
         [Fact]
@@ -53,21 +42,21 @@ namespace RangeProblem.Facts
         {
             var value = new DateAndTime();
 
-            var actual = value.Match("( 31 )Oct( 2019 )00:70:35( (+)0245)");
+            var actual = value.Match("29 Feb 3088 00:12:152 -0000");
 
             Assert.False(actual.Success());
-            Assert.Equal("( 31 )Oct( 2019 )00:70:35( (+)0245)", actual.RemainingText());
+            Assert.Equal("29 Feb 3088 00:12:152 -0000", actual.RemainingText());
         }
 
         [Fact]
-        public void ValidDateTimeFull()
+        public void InvalidZone()
         {
             var value = new DateAndTime();
 
-            var actual = value.Match("( Tue),( 9 )Feb( 2021 )19:34:35( (+)0245)");
+            var actual = value.Match(" 31 Dec 1756 00:12:35 0245");
 
-            Assert.True(actual.Success());
-            Assert.Equal("", actual.RemainingText());
+            Assert.False(actual.Success());
+            Assert.Equal(" 31 Dec 1756 00:12:35 0245", actual.RemainingText());
         }
     }
 }
