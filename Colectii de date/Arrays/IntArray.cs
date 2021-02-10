@@ -2,9 +2,9 @@
 
 namespace Arrays
 {
-    class IntArray
+    public class IntArray
     {
-        int[] array;
+        private int[] array;
 
         public IntArray()
         {
@@ -17,6 +17,36 @@ namespace Arrays
             // adaugă un nou element la sfârșitul șirului
             Array.Resize(ref array, array.Length + 1);
             array[array.Length - 1] = element;
+        }
+
+        public int Count()
+        {
+            // întorce numărul de elemente din șir
+            return array.Length;
+        }
+
+        public int Element(int index)
+        {
+            // întoarce elementul de la indexul dat
+            return array[index];
+        }
+
+        public void SetElement(int index, int element)
+        {
+            // modifică valoarea elementului de la indexul dat
+            array[index] = element;
+        }
+
+        public bool Contains(int element)
+        {
+            // întoarce true dacă elementul dat există în șir
+            return Array.IndexOf(array, element) != -1;
+        }
+
+        public int IndexOf(int element)
+        {
+            // întoarce indexul elementului sau -1 dacă elementul nu se regăsește în șir
+            return Array.IndexOf(array, element);
         }
     }
 }
