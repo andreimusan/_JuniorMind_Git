@@ -34,7 +34,10 @@ namespace Arrays
         public void SetElement(int index, int element)
         {
             // modifică valoarea elementului de la indexul dat
-            array[index] = element;
+            if (index < array.Length)
+            {
+                array[index] = element;
+            }
         }
 
         public bool Contains(int element)
@@ -47,6 +50,18 @@ namespace Arrays
         {
             // întoarce indexul elementului sau -1 dacă elementul nu se regăsește în șir
             return Array.IndexOf(array, element);
+        }
+
+        public void Insert(int index, int element)
+        {
+            // adaugă un nou element pe poziția dată
+            Array.Resize(ref array, array.Length + 1);
+            for (int i = array.Length - 1; i > index; i--)
+            {
+                array[i] = array[i - 1];
+            }
+
+            array[index] = element;
         }
     }
 }

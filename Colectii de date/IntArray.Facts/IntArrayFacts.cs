@@ -95,5 +95,18 @@ namespace Arrays.Facts
 
             Assert.Equal(-1, array.IndexOf(5));
         }
+
+        [Fact]
+        public void TestInsert()
+        {
+            var array = new IntArray();
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array.Insert(1, 20);
+
+            Assert.Equal(4, array.Count());
+            Assert.True(array.Contains(20));
+        }
     }
 }
