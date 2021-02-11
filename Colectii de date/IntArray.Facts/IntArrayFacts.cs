@@ -108,5 +108,48 @@ namespace Arrays.Facts
             Assert.Equal(4, array.Count());
             Assert.True(array.Contains(20));
         }
+
+        [Fact]
+        public void TestClear()
+        {
+            var array = new IntArray();
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array.Clear();
+
+            Assert.Equal(0, array.Count());
+            Assert.False(array.Contains(5));
+        }
+
+        [Fact]
+        public void TestRemove()
+        {
+            var array = new IntArray();
+            array.Add(7);
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array.Add(20);
+            array.Remove(7);
+
+            Assert.Equal(4, array.Count());
+            Assert.Equal(2, array.IndexOf(7));
+        }
+
+        [Fact]
+        public void TestRemoveAt()
+        {
+            var array = new IntArray();
+            array.Add(7);
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array.Add(20);
+            array.Remove(3);
+
+            Assert.Equal(4, array.Count());
+            Assert.Equal(3, array.IndexOf(20));
+        }
     }
 }

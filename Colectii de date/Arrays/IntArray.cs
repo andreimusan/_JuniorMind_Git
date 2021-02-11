@@ -63,5 +63,37 @@ namespace Arrays
 
             array[index] = element;
         }
+
+        public void Clear()
+        {
+            // șterge toate elementele din șir
+            array = new int[] { };
+        }
+
+        public void Remove(int element)
+        {
+            // șterge prima apariție a elementului din șir
+            if (Array.IndexOf(array, element) != -1)
+            {
+                var index = Array.IndexOf(array, element);
+                for (int i = index; i < array.Length - 1; i++)
+                {
+                    array[i] = array[i + 1];
+                }
+
+                Array.Resize(ref array, array.Length - 1);
+            }
+        }
+
+        public void RemoveAt(int index)
+        {
+            // șterge elementul de pe poziția dată
+            for (int i = index; i < array.Length - 1; i++)
+            {
+                array[i] = array[i + 1];
+            }
+
+            Array.Resize(ref array, array.Length - 1);
+        }
     }
 }
