@@ -5,30 +5,30 @@ namespace Arrays
     public class IntArray
     {
         private int[] array;
-        private int validPosition;
+        private int count;
 
         public IntArray()
         {
-            const int arrayLength = 4;
-            array = new int[arrayLength];
-            validPosition = 0;
+            const int initialLength = 4;
+            array = new int[initialLength];
+            count = 0;
         }
 
         public void Add(int element)
         {
             const int two = 2;
 
-            if (validPosition == array.Length - 1)
+            if (count == array.Length - 1)
             {
                 Array.Resize(ref array, array.Length * two);
                 array[array.Length / two] = element;
             }
             else
             {
-                array[validPosition] = element;
+                array[count] = element;
             }
 
-            validPosition++;
+            count++;
         }
 
         public int Count()
@@ -72,9 +72,10 @@ namespace Arrays
 
         public void Clear()
         {
-            const int arrayLength = 4;
-            array = new int[arrayLength];
-            validPosition = 0;
+            const int initialLength = 4;
+            array = count < initialLength ? (new int[initialLength]) : (new int[count]);
+
+            count = 0;
         }
 
         public void Remove(int element)
@@ -87,7 +88,7 @@ namespace Arrays
                     array[i] = array[i + 1];
                 }
 
-                validPosition--;
+                count--;
             }
         }
 
@@ -98,7 +99,7 @@ namespace Arrays
                 array[i] = array[i + 1];
             }
 
-            validPosition--;
+            count--;
         }
     }
 }
