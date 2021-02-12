@@ -22,13 +22,13 @@ namespace Arrays
             {
                 Array.Resize(ref array, array.Length * two);
                 array[array.Length / two] = element;
-                validPosition++;
             }
             else
             {
                 array[validPosition] = element;
-                validPosition++;
             }
+
+            validPosition++;
         }
 
         public int Count()
@@ -87,7 +87,7 @@ namespace Arrays
                     array[i] = array[i + 1];
                 }
 
-                Array.Resize(ref array, array.Length - 1);
+                validPosition--;
             }
         }
 
@@ -98,7 +98,7 @@ namespace Arrays
                 array[i] = array[i + 1];
             }
 
-            Array.Resize(ref array, array.Length - 1);
+            validPosition--;
         }
     }
 }
