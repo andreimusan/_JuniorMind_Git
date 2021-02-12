@@ -4,19 +4,39 @@ namespace Arrays
 {
     public class IntArray
     {
-        private int[] array;
+        private int?[] array;
 
         public IntArray()
         {
             // construiește noul șir
-            array = new int[] { };
+            const int arrayLength = 4;
+            array = new int?[arrayLength];
         }
 
         public void Add(int element)
         {
             // adaugă un nou element la sfârșitul șirului
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = element;
+            const int two = 2;
+            int i = 0;
+
+            if (array[array.Length - 1] != null)
+            {
+                Array.Resize(ref array, array.Length * two);
+                array[array.Length / two] = element;
+            }
+            else
+            {
+                while (i < array.Length)
+                {
+                    if (array[i] == null)
+                    {
+                        array[i] = element;
+                        break;
+                    }
+
+                    i++;
+                }
+            }
         }
 
         public int Count()
@@ -28,7 +48,7 @@ namespace Arrays
         public int Element(int index)
         {
             // întoarce elementul de la indexul dat
-            return array[index];
+            return (int)array[index];
         }
 
         public void SetElement(int index, int element)
@@ -67,7 +87,8 @@ namespace Arrays
         public void Clear()
         {
             // șterge toate elementele din șir
-            array = new int[] { };
+            const int arrayLength = 4;
+            array = new int?[arrayLength];
         }
 
         public void Remove(int element)
