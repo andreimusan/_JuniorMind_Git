@@ -14,14 +14,9 @@ namespace Arrays.Facts
             array.Add(5);
             array.Add(7);
             array.Add(100);
-            array.Add(3);
-            array.Add(20);
-            array.Add(5);
-            array.Add(7);
 
-            Assert.Equal(16, array.Count());
+            Assert.Equal(8, array.Count());
             Assert.Equal(100, array.Element(4));
-            Assert.Equal(7, array.Element(8));
         }
 
         [Fact]
