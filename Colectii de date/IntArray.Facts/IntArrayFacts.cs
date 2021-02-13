@@ -16,7 +16,7 @@ namespace Arrays.Facts
             array.Add(100);
 
             Assert.Equal(5, array.Count);
-            Assert.Equal(100, array.Element(4));
+            Assert.Equal(100, array[4]);
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace Arrays.Facts
             array.Add(5);
             array.Add(7);
 
-            Assert.Equal(5, array.Element(1));
+            Assert.Equal(5, array[1]);
         }
 
         [Fact]
@@ -48,9 +48,9 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array.SetElement(1, 20);
+            array[1] = 20;
 
-            Assert.Equal(20, array.Element(1));
+            Assert.Equal(20, array[1]);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array.SetElement(1, 20);
+            array[1] = 20;
 
             Assert.True(array.Contains(20));
         }
@@ -72,7 +72,7 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array.SetElement(1, 20);
+            array[1] = 20;
 
             Assert.False(array.Contains(5));
         }
@@ -84,7 +84,7 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array.SetElement(1, 20);
+            array[1] = 20;
 
             Assert.Equal(1, array.IndexOf(20));
         }
@@ -96,7 +96,7 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array.SetElement(1, 20);
+            array[1] = 20;
 
             Assert.Equal(-1, array.IndexOf(5));
         }
@@ -140,7 +140,7 @@ namespace Arrays.Facts
             array.Add(30);
 
             Assert.Equal(5, array.Count);
-            Assert.Equal(30, array.Element(4));
+            Assert.Equal(30, array[4]);
         }
 
         [Fact]
