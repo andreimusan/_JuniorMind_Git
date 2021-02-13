@@ -5,25 +5,20 @@ namespace Arrays
     public class IntArray
     {
         private int[] array;
-        private int count;
 
         public IntArray()
         {
             const int initialLength = 4;
             array = new int[initialLength];
-            count = 0;
         }
+
+        public int Count { get; private set; }
 
         public void Add(int element)
         {
             EnsureCapacity();
-            array[count] = element;
-            count++;
-        }
-
-        public int Count()
-        {
-            return count;
+            array[Count] = element;
+            Count++;
         }
 
         public int Element(int index)
@@ -33,7 +28,7 @@ namespace Arrays
 
         public void SetElement(int index, int element)
         {
-            if (index < count)
+            if (index < Count)
             {
                 array[index] = element;
             }
@@ -42,12 +37,12 @@ namespace Arrays
         public bool Contains(int element)
         {
             return Array.IndexOf(array, element) != -1 &&
-                Array.IndexOf(array, element) <= count;
+                Array.IndexOf(array, element) <= Count;
         }
 
         public int IndexOf(int element)
         {
-            return Array.IndexOf(array, element) <= count ? Array.IndexOf(array, element) : -1;
+            return Array.IndexOf(array, element) <= Count ? Array.IndexOf(array, element) : -1;
         }
 
         public void Insert(int index, int element)
@@ -59,7 +54,7 @@ namespace Arrays
 
         public void Clear()
         {
-            count = 0;
+            Count = 0;
         }
 
         public void Remove(int element)
@@ -77,7 +72,7 @@ namespace Arrays
 
         private void EnsureCapacity()
         {
-            if (count == array.Length - 1)
+            if (Count == array.Length)
             {
                 const int two = 2;
                 Array.Resize(ref array, array.Length * two);
@@ -86,21 +81,22 @@ namespace Arrays
 
         private void ShiftRight(int index)
         {
-            count++;
-            for (int i = count; i > index; i--)
+            for (int i = Count; i > index; i--)
             {
                 array[i] = array[i - 1];
             }
+
+            Count++;
         }
 
         private void ShiftLeft(int index)
         {
-            for (int i = index; i < count; i++)
+            for (int i = index; i < Count; i++)
             {
                 array[i] = array[i + 1];
             }
 
-            count--;
+            Count--;
         }
     }
 }
