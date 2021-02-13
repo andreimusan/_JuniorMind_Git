@@ -16,24 +16,14 @@ namespace Arrays
 
         public void Add(int element)
         {
-            const int two = 2;
-
-            if (count == array.Length - 1)
-            {
-                Array.Resize(ref array, array.Length * two);
-                array[array.Length / two] = element;
-            }
-            else
-            {
-                array[count] = element;
-            }
-
+            EnsureCapacity();
+            array[count] = element;
             count++;
         }
 
         public int Count()
         {
-            return array.Length;
+            return count;
         }
 
         public int Element(int index)
@@ -43,7 +33,7 @@ namespace Arrays
 
         public void SetElement(int index, int element)
         {
-            if (index < array.Length)
+            if (index < count)
             {
                 array[index] = element;
             }
@@ -51,50 +41,61 @@ namespace Arrays
 
         public bool Contains(int element)
         {
-            return Array.IndexOf(array, element) != -1;
+            return Array.IndexOf(array, element) != -1 &&
+                Array.IndexOf(array, element) <= count;
         }
 
         public int IndexOf(int element)
         {
-            return Array.IndexOf(array, element);
+            return Array.IndexOf(array, element) <= count ? Array.IndexOf(array, element) : -1;
         }
 
         public void Insert(int index, int element)
         {
-            Array.Resize(ref array, array.Length + 1);
-            for (int i = array.Length - 1; i > index; i--)
-            {
-                array[i] = array[i - 1];
-            }
-
+            EnsureCapacity();
+            ShiftRight(index);
             array[index] = element;
         }
 
         public void Clear()
         {
-            const int initialLength = 4;
-            array = count < initialLength ? (new int[initialLength]) : (new int[count]);
-
             count = 0;
         }
 
         public void Remove(int element)
         {
-            if (Array.IndexOf(array, element) != -1)
+            if (Contains(element))
             {
-                var index = Array.IndexOf(array, element);
-                for (int i = index; i < array.Length - 1; i++)
-                {
-                    array[i] = array[i + 1];
-                }
-
-                count--;
+                ShiftLeft(IndexOf(element));
             }
         }
 
         public void RemoveAt(int index)
         {
-            for (int i = index; i < array.Length - 1; i++)
+            ShiftLeft(index);
+        }
+
+        private void EnsureCapacity()
+        {
+            if (count == array.Length - 1)
+            {
+                const int two = 2;
+                Array.Resize(ref array, array.Length * two);
+            }
+        }
+
+        private void ShiftRight(int index)
+        {
+            count++;
+            for (int i = count; i > index; i--)
+            {
+                array[i] = array[i - 1];
+            }
+        }
+
+        private void ShiftLeft(int index)
+        {
+            for (int i = index; i < count; i++)
             {
                 array[i] = array[i + 1];
             }

@@ -15,7 +15,7 @@ namespace Arrays.Facts
             array.Add(7);
             array.Add(100);
 
-            Assert.Equal(8, array.Count());
+            Assert.Equal(5, array.Count());
             Assert.Equal(100, array.Element(4));
         }
 
@@ -139,7 +139,7 @@ namespace Arrays.Facts
             array.Remove(7);
             array.Add(30);
 
-            Assert.Equal(8, array.Count());
+            Assert.Equal(5, array.Count());
             Assert.Equal(30, array.Element(4));
         }
 
@@ -156,7 +156,7 @@ namespace Arrays.Facts
             array.RemoveAt(3);
             array.Add(40);
 
-            Assert.Equal(8, array.Count());
+            Assert.Equal(6, array.Count());
             Assert.Equal(3, array.IndexOf(20));
             Assert.Equal(5, array.IndexOf(40));
         }
