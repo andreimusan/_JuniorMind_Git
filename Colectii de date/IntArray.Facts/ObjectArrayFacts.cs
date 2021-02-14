@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Xunit;
 
 namespace Arrays.Facts
 {
-    public class SortedIntArrayFacts
+    public class ObjectArrayFacts
     {
         [Fact]
         public void TestAdd()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(20);
             array.Add(5);
@@ -16,14 +18,27 @@ namespace Arrays.Facts
             array.Add(100);
 
             Assert.Equal(5, array.Count);
-            Assert.Equal(20, array[3]);
-            Assert.Equal(5, array[1]);
+            Assert.Equal(100, array[4]);
+        }
+
+        [Fact]
+        public void TestAddChar()
+        {
+            var array = new ObjectArray();
+            array.Add('a');
+            array.Add('b');
+            array.Add('c');
+            array.Add('d');
+            array.Add('e');
+
+            Assert.Equal(5, array.Count);
+            Assert.Equal('b', array[1]);
         }
 
         [Fact]
         public void TestCount()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
@@ -34,11 +49,10 @@ namespace Arrays.Facts
         [Fact]
         public void TestElement()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
-            array.Add(20);
-            array.Add(7);
             array.Add(5);
+            array.Add(7);
 
             Assert.Equal(5, array[1]);
         }
@@ -46,19 +60,33 @@ namespace Arrays.Facts
         [Fact]
         public void TestSetElement()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
             array[1] = 20;
 
-            Assert.Equal(20, array[2]);
+            Assert.Equal(20, array[1]);
+        }
+
+        [Fact]
+        public void TestSetElementChar()
+        {
+            var array = new ObjectArray();
+            array.Add('a');
+            array.Add('b');
+            array.Add('c');
+            array.Add('d');
+            array.Add('e');
+            array[1] = 'z';
+
+            Assert.Equal('z', array[1]);
         }
 
         [Fact]
         public void TestContainsTrue()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
@@ -70,7 +98,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestContainsFalse()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
@@ -80,21 +108,35 @@ namespace Arrays.Facts
         }
 
         [Fact]
+        public void TestContainsCharFalse()
+        {
+            var array = new ObjectArray();
+            array.Add('a');
+            array.Add('b');
+            array.Add('c');
+            array.Add('d');
+            array.Add('e');
+            array[1] = 20;
+
+            Assert.False(array.Contains(5));
+        }
+
+        [Fact]
         public void TestIndexOfExistingElement()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
             array[1] = 20;
 
-            Assert.Equal(2, array.IndexOf(20));
+            Assert.Equal(1, array.IndexOf(20));
         }
 
         [Fact]
         public void TestIndexOfNotExistingElement()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
@@ -106,7 +148,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestInsert()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
@@ -114,13 +156,12 @@ namespace Arrays.Facts
 
             Assert.Equal(4, array.Count);
             Assert.True(array.Contains(20));
-            Assert.Equal(3, array.IndexOf(20));
         }
 
         [Fact]
         public void TestClear()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(3);
             array.Add(5);
             array.Add(7);
@@ -133,24 +174,23 @@ namespace Arrays.Facts
         [Fact]
         public void TestRemove()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(7);
-            array.Add(5);
             array.Add(3);
+            array.Add(5);
             array.Add(7);
-            array.Add(30);
-            array.Remove(7);
             array.Add(20);
+            array.Remove(7);
+            array.Add(30);
 
             Assert.Equal(5, array.Count);
-            Assert.Equal(5, array[1]);
-            Assert.Equal(20, array[3]);
+            Assert.Equal(30, array[4]);
         }
 
         [Fact]
         public void TestRemoveAt()
         {
-            var array = new SortedIntArray();
+            var array = new ObjectArray();
             array.Add(7);
             array.Add(3);
             array.Add(5);

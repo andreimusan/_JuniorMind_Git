@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arrays", "Arrays.csproj", "{AE9C5100-E66B-43B1-A1BE-DA965064859D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arrays", "Arrays.csproj", "{AE9C5100-E66B-43B1-A1BE-DA965064859D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntArray.Facts", "..\IntArray.Facts\IntArray.Facts.csproj", "{A3C29FD9-EE6C-4626-89F0-4AAA88342C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arrays.Facts", "..\IntArray.Facts\Arrays.Facts.csproj", "{A3C29FD9-EE6C-4626-89F0-4AAA88342C8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
