@@ -4,7 +4,7 @@ namespace Arrays
 {
     public class IntArray
     {
-        private int[] array;
+        protected int[] array;
 
         public IntArray()
         {
@@ -12,15 +12,15 @@ namespace Arrays
             array = new int[initialLength];
         }
 
-        public int Count { get; private set; }
+        public int Count { get; protected set; }
 
-        public int this[int index]
+        public virtual int this[int index]
         {
             get => array[index];
             set => array[index] = value;
         }
 
-        public void Add(int element)
+        public virtual void Add(int element)
         {
             EnsureCapacity();
             array[Count] = element;
@@ -33,12 +33,9 @@ namespace Arrays
                 Array.IndexOf(array, element) <= Count;
         }
 
-        public int IndexOf(int element)
-        {
-            return Array.IndexOf(array, element) <= Count ? Array.IndexOf(array, element) : -1;
-        }
+        public int IndexOf(int element) => Array.IndexOf(array, element) <= Count ? Array.IndexOf(array, element) : -1;
 
-        public void Insert(int index, int element)
+        public virtual void Insert(int index, int element)
         {
             EnsureCapacity();
             ShiftRight(index);
@@ -63,7 +60,7 @@ namespace Arrays
             ShiftLeft(index);
         }
 
-        private void EnsureCapacity()
+        protected void EnsureCapacity()
         {
             if (Count == array.Length)
             {
@@ -72,7 +69,7 @@ namespace Arrays
             }
         }
 
-        private void ShiftRight(int index)
+        protected void ShiftRight(int index)
         {
             for (int i = Count; i > index; i--)
             {
