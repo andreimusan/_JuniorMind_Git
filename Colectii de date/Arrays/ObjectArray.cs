@@ -6,7 +6,7 @@ namespace Arrays
 {
     public class ObjectArray
     {
-        protected object[] array;
+        private object[] array;
 
         public ObjectArray()
         {

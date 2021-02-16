@@ -160,5 +160,19 @@ namespace Arrays.Facts
             Assert.Equal(3, array.IndexOf(20));
             Assert.Equal(5, array.IndexOf(40));
         }
+
+        [Fact]
+        public void TestRemoveAt2()
+        {
+            var array = new IntArray();
+            array.Add(7);
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array.RemoveAt(1);
+
+            Assert.Equal(3, array.Count);
+            Assert.Equal(1, array.IndexOf(5));
+        }
     }
 }

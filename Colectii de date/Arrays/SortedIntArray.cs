@@ -11,12 +11,14 @@ namespace Arrays
 
         public override int this[int index]
         {
-            get => array[index];
+            get => base[index];
             set
             {
-                if (IsStillSorted(index, value))
+                int temp = base[index];
+                base[index] = value;
+                if (!IsSorted())
                 {
-                    array[index] = value;
+                    base[index] = temp;
                 }
             }
         }
@@ -29,9 +31,10 @@ namespace Arrays
 
         public override void Insert(int index, int element)
         {
-            if (IsStillSorted(index, element))
+            base.Insert(index, element);
+            if (!IsSorted())
             {
-                base.Insert(index, element);
+                RemoveAt(index);
             }
         }
 
@@ -39,7 +42,7 @@ namespace Arrays
         {
             for (int i = Count - 1; i > 0; i--)
             {
-                if (array[i] < array[i - 1])
+                if (base[i] < base[i - 1])
                 {
                     Swap(i, i - 1);
                 }
@@ -52,27 +55,22 @@ namespace Arrays
 
         private void Swap(int firstIndex, int secondIndex)
         {
-            int temp = array[firstIndex];
-            array[firstIndex] = array[secondIndex];
-            array[secondIndex] = temp;
+            int temp = base[firstIndex];
+            base[firstIndex] = base[secondIndex];
+            base[secondIndex] = temp;
         }
 
-        private bool IsStillSorted(int index, int element)
+        private bool IsSorted()
         {
-            if (index == 0 && element < array[index + 1])
+            for (int i = 0; i < Count - 1; i++)
             {
-                return true;
-            }
-            else if (index == Count && Count > 0 && element > array[index - 1])
-            {
-                return true;
-            }
-            else if (index > 0 && index < Count && element > array[index - 1] && element < array[index + 1])
-            {
-                return true;
+                if (base[i] > base[i + 1])
+                {
+                    return false;
+                }
             }
 
-            return false;
+            return true;
         }
     }
 }

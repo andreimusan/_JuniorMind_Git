@@ -4,7 +4,7 @@ namespace Arrays
 {
     public class IntArray
     {
-        protected int[] array;
+        private int[] array;
 
         public IntArray()
         {
@@ -65,7 +65,7 @@ namespace Arrays
 
         private void ShiftLeft(int index)
         {
-            for (int i = index; i < Count; i++)
+            for (int i = index; i < Count - 1; i++)
             {
                 array[i] = array[i + 1];
             }
