@@ -56,6 +56,16 @@ namespace Arrays.Facts
         }
 
         [Fact]
+        public void TestSetElementTrue2()
+        {
+            var array = new SortedIntArray();
+            array.Add(3);
+            array[1] = 2;
+
+            Assert.Equal(0, array[1]);
+        }
+
+        [Fact]
         public void TestSetElementFalse()
         {
             var array = new SortedIntArray();
@@ -136,7 +146,7 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array.Insert(1, 20);
+            array.Insert(0, 20);
 
             Assert.Equal(3, array.Count);
             Assert.False(array.Contains(20));
