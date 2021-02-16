@@ -12,12 +12,12 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(20);
             array.Add(5);
-            array.Add(7);
+            array.Add(2);
             array.Add(100);
 
             Assert.Equal(5, array.Count);
             Assert.Equal(20, array[3]);
-            Assert.Equal(5, array[1]);
+            Assert.Equal(2, array[0]);
         }
 
         [Fact]
@@ -44,7 +44,19 @@ namespace Arrays.Facts
         }
 
         [Fact]
-        public void TestSetElement()
+        public void TestSetElementTrue()
+        {
+            var array = new SortedIntArray();
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array[1] = 4;
+
+            Assert.Equal(4, array[1]);
+        }
+
+        [Fact]
+        public void TestSetElementFalse()
         {
             var array = new SortedIntArray();
             array.Add(3);
@@ -52,7 +64,7 @@ namespace Arrays.Facts
             array.Add(7);
             array[1] = 20;
 
-            Assert.Equal(20, array[2]);
+            Assert.Equal(5, array[1]);
         }
 
         [Fact]
@@ -62,7 +74,7 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array[1] = 20;
+            array.Add(20);
 
             Assert.True(array.Contains(20));
         }
@@ -76,7 +88,7 @@ namespace Arrays.Facts
             array.Add(7);
             array[1] = 20;
 
-            Assert.False(array.Contains(5));
+            Assert.False(array.Contains(20));
         }
 
         [Fact]
@@ -86,9 +98,9 @@ namespace Arrays.Facts
             array.Add(3);
             array.Add(5);
             array.Add(7);
-            array[1] = 20;
+            array.Add(20);
 
-            Assert.Equal(2, array.IndexOf(20));
+            Assert.Equal(3, array.IndexOf(20));
         }
 
         [Fact]
@@ -100,11 +112,25 @@ namespace Arrays.Facts
             array.Add(7);
             array[1] = 20;
 
-            Assert.Equal(-1, array.IndexOf(5));
+            Assert.Equal(-1, array.IndexOf(20));
         }
 
         [Fact]
-        public void TestInsert()
+        public void TestInsertTrue()
+        {
+            var array = new SortedIntArray();
+            array.Add(3);
+            array.Add(5);
+            array.Add(7);
+            array.Insert(1, 4);
+
+            Assert.Equal(4, array.Count);
+            Assert.True(array.Contains(4));
+            Assert.Equal(1, array.IndexOf(4));
+        }
+
+        [Fact]
+        public void TestInsertFalse()
         {
             var array = new SortedIntArray();
             array.Add(3);
@@ -112,9 +138,8 @@ namespace Arrays.Facts
             array.Add(7);
             array.Insert(1, 20);
 
-            Assert.Equal(4, array.Count);
-            Assert.True(array.Contains(20));
-            Assert.Equal(3, array.IndexOf(20));
+            Assert.Equal(3, array.Count);
+            Assert.False(array.Contains(20));
         }
 
         [Fact]

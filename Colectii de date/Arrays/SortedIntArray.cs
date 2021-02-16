@@ -14,37 +14,38 @@ namespace Arrays
             get => array[index];
             set
             {
-                array[index] = value;
-                SortArray();
+                if (IsStillSorted(index, value))
+                {
+                    array[index] = value;
+                }
             }
         }
 
         public override void Add(int element)
         {
-            EnsureCapacity();
-            array[Count] = element;
-            Count++;
+            base.Add(element);
             SortArray();
         }
 
         public override void Insert(int index, int element)
         {
-            EnsureCapacity();
-            ShiftRight(index);
-            array[index] = element;
-            SortArray();
+            if (IsStillSorted(index, element))
+            {
+                base.Insert(index, element);
+            }
         }
 
         private void SortArray()
         {
-            for (int i = 0; i < Count - 1; i++)
+            for (int i = Count - 1; i > 0; i--)
             {
-                for (int j = 0; j < Count - 1; j++)
+                if (array[i] < array[i - 1])
                 {
-                    if (array[j] > array[j + 1])
-                    {
-                        Swap(j, j + 1);
-                    }
+                    Swap(i, i - 1);
+                }
+                else
+                {
+                    return;
                 }
             }
         }
@@ -54,6 +55,24 @@ namespace Arrays
             int temp = array[firstIndex];
             array[firstIndex] = array[secondIndex];
             array[secondIndex] = temp;
+        }
+
+        private bool IsStillSorted(int index, int element)
+        {
+            if (index == 0 && element < array[index + 1])
+            {
+                return true;
+            }
+            else if (index == Count && Count > 0 && element > array[index - 1])
+            {
+                return true;
+            }
+            else if (index > 0 && index < Count && element > array[index - 1] && element < array[index + 1])
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

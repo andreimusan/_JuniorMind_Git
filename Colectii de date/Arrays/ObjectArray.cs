@@ -29,13 +29,9 @@ namespace Arrays
             Count++;
         }
 
-        public bool Contains(object element)
-        {
-            return Array.IndexOf(array, element) != -1 &&
-                Array.IndexOf(array, element) <= Count;
-        }
+        public bool Contains(object element) => Array.IndexOf(array, element, 0, Count) != -1;
 
-        public int IndexOf(object element) => Array.IndexOf(array, element) <= Count ? Array.IndexOf(array, element) : -1;
+        public int IndexOf(object element) => Array.IndexOf(array, element, 0, Count);
 
         public virtual void Insert(int index, object element)
         {
@@ -44,23 +40,11 @@ namespace Arrays
             array[index] = element;
         }
 
-        public void Clear()
-        {
-            Count = 0;
-        }
+        public void Clear() => Count = 0;
 
-        public void Remove(object element)
-        {
-            if (Contains(element))
-            {
-                ShiftLeft(IndexOf(element));
-            }
-        }
+        public void Remove(int element) => ShiftLeft(IndexOf(element));
 
-        public void RemoveAt(int index)
-        {
-            ShiftLeft(index);
-        }
+        public void RemoveAt(int index) => ShiftLeft(index);
 
         protected void EnsureCapacity()
         {
