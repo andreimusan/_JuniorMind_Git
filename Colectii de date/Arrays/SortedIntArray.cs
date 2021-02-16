@@ -62,6 +62,11 @@ namespace Arrays
 
         private bool IsSorted()
         {
+            if (Count == 0 || Count == 1)
+            {
+                return true;
+            }
+
             for (int i = 0; i < Count - 1; i++)
             {
                 if (base[i] > base[i + 1])
