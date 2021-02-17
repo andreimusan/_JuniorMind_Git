@@ -14,12 +14,9 @@ namespace Arrays
             get => base[index];
             set
             {
-                int temp = base[index];
-                base[index] = value;
-
-                if (!IsSorted(index, value))
+                if (IsSorted(index, value))
                 {
-                    base[index] = temp;
+                    base[index] = value;
                 }
             }
         }
@@ -32,10 +29,15 @@ namespace Arrays
 
         public override void Insert(int index, int element)
         {
-            base.Insert(index, element);
-            if (!IsSorted(index, element))
+            EnsureCapacity();
+            ShiftRight(index);
+            if (IsSorted(index, element))
             {
-                RemoveAt(index);
+                base[index] = element;
+            }
+            else
+            {
+                ShiftLeft(index);
             }
         }
 
@@ -63,15 +65,15 @@ namespace Arrays
 
         private bool IsSorted(int index, int element)
         {
-            if (index == 0 && element < base[index + 1])
+            if (index == 0 && element <= base[index + 1])
             {
                 return true;
             }
-            else if (index == Count && Count > 0 && element > base[index - 1])
+            else if (index == Count && Count > 0 && element >= base[index - 1])
             {
                 return true;
             }
-            else if (index > 0 && index < Count && base[index - 1] < element && element < base[index + 1])
+            else if (index > 0 && index < Count && base[index - 1] <= element && element <= base[index + 1])
             {
                 return true;
             }

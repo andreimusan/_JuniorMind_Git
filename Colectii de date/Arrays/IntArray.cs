@@ -63,7 +63,7 @@ namespace Arrays
             Count++;
         }
 
-        private void ShiftLeft(int index)
+        protected void ShiftLeft(int index)
         {
             for (int i = index; i < Count - 1; i++)
             {
