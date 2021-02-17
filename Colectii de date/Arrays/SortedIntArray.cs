@@ -14,7 +14,7 @@ namespace Arrays
             get => base[index];
             set
             {
-                if (IsSorted(index, value))
+                if (ElementAt(index - 1, value) <= value && value <= ElementAt(index + 1, value))
                 {
                     base[index] = value;
                 }
@@ -29,7 +29,7 @@ namespace Arrays
 
         public override void Insert(int index, int element)
         {
-            if (IsSorted(index, element))
+            if (ElementAt(index - 1, element) <= element && element <= ElementAt(index, element))
             {
                 base.Insert(index, element);
             }
@@ -57,24 +57,9 @@ namespace Arrays
             base[secondIndex] = temp;
         }
 
-        private bool IsSorted(int index, int element)
-        {
-            if (ElementAt(index - 1, element) <= element && element <= ElementAt(index + 1, element))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         private int ElementAt(int index, int defaultValue)
         {
-            if (index <= 0 || index >= Count)
-            {
-                return defaultValue;
-            }
-
-            return base[index];
+            return index < 0 || index >= Count ? defaultValue : base[index];
         }
     }
 }
