@@ -62,7 +62,7 @@ namespace Arrays.Facts
             array.Add(3);
             array[1] = 2;
 
-            Assert.Equal(0, array[1]);
+            Assert.Equal(1, array.Count);
         }
 
         [Fact]

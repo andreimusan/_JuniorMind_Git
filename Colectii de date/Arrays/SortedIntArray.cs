@@ -29,15 +29,9 @@ namespace Arrays
 
         public override void Insert(int index, int element)
         {
-            EnsureCapacity();
-            ShiftRight(index);
             if (IsSorted(index, element))
             {
-                base[index] = element;
-            }
-            else
-            {
-                ShiftLeft(index);
+                base.Insert(index, element);
             }
         }
 
@@ -65,20 +59,22 @@ namespace Arrays
 
         private bool IsSorted(int index, int element)
         {
-            if (index == 0 && element <= base[index + 1])
-            {
-                return true;
-            }
-            else if (index == Count && Count > 0 && element >= base[index - 1])
-            {
-                return true;
-            }
-            else if (index > 0 && index < Count && base[index - 1] <= element && element <= base[index + 1])
+            if (ElementAt(index - 1, element) <= element && element <= ElementAt(index + 1, element))
             {
                 return true;
             }
 
             return false;
+        }
+
+        private int ElementAt(int index, int defaultValue)
+        {
+            if (index <= 0 || index >= Count)
+            {
+                return defaultValue;
+            }
+
+            return base[index];
         }
     }
 }
