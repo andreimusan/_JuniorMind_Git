@@ -5,17 +5,12 @@ using Xunit;
 
 namespace Arrays.Facts
 {
-    public class ObjectArrayFacts
+    public class ObjectArrayCollectionFacts
     {
         [Fact]
         public void TestAdd()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(20);
-            array.Add(5);
-            array.Add(7);
-            array.Add(100);
+            var array = new ObjectArrayCollection { 3, 20, 5, 7, 100 };
 
             Assert.Equal(5, array.Count);
             Assert.Equal(100, array[4]);
@@ -24,12 +19,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestAddChar()
         {
-            var array = new ObjectArray();
-            array.Add('a');
-            array.Add('b');
-            array.Add('c');
-            array.Add('d');
-            array.Add('e');
+            var array = new ObjectArrayCollection { 'a', 'b', 'c', 'd', 'e' };
 
             Assert.Equal(5, array.Count);
             Assert.Equal('b', array[1]);
@@ -38,10 +28,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestCount()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
 
             Assert.Equal(3, array.Count);
         }
@@ -49,10 +36,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestElement()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
 
             Assert.Equal(5, array[1]);
         }
@@ -60,10 +44,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestSetElement()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array[1] = 20;
 
             Assert.Equal(20, array[1]);
@@ -72,12 +53,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestSetElementChar()
         {
-            var array = new ObjectArray();
-            array.Add('a');
-            array.Add('b');
-            array.Add('c');
-            array.Add('d');
-            array.Add('e');
+            var array = new ObjectArrayCollection { 'a', 'b', 'c', 'd', 'e' };
             array[1] = 'z';
 
             Assert.Equal('z', array[1]);
@@ -86,10 +62,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestContainsTrue()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array[1] = 20;
 
             Assert.True(array.Contains(20));
@@ -98,10 +71,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestContainsFalse()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array[1] = 20;
 
             Assert.False(array.Contains(5));
@@ -110,12 +80,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestContainsCharFalse()
         {
-            var array = new ObjectArray();
-            array.Add('a');
-            array.Add('b');
-            array.Add('c');
-            array.Add('d');
-            array.Add('e');
+            var array = new ObjectArrayCollection { 'a', 'b', 'c', 'd', 'e' };
             array[1] = 20;
 
             Assert.False(array.Contains(5));
@@ -124,10 +89,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestIndexOfExistingElement()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array[1] = 20;
 
             Assert.Equal(1, array.IndexOf(20));
@@ -136,10 +98,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestIndexOfNotExistingElement()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array[1] = 20;
 
             Assert.Equal(-1, array.IndexOf(5));
@@ -148,10 +107,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestInsert()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array.Insert(1, 20);
 
             Assert.Equal(4, array.Count);
@@ -161,10 +117,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestClear()
         {
-            var array = new ObjectArray();
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
+            var array = new ObjectArrayCollection { 3, 5, 7 };
             array.Clear();
 
             Assert.Equal(0, array.Count);
@@ -174,12 +127,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestRemove()
         {
-            var array = new ObjectArray();
-            array.Add(7);
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
-            array.Add(20);
+            var array = new ObjectArrayCollection { 7, 3, 5, 7, 20 };
             array.Remove(7);
             array.Add(30);
 
@@ -190,13 +138,7 @@ namespace Arrays.Facts
         [Fact]
         public void TestRemoveAt()
         {
-            var array = new ObjectArray();
-            array.Add(7);
-            array.Add(3);
-            array.Add(5);
-            array.Add(7);
-            array.Add(20);
-            array.Add(30);
+            var array = new ObjectArrayCollection { 7, 3, 5, 7, 20, 30 };
             array.RemoveAt(3);
             array.Add(40);
 

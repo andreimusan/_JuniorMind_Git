@@ -1,78 +1,40 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Arrays
 {
-    public class ObjectArray
+    public class ObjectArray : IEnumerator
     {
-        private object[] array;
+        public object[] Array;
 
-        public ObjectArray()
+        int position = -1;
+
+        public ObjectArray(object[] list)
         {
-            const int initialLength = 4;
-            array = new object[initialLength];
+            Array = list;
         }
 
-        public int Count { get; protected set; }
-
-        public virtual object this[int index]
+        object IEnumerator.Current
         {
-            get => array[index];
-            set => array[index] = value;
+            get => Current;
         }
 
-        public virtual void Add(object element)
+        public object Current
         {
-            EnsureCapacity();
-            array[Count] = element;
-            Count++;
+            get => Array[position];
         }
 
-        public bool Contains(object element) => Array.IndexOf(array, element, 0, Count) != -1;
-
-        public int IndexOf(object element) => Array.IndexOf(array, element, 0, Count);
-
-        public virtual void Insert(int index, object element)
+        public bool MoveNext()
         {
-            EnsureCapacity();
-            ShiftRight(index);
-            array[index] = element;
+            position++;
+            return position < Array.Length;
         }
 
-        public void Clear() => Count = 0;
-
-        public void Remove(int element) => ShiftLeft(IndexOf(element));
-
-        public void RemoveAt(int index) => ShiftLeft(index);
-
-        protected void EnsureCapacity()
+        public void Reset()
         {
-            if (Count == array.Length)
-            {
-                const int two = 2;
-                Array.Resize(ref array, array.Length * two);
-            }
-        }
-
-        protected void ShiftRight(int index)
-        {
-            for (int i = Count; i > index; i--)
-            {
-                array[i] = array[i - 1];
-            }
-
-            Count++;
-        }
-
-        private void ShiftLeft(int index)
-        {
-            for (int i = index; i < Count; i++)
-            {
-                array[i] = array[i + 1];
-            }
-
-            Count--;
+            position = -1;
         }
     }
 }
