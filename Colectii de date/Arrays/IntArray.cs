@@ -44,7 +44,7 @@ namespace Arrays
 
         public void RemoveAt(int index) => ShiftLeft(index);
 
-        protected void EnsureCapacity()
+        private void EnsureCapacity()
         {
             if (Count == array.Length)
             {
@@ -53,7 +53,7 @@ namespace Arrays
             }
         }
 
-        protected void ShiftRight(int index)
+        private void ShiftRight(int index)
         {
             for (int i = Count; i > index; i--)
             {
@@ -63,7 +63,7 @@ namespace Arrays
             Count++;
         }
 
-        protected void ShiftLeft(int index)
+        private void ShiftLeft(int index)
         {
             for (int i = index; i < Count - 1; i++)
             {
