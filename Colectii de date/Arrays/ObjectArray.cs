@@ -9,11 +9,13 @@ namespace Arrays
     {
         public object[] Array;
 
+        readonly int length;
         int position = -1;
 
-        public ObjectArray(object[] list)
+        public ObjectArray(object[] list, int count)
         {
             Array = list;
+            length = count;
         }
 
         object IEnumerator.Current
@@ -29,7 +31,7 @@ namespace Arrays
         public bool MoveNext()
         {
             position++;
-            return position < Array.Length;
+            return position < length;
         }
 
         public void Reset()

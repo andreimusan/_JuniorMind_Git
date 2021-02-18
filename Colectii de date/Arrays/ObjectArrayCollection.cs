@@ -30,7 +30,7 @@ namespace Arrays
 
         public ObjectArray GetEnumerator()
         {
-            return new ObjectArray(array);
+            return new ObjectArray(array, Count);
         }
 
         public virtual void Add(object element)

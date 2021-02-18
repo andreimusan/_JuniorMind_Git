@@ -146,5 +146,23 @@ namespace Arrays.Facts
             Assert.Equal(3, array.IndexOf(20));
             Assert.Equal(5, array.IndexOf(40));
         }
+
+        [Fact]
+        public void TestEnumerator()
+        {
+            var array = new ObjectArrayCollection { 7, 3, 5, 7, 20, 30 };
+            var tested = false;
+
+            foreach (var value in array)
+            {
+                if ((int)value == 20)
+                {
+                    tested = true;
+                }
+            }
+
+            Assert.Equal(6, array.Count);
+            Assert.True(tested);
+        }
     }
 }
