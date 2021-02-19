@@ -5,38 +5,80 @@ using System.Text;
 
 namespace Arrays
 {
-    public class ObjectArray : IEnumerator
+    public class ObjectArray : IEnumerable
     {
-        public object[] Array;
+        private object[] array;
 
-        readonly int length;
-        int position = -1;
-
-        public ObjectArray(object[] list, int count)
+        public ObjectArray()
         {
-            Array = list;
-            length = count;
+            const int initialLength = 4;
+            array = new object[initialLength];
         }
 
-        object IEnumerator.Current
+        public int Count { get; protected set; }
+
+        public virtual object this[int index]
         {
-            get => Current;
+            get => array[index];
+            set => array[index] = value;
         }
 
-        public object Current
+        public IEnumerator GetEnumerator()
         {
-            get => Array[position];
+            return new ObjectArrayEnumerator(this);
         }
 
-        public bool MoveNext()
+        public virtual void Add(object element)
         {
-            position++;
-            return position < length;
+            EnsureCapacity();
+            array[Count] = element;
+            Count++;
         }
 
-        public void Reset()
+        public bool Contains(object element) => Array.IndexOf(array, element, 0, Count) != -1;
+
+        public int IndexOf(object element) => Array.IndexOf(array, element, 0, Count);
+
+        public virtual void Insert(int index, object element)
         {
-            position = -1;
+            EnsureCapacity();
+            ShiftRight(index);
+            array[index] = element;
+        }
+
+        public void Clear() => Count = 0;
+
+        public void Remove(int element) => ShiftLeft(IndexOf(element));
+
+        public void RemoveAt(int index) => ShiftLeft(index);
+
+        protected void EnsureCapacity()
+        {
+            if (Count == array.Length)
+            {
+                const int two = 2;
+                Array.Resize(ref array, array.Length * two);
+            }
+        }
+
+        protected void ShiftRight(int index)
+        {
+            for (int i = Count; i > index; i--)
+            {
+                array[i] = array[i - 1];
+            }
+
+            Count++;
+        }
+
+        private void ShiftLeft(int index)
+        {
+            for (int i = index; i < Count; i++)
+            {
+                array[i] = array[i + 1];
+            }
+
+            Count--;
         }
     }
 }
