@@ -25,7 +25,17 @@ namespace Arrays
 
         public IEnumerator GetEnumerator()
         {
-            return new ObjectArrayEnumerator(this);
+            int count = 0;
+            foreach (var element in array)
+            {
+                if (count == Count)
+                {
+                    yield break;
+                }
+
+                count++;
+                yield return element;
+            }
         }
 
         public virtual void Add(object element)

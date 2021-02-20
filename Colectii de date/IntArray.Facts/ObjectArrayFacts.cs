@@ -175,5 +175,23 @@ namespace Arrays.Facts
             Assert.True(tested);
             Assert.True(testedA);
         }
+
+        [Fact]
+        public void TestYield()
+        {
+            var array = new ObjectArray { 7, 3, 5, 7, 20, 30 };
+            var tested = false;
+
+            foreach (var value in array)
+            {
+                if ((int)value == 20)
+                {
+                    tested = true;
+                }
+            }
+
+            Assert.Equal(6, array.Count);
+            Assert.True(tested);
+        }
     }
 }
