@@ -5,40 +5,38 @@ using System.Text;
 
 namespace Arrays
 {
-    public class ObjectArray : IEnumerable
+    public class List<T> : IEnumerable<T>
     {
-        private object[] array;
+        private T[] array;
 
-        public ObjectArray()
+        public List()
         {
             const int initialLength = 4;
-            array = new object[initialLength];
+            array = new T[initialLength];
         }
 
         public int Count { get; protected set; }
 
-        public virtual object this[int index]
+        public virtual T this[int index]
         {
             get => array[index];
             set => array[index] = value;
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            int count = 0;
-            foreach (var element in array)
-            {
-                if (count == Count)
-                {
-                    yield break;
-                }
+            return this.GetEnumerator();
+        }
 
-                count++;
-                yield return element;
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                yield return array[i];
             }
         }
 
-        public virtual void Add(object element)
+        public virtual void Add(T element)
         {
             EnsureCapacity();
             array[Count] = element;
@@ -49,7 +47,7 @@ namespace Arrays
 
         public int IndexOf(object element) => Array.IndexOf(array, element, 0, Count);
 
-        public virtual void Insert(int index, object element)
+        public virtual void Insert(int index, T element)
         {
             EnsureCapacity();
             ShiftRight(index);

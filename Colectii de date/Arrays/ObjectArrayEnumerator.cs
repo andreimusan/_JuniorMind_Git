@@ -7,11 +7,11 @@ namespace Arrays
 {
     public class ObjectArrayEnumerator : IEnumerator
     {
-        public ObjectArray Array;
+        public List<int> Array;
 
         int position = -1;
 
-        public ObjectArrayEnumerator(ObjectArray array)
+        public ObjectArrayEnumerator(List<int> array)
         {
             Array = array;
         }
