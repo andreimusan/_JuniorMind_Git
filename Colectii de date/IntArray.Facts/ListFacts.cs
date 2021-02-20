@@ -81,7 +81,7 @@ namespace Arrays.Facts
             var list = new List<Char> { 'a', 'b', 'c', 'd', 'e' };
             list[1] = '2';
 
-            Assert.False(list.Contains(5));
+            Assert.False(list.Contains('5'));
         }
 
         [Fact]

@@ -43,9 +43,9 @@ namespace Arrays
             Count++;
         }
 
-        public bool Contains(object element) => Array.IndexOf(array, element, 0, Count) != -1;
+        public bool Contains(T element) => Array.IndexOf(array, element, 0, Count) != -1;
 
-        public int IndexOf(object element) => Array.IndexOf(array, element, 0, Count);
+        public int IndexOf(T element) => Array.IndexOf(array, element, 0, Count);
 
         public virtual void Insert(int index, T element)
         {
@@ -56,7 +56,7 @@ namespace Arrays
 
         public void Clear() => Count = 0;
 
-        public void Remove(int element) => ShiftLeft(IndexOf(element));
+        public void Remove(T element) => ShiftLeft(IndexOf(element));
 
         public void RemoveAt(int index) => ShiftLeft(index);
 
