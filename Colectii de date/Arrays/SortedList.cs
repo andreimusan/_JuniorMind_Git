@@ -24,17 +24,17 @@ namespace Arrays
             }
         }
 
-        public override void Add(T element)
+        public override void Add(T item)
         {
-            base.Add(element);
+            base.Add(item);
             SortArray();
         }
 
-        public override void Insert(int index, T element)
+        public override void Insert(int index, T item)
         {
-            if (ElementAt(index - 1, element).CompareTo(element) <= 0 && element.CompareTo(ElementAt(index, element)) <= 0)
+            if (ElementAt(index - 1, item).CompareTo(item) <= 0 && item.CompareTo(ElementAt(index, item)) <= 0)
             {
-                base.Insert(index, element);
+                base.Insert(index, item);
             }
         }
 

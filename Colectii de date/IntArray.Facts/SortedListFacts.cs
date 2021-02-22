@@ -146,5 +146,18 @@ namespace Arrays.Facts
             Assert.Equal(3, list.IndexOf(20));
             Assert.Equal(5, list.IndexOf(40));
         }
+
+        [Fact]
+        public void TestSortedListChar()
+        {
+            var list = new SortedList<int>() { 'a', 'e', 'd', 'c', 'b' };
+            list.RemoveAt(2);
+            list.Add('b');
+            list.Insert(4, 'd');
+
+            Assert.Equal(6, list.Count);
+            Assert.Equal('b', list[1]);
+            Assert.Equal('e', list[5]);
+        }
     }
 }

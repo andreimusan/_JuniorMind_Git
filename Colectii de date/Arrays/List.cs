@@ -36,22 +36,22 @@ namespace Arrays
             }
         }
 
-        public virtual void Add(T element)
+        public virtual void Add(T item)
         {
             EnsureCapacity();
-            array[Count] = element;
+            array[Count] = item;
             Count++;
         }
 
-        public bool Contains(T element) => Array.IndexOf(array, element, 0, Count) != -1;
+        public bool Contains(T item) => Array.IndexOf(array, item, 0, Count) != -1;
 
-        public int IndexOf(T element) => Array.IndexOf(array, element, 0, Count);
+        public int IndexOf(T item) => Array.IndexOf(array, item, 0, Count);
 
-        public virtual void Insert(int index, T element)
+        public virtual void Insert(int index, T item)
         {
             EnsureCapacity();
             ShiftRight(index);
-            array[index] = element;
+            array[index] = item;
         }
 
         public void Clear() => Count = 0;
