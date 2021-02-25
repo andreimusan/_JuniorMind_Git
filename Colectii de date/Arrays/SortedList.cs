@@ -64,15 +64,5 @@ namespace Arrays
         {
             return index < 0 || index >= Count ? defaultValue : base[index];
         }
-
-        private int CompareTo(T operand1, T operand2)
-        {
-            if (operand1 == null || operand2 == null)
-            {
-                return 1;
-            }
-
-            return operand1.CompareTo(operand2);
-        }
     }
 }

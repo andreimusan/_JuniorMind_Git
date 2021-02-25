@@ -63,7 +63,7 @@ namespace Arrays.Facts
             var list = new List<int> { 3, 5, 7 };
             list[1] = 20;
 
-            Assert.True(list.Contains(20));
+            Assert.Contains(20, list);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace Arrays.Facts
             var list = new List<int> { 3, 5, 7 };
             list[1] = 20;
 
-            Assert.False(list.Contains(5));
+            Assert.DoesNotContain(5, list);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace Arrays.Facts
             var list = new List<Char> { 'a', 'b', 'c', 'd', 'e' };
             list[1] = '2';
 
-            Assert.False(list.Contains('5'));
+            Assert.DoesNotContain('5', list);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace Arrays.Facts
             list.Insert(1, 20);
 
             Assert.Equal(4, list.Count);
-            Assert.True(list.Contains(20));
+            Assert.Contains(20, list);
         }
 
         [Fact]
@@ -118,8 +118,8 @@ namespace Arrays.Facts
             var list = new List<int> { 3, 5, 7 };
             list.Clear();
 
-            Assert.Equal(0, list.Count);
-            Assert.False(list.Contains(5));
+            Assert.Empty(list);
+            Assert.DoesNotContain(5, list);
         }
 
         [Fact]
@@ -190,6 +190,18 @@ namespace Arrays.Facts
 
             Assert.Equal(6, list.Count);
             Assert.True(tested);
+        }
+
+        [Fact]
+        public void TestCopyTo()
+        {
+            var list = new List<int> { 7, 3, 5, 7, 20, 30 };
+            var array = new int[list.Count];
+
+            list.CopyTo(array, 2);
+
+            Assert.Equal(6, array.Length);
+            Assert.Equal(5, array[0]);
         }
     }
 }

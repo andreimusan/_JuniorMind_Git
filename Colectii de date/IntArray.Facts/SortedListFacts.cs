@@ -46,7 +46,7 @@ namespace Arrays.Facts
             var list = new SortedList<int>() { 3 };
             list[1] = 2;
 
-            Assert.Equal(1, list.Count);
+            Assert.Single(list);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace Arrays.Facts
         {
             var list = new SortedList<int>() { 3, 5, 7, 20 };
 
-            Assert.True(list.Contains(20));
+            Assert.Contains(20, list);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace Arrays.Facts
             var list = new SortedList<int>() { 3, 5, 7 };
             list[1] = 20;
 
-            Assert.False(list.Contains(20));
+            Assert.DoesNotContain(20, list);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Arrays.Facts
             list.Insert(1, 4);
 
             Assert.Equal(4, list.Count);
-            Assert.True(list.Contains(4));
+            Assert.Contains(4, list);
             Assert.Equal(1, list.IndexOf(4));
         }
 
@@ -110,7 +110,7 @@ namespace Arrays.Facts
             list.Insert(0, 20);
 
             Assert.Equal(3, list.Count);
-            Assert.False(list.Contains(20));
+            Assert.DoesNotContain(20, list);
         }
 
         [Fact]
@@ -119,8 +119,8 @@ namespace Arrays.Facts
             var list = new SortedList<int>() { 3, 5, 7 };
             list.Clear();
 
-            Assert.Equal(0, list.Count);
-            Assert.False(list.Contains(5));
+            Assert.Empty(list);
+            Assert.DoesNotContain(5, list);
         }
 
         [Fact]

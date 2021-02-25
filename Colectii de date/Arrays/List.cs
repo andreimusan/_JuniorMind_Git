@@ -5,22 +5,24 @@ using System.Text;
 
 namespace Arrays
 {
-    public class List<T> : IEnumerable<T>
+    public class List<T> : IList<T>
     {
-        private T[] array;
+        private T[] list;
 
         public List()
         {
             const int initialLength = 4;
-            array = new T[initialLength];
+            list = new T[initialLength];
         }
 
         public int Count { get; protected set; }
 
+        public bool IsReadOnly { get; }
+
         public virtual T this[int index]
         {
-            get => array[index];
-            set => array[index] = value;
+            get => list[index];
+            set => list[index] = value;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -32,40 +34,62 @@ namespace Arrays
         {
             for (int i = 0; i < Count; i++)
             {
-                yield return array[i];
+                yield return list[i];
             }
         }
 
         public virtual void Add(T item)
         {
             EnsureCapacity();
-            array[Count] = item;
+            list[Count] = item;
             Count++;
         }
 
-        public bool Contains(T item) => Array.IndexOf(array, item, 0, Count) != -1;
+        public bool Contains(T item) => Array.IndexOf(list, item, 0, Count) != -1;
 
-        public int IndexOf(T item) => Array.IndexOf(array, item, 0, Count);
+        public int IndexOf(T item) => Array.IndexOf(list, item, 0, Count);
 
         public virtual void Insert(int index, T item)
         {
             EnsureCapacity();
             ShiftRight(index);
-            array[index] = item;
+            list[index] = item;
         }
 
         public void Clear() => Count = 0;
 
-        public void Remove(T element) => ShiftLeft(IndexOf(element));
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if (array == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < Count; i++)
+            {
+                array[i] = list[i + arrayIndex];
+            }
+        }
+
+        public bool Remove(T item)
+        {
+            if (Contains(item))
+            {
+                ShiftLeft(IndexOf(item));
+                return true;
+            }
+
+            return false;
+        }
 
         public void RemoveAt(int index) => ShiftLeft(index);
 
         protected void EnsureCapacity()
         {
-            if (Count == array.Length)
+            if (Count == list.Length)
             {
                 const int two = 2;
-                Array.Resize(ref array, array.Length * two);
+                Array.Resize(ref list, list.Length * two);
             }
         }
 
@@ -73,7 +97,7 @@ namespace Arrays
         {
             for (int i = Count; i > index; i--)
             {
-                array[i] = array[i - 1];
+                list[i] = list[i - 1];
             }
 
             Count++;
@@ -83,7 +107,7 @@ namespace Arrays
         {
             for (int i = index; i < Count; i++)
             {
-                array[i] = array[i + 1];
+                list[i] = list[i + 1];
             }
 
             Count--;
