@@ -196,12 +196,12 @@ namespace Arrays.Facts
         public void TestCopyTo()
         {
             var list = new List<int> { 7, 3, 5, 7, 20, 30 };
-            var array = new int[list.Count];
+            var array = new int[8];
 
             list.CopyTo(array, 2);
 
-            Assert.Equal(6, array.Length);
-            Assert.Equal(5, array[0]);
+            Assert.Equal(8, array.Length);
+            Assert.Equal(list[0], array[2]);
         }
     }
 }
