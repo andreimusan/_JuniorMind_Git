@@ -44,7 +44,11 @@ namespace Arrays
             {
                 if (base[i].CompareTo(base[i - 1]) < 0)
                 {
-                    Swap(i, i - 1);
+                    T a = base[i];
+                    T b = base[i - 1];
+                    Swap(ref a, ref b);
+                    base[i] = a;
+                    base[i - 1] = b;
                 }
                 else
                 {
@@ -53,11 +57,11 @@ namespace Arrays
             }
         }
 
-        private void Swap(int firstIndex, int secondIndex)
+        private void Swap<T>(ref T a, ref T b)
         {
-            T temp = base[firstIndex];
-            base[firstIndex] = base[secondIndex];
-            base[secondIndex] = temp;
+            T temp = a;
+            a = b;
+            b = temp;
         }
 
         private T ElementAt(int index, T defaultValue)
