@@ -159,5 +159,71 @@ namespace Arrays.Facts
             Assert.Equal('b', list[1]);
             Assert.Equal('e', list[5]);
         }
+
+        [Fact]
+        public void TestIndexerGetException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => list[-1]);
+            Assert.Equal("Index was out of range. Must be non-negative and less than the size of the collection. (Parameter '-1')", exception.Message);
+        }
+
+        [Fact]
+        public void TestIndexerSetException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => list[10] = 10);
+            Assert.Equal("Index was out of range. Must be non-negative and less than the size of the collection. (Parameter '10')", exception.Message);
+        }
+
+        [Fact]
+        public void TestInsertException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, 20));
+            Assert.Equal("Index was out of range. Must be non-negative and less than the size of the collection. (Parameter '-1')", exception.Message);
+        }
+
+        [Fact]
+        public void TestRemoveAtException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(20));
+            Assert.Equal("Index was out of range. Must be non-negative and less than the size of the collection. (Parameter '20')", exception.Message);
+        }
+
+        [Fact]
+        public void TestCopyToNullException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+            int[] array = null;
+
+            var exception = Assert.Throws<ArgumentNullException>(() => list.CopyTo(array, 0));
+            Assert.Equal("Array is null. (Parameter '0')", exception.Message);
+        }
+
+        [Fact]
+        public void TestCopyToOutOfRangeException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+            var array = new int[8];
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => list.CopyTo(array, -1));
+            Assert.Equal("Index was out of range. Must be positive. (Parameter '-1')", exception.Message);
+        }
+
+        [Fact]
+        public void TestCopyToArgumentException()
+        {
+            var list = new SortedList<int> { 7, 3, 5, 7, 20, 30 };
+            var array = new int[8];
+
+            var exception = Assert.Throws<ArgumentException>(() => list.CopyTo(array, 8));
+            Assert.Equal("The number of elements to copy is greater than the available space in the array.", exception.Message);
+        }
     }
 }

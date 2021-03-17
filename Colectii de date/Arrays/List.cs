@@ -7,6 +7,7 @@ namespace Arrays
 {
     public class List<T> : IList<T>
     {
+        private readonly string errorMessageArgumentOutOfRangeException = "Index was out of range. Must be non-negative and less than the size of the collection.";
         private T[] list;
 
         public List()
@@ -21,8 +22,25 @@ namespace Arrays
 
         public virtual T this[int index]
         {
-            get => list[index];
-            set => list[index] = value;
+            get
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
+                }
+
+                return list[index];
+            }
+
+            set
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
+                }
+
+                list[index] = value;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -51,6 +69,11 @@ namespace Arrays
 
         public virtual void Insert(int index, T item)
         {
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
+            }
+
             EnsureCapacity();
             ShiftRight(index);
             list[index] = item;
@@ -62,7 +85,17 @@ namespace Arrays
         {
             if (array == null)
             {
-                return;
+                throw new ArgumentNullException(Convert.ToString(arrayIndex), "Array is null.");
+            }
+
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(arrayIndex), "Index was out of range. Must be positive.");
+            }
+
+            if (array.Length - arrayIndex < Count)
+            {
+                throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
             }
 
             for (int i = 0; i < Count; i++)
@@ -82,7 +115,15 @@ namespace Arrays
             return false;
         }
 
-        public void RemoveAt(int index) => ShiftLeft(index);
+        public void RemoveAt(int index)
+        {
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
+            }
+
+            ShiftLeft(index);
+        }
 
         protected void EnsureCapacity()
         {
