@@ -24,20 +24,14 @@ namespace Arrays
         {
             get
             {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
-                }
+                ExceptionForArgumentOutOfRange(index);
 
                 return list[index];
             }
 
             set
             {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
-                }
+                ExceptionForArgumentOutOfRange(index);
 
                 list[index] = value;
             }
@@ -69,17 +63,14 @@ namespace Arrays
 
         public virtual void Insert(int index, T item)
         {
-            if (index < 0 || index >= Count)
-            {
-                throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
-            }
+            ExceptionForArgumentOutOfRange(index);
 
             EnsureCapacity();
             ShiftRight(index);
             list[index] = item;
         }
 
-        public void Clear() => Count = 0;
+        public virtual void Clear() => Count = 0;
 
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -104,7 +95,7 @@ namespace Arrays
             }
         }
 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
             if (Contains(item))
             {
@@ -115,12 +106,9 @@ namespace Arrays
             return false;
         }
 
-        public void RemoveAt(int index)
+        public virtual void RemoveAt(int index)
         {
-            if (index < 0 || index >= Count)
-            {
-                throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
-            }
+            ExceptionForArgumentOutOfRange(index);
 
             ShiftLeft(index);
         }
@@ -152,6 +140,14 @@ namespace Arrays
             }
 
             Count--;
+        }
+
+        private void ExceptionForArgumentOutOfRange(int index)
+        {
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
+            }
         }
     }
 }
