@@ -1,68 +1,104 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Arrays
 {
-    public class ReadonlyList<T> : List<T>
+    public class ReadOnlyList<T> : IList<T>
     {
-        public ReadonlyList()
-            : base()
+        private readonly IList<T> readOnlyList;
+
+        public ReadOnlyList(IList<T> list)
         {
+            if (list == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(list), "Array is null.");
+            }
+
+            readOnlyList = list;
         }
 
-        public new bool IsReadOnly
+        public int Count { get; }
+
+        public bool IsReadOnly
         {
             get { return true; }
         }
 
-        public override T this[int index]
+        public T this[int index]
         {
-            get => base[index];
+            get
+            {
+                return this[index];
+            }
+
             set
             {
                 ExceptionForReadonly();
-                base[index] = value;
+                readOnlyList[index] = value;
             }
         }
 
-        public override void Add(T item)
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            ExceptionForReadonly();
-            base.Add(item);
+            return this.GetEnumerator();
         }
 
-        public override void Insert(int index, T item)
+        public IEnumerator<T> GetEnumerator()
         {
-            ExceptionForReadonly();
-            base.Insert(index, item);
+            for (int i = 0; i < Count; i++)
+            {
+                yield return readOnlyList[i];
+            }
         }
 
-        public override void Clear()
+        public void Add(T item)
         {
             ExceptionForReadonly();
-            base.Clear();
         }
 
-        public override bool Remove(T item)
+        public bool Contains(T item) => Array.IndexOf((T[])readOnlyList, item, 0, Count) != -1;
+
+        public int IndexOf(T item) => Array.IndexOf((T[])readOnlyList, item, 0, Count);
+
+        public void Insert(int index, T item) => ExceptionForReadonly();
+
+        public void Clear() => ExceptionForReadonly();
+
+        public void CopyTo(T[] array, int arrayIndex)
         {
-            ExceptionForReadonly();
-            base.Remove(item);
+            if (array == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(arrayIndex), "Array is null.");
+            }
+
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(arrayIndex), "Index was out of range. Must be positive.");
+            }
+
+            if (array.Length - arrayIndex < Count)
+            {
+                throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
+            }
+
+            for (int i = 0; i < Count; i++)
+            {
+                array[i + arrayIndex] = readOnlyList[i];
+            }
         }
 
-        public override void RemoveAt(int index)
+        public bool Remove(T item)
         {
             ExceptionForReadonly();
-            base.RemoveAt(index);
+            return false;
         }
+
+        public void RemoveAt(int index) => ExceptionForReadonly();
 
         private void ExceptionForReadonly()
         {
-            if (IsReadOnly)
-            {
-                throw new NotSupportedException("Collection is read-only.");
-            }
+            throw new NotSupportedException("Collection is read-only.");
         }
     }
 }

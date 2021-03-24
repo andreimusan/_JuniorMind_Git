@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Arrays
 {
     public class List<T> : IList<T>
     {
-        private readonly string errorMessageArgumentOutOfRangeException = "Index was out of range. Must be non-negative and less than the size of the collection.";
         private T[] list;
 
         public List()
@@ -70,7 +68,7 @@ namespace Arrays
             list[index] = item;
         }
 
-        public virtual void Clear() => Count = 0;
+        public void Clear() => Count = 0;
 
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -95,7 +93,7 @@ namespace Arrays
             }
         }
 
-        public virtual bool Remove(T item)
+        public bool Remove(T item)
         {
             if (Contains(item))
             {
@@ -106,7 +104,7 @@ namespace Arrays
             return false;
         }
 
-        public virtual void RemoveAt(int index)
+        public void RemoveAt(int index)
         {
             ExceptionForArgumentOutOfRange(index);
 
@@ -146,7 +144,7 @@ namespace Arrays
         {
             if (index < 0 || index >= Count)
             {
-                throw new ArgumentOutOfRangeException(Convert.ToString(index), errorMessageArgumentOutOfRangeException);
+                throw new ArgumentOutOfRangeException(Convert.ToString(index), "Index was out of range. Must be non-negative and less than the size of the collection.");
             }
         }
     }
