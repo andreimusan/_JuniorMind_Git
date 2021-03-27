@@ -27,11 +27,7 @@ namespace Arrays
 
         public T this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-
+            get => this[index];
             set
             {
                 ExceptionForReadonly();
@@ -39,59 +35,26 @@ namespace Arrays
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => readOnlyList.GetEnumerator();
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return readOnlyList[i];
-            }
-        }
+        public IEnumerator<T> GetEnumerator() => readOnlyList.GetEnumerator();
 
-        public void Add(T item)
-        {
-            ExceptionForReadonly();
-        }
+        public void Add(T item) => ExceptionForReadonly();
 
-        public bool Contains(T item) => Array.IndexOf((T[])readOnlyList, item, 0, Count) != -1;
+        public bool Contains(T item) => readOnlyList.Contains(item);
 
-        public int IndexOf(T item) => Array.IndexOf((T[])readOnlyList, item, 0, Count);
+        public int IndexOf(T item) => readOnlyList.IndexOf(item);
 
         public void Insert(int index, T item) => ExceptionForReadonly();
 
         public void Clear() => ExceptionForReadonly();
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            if (array == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(arrayIndex), "Array is null.");
-            }
-
-            if (arrayIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException(Convert.ToString(arrayIndex), "Index was out of range. Must be positive.");
-            }
-
-            if (array.Length - arrayIndex < Count)
-            {
-                throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
-            }
-
-            for (int i = 0; i < Count; i++)
-            {
-                array[i + arrayIndex] = readOnlyList[i];
-            }
-        }
+        public void CopyTo(T[] array, int arrayIndex) => readOnlyList.CopyTo(array, arrayIndex);
 
         public bool Remove(T item)
         {
             ExceptionForReadonly();
-            return false;
+            return readOnlyList.Remove(item);
         }
 
         public void RemoveAt(int index) => ExceptionForReadonly();

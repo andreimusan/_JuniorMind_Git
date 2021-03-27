@@ -48,8 +48,8 @@ namespace Arrays.Facts
         [Fact]
         public void TestRemoveException()
         {
-            var list = new List<int> { 7, 3, 5, 7, 20, 30 };
-            var readonlyList = new ReadOnlyList<int>(list);
+            var sortedList = new SortedList<int> { 3, 5, 7, 20, 30 };
+            var readonlyList = new ReadOnlyList<int>(sortedList);
 
             var exception = Assert.Throws<NotSupportedException>(() => readonlyList.Remove(5));
             Assert.Equal("Collection is read-only.", exception.Message);
