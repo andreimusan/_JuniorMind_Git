@@ -18,7 +18,7 @@ namespace Arrays
             readOnlyList = list;
         }
 
-        public int Count { get; }
+        public int Count => readOnlyList.Count;
 
         public bool IsReadOnly
         {
@@ -28,40 +28,29 @@ namespace Arrays
         public T this[int index]
         {
             get => this[index];
-            set
-            {
-                ExceptionForReadonly();
-                readOnlyList[index] = value;
-            }
+            set => throw ExceptionForReadonly();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => readOnlyList.GetEnumerator();
 
         public IEnumerator<T> GetEnumerator() => readOnlyList.GetEnumerator();
 
-        public void Add(T item) => ExceptionForReadonly();
+        public void Add(T item) => throw ExceptionForReadonly();
 
         public bool Contains(T item) => readOnlyList.Contains(item);
 
         public int IndexOf(T item) => readOnlyList.IndexOf(item);
 
-        public void Insert(int index, T item) => ExceptionForReadonly();
+        public void Insert(int index, T item) => throw ExceptionForReadonly();
 
-        public void Clear() => ExceptionForReadonly();
+        public void Clear() => throw ExceptionForReadonly();
 
         public void CopyTo(T[] array, int arrayIndex) => readOnlyList.CopyTo(array, arrayIndex);
 
-        public bool Remove(T item)
-        {
-            ExceptionForReadonly();
-            return readOnlyList.Remove(item);
-        }
+        public bool Remove(T item) => throw ExceptionForReadonly();
 
-        public void RemoveAt(int index) => ExceptionForReadonly();
+        public void RemoveAt(int index) => throw ExceptionForReadonly();
 
-        private void ExceptionForReadonly()
-        {
-            throw new NotSupportedException("Collection is read-only.");
-        }
+        private NotSupportedException ExceptionForReadonly() => new NotSupportedException("Collection is read-only.");
     }
 }
