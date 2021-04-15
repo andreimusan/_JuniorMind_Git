@@ -163,9 +163,28 @@ namespace Arrays.Facts
             list.AddLast(linkedListNode);
             list.AddFirst(8);
             list.AddLast(5);
+            list.AddLast(4);
+            list.AddLast(3);
+            list.AddLast(2);
 
             Assert.Equal(linkedListNode, list.Find(2));
             Assert.Null(list.Find(10));
+        }
+
+        [Fact]
+        public void TestFindLast()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+            list.AddFirst(2);
+
+            Assert.Equal(linkedListNode, list.FindLast(2));
+            Assert.Null(list.FindLast(10));
         }
     }
 }

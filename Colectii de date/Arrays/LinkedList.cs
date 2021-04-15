@@ -167,6 +167,27 @@ namespace Arrays
             return null;
         }
 
+        public LinkedListNode<T> FindLast(T value)
+        {
+            if (Last == null)
+            {
+                return null;
+            }
+
+            LinkedListNode<T> tempNode = Last;
+            while (tempNode.Previous != null)
+            {
+                if (Comparer<T>.Default.Compare(tempNode.Value, value) == 0)
+                {
+                    return tempNode;
+                }
+
+                tempNode = tempNode.Previous;
+            }
+
+            return null;
+        }
+
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
         {
             if (Last == null)
