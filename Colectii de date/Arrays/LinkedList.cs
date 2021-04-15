@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -50,6 +51,55 @@ namespace Arrays
             ConnectToFirstNode(newNode);
         }
 
+        public void AddAfter(LinkedListNode<T> node, LinkedListNode<T> newNode)
+        {
+            if (node == null || newNode == null)
+            {
+                return;
+            }
+
+            ConnectAfterNode(node, newNode);
+        }
+
+        public void AddAfter(LinkedListNode<T> node, T value)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            LinkedListNode<T> newNode = new LinkedListNode<T>(value);
+            ConnectAfterNode(node, newNode);
+        }
+
+        public void AddBefore(LinkedListNode<T> node, LinkedListNode<T> newNode)
+        {
+            if (node == null || newNode == null)
+            {
+                return;
+            }
+
+            ConnectAfterNode(node.Previous, newNode);
+        }
+
+        public void AddBefore(LinkedListNode<T> node, T value)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            LinkedListNode<T> newNode = new LinkedListNode<T>(value);
+            ConnectAfterNode(node.Previous, newNode);
+        }
+
+        public void Clear()
+        {
+            Count = 0;
+            First = null;
+            Last = null;
+        }
+
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
         {
             if (Last == null)
@@ -86,6 +136,16 @@ namespace Arrays
 
             currentNode.List = this;
 
+            Count++;
+        }
+
+        private void ConnectAfterNode(LinkedListNode<T> node, LinkedListNode<T> newNode)
+        {
+            LinkedListNode<T> temp = node.Next;
+            node.Next = newNode;
+            newNode.Previous = node;
+            newNode.Next = temp;
+            temp.Previous = newNode;
             Count++;
         }
     }
