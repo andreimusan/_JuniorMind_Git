@@ -100,6 +100,27 @@ namespace Arrays
             Last = null;
         }
 
+        public bool Contains(T item)
+        {
+            if (First == null)
+            {
+                return false;
+            }
+
+            LinkedListNode<T> tempNode = First;
+            while (tempNode.Next != null)
+            {
+                if (Comparer<T>.Default.Compare(tempNode.Value, item) == 0)
+                {
+                    return true;
+                }
+
+                tempNode = tempNode.Next;
+            }
+
+            return false;
+        }
+
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
         {
             if (Last == null)

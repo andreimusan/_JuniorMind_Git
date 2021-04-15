@@ -127,5 +127,17 @@ namespace Arrays.Facts
             Assert.Null(list.First);
             Assert.Null(list.Last);
         }
+
+        [Fact]
+        public void TestContains()
+        {
+            var list = new LinkedList<int>();
+            list.AddLast(3);
+            list.AddLast(8);
+            list.AddLast(5);
+
+            Assert.True(list.Contains(8));
+            Assert.False(list.Contains(10));
+        }
     }
 }
