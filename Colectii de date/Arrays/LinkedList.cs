@@ -102,20 +102,15 @@ namespace Arrays
 
         public bool Contains(T item)
         {
-            if (First == null)
+            LinkedListNode<T> currentNode = First;
+            while (currentNode != null)
             {
-                return false;
-            }
-
-            LinkedListNode<T> tempNode = First;
-            while (tempNode.Next != null)
-            {
-                if (Comparer<T>.Default.Compare(tempNode.Value, item) == 0)
+                if (Comparer<T>.Default.Compare(currentNode.Value, item) == 0)
                 {
                     return true;
                 }
 
-                tempNode = tempNode.Next;
+                currentNode = currentNode.Next;
             }
 
             return false;
@@ -138,30 +133,25 @@ namespace Arrays
                 throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
             }
 
-            LinkedListNode<T> tempNode = First;
+            LinkedListNode<T> currentNode = First;
             for (int i = 0; i < Count; i++)
             {
-                array[i + index] = tempNode.Value;
-                tempNode = tempNode.Next;
+                array[i + index] = currentNode.Value;
+                currentNode = currentNode.Next;
             }
         }
 
         public LinkedListNode<T> Find(T value)
         {
-            if (First == null)
+            LinkedListNode<T> currentNode = First;
+            while (currentNode != null)
             {
-                return null;
-            }
-
-            LinkedListNode<T> tempNode = First;
-            while (tempNode.Next != null)
-            {
-                if (Comparer<T>.Default.Compare(tempNode.Value, value) == 0)
+                if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
-                    return tempNode;
+                    return currentNode;
                 }
 
-                tempNode = tempNode.Next;
+                currentNode = currentNode.Next;
             }
 
             return null;
@@ -169,20 +159,15 @@ namespace Arrays
 
         public LinkedListNode<T> FindLast(T value)
         {
-            if (Last == null)
+            LinkedListNode<T> currentNode = Last;
+            while (currentNode != null)
             {
-                return null;
-            }
-
-            LinkedListNode<T> tempNode = Last;
-            while (tempNode.Previous != null)
-            {
-                if (Comparer<T>.Default.Compare(tempNode.Value, value) == 0)
+                if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
-                    return tempNode;
+                    return currentNode;
                 }
 
-                tempNode = tempNode.Previous;
+                currentNode = currentNode.Previous;
             }
 
             return null;
