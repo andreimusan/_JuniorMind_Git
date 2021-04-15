@@ -139,5 +139,33 @@ namespace Arrays.Facts
             Assert.True(list.Contains(8));
             Assert.False(list.Contains(10));
         }
+
+        [Fact]
+        public void TestCopyTo()
+        {
+            var list = new LinkedList<int>();
+            list.AddLast(3);
+            list.AddLast(8);
+            list.AddLast(5);
+            var array = new int[8];
+
+            list.CopyTo(array, 2);
+
+            Assert.Equal(8, array.Length);
+            Assert.Equal(list.First.Value, array[2]);
+        }
+
+        [Fact]
+        public void TestFind()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddFirst(8);
+            list.AddLast(5);
+
+            Assert.Equal(linkedListNode, list.Find(2));
+            Assert.Null(list.Find(10));
+        }
     }
 }

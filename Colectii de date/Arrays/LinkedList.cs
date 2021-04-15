@@ -121,6 +121,52 @@ namespace Arrays
             return false;
         }
 
+        public void CopyTo(T[] array, int index)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(index), "Array is null.");
+            }
+
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(index), "Index was out of range. Must be positive.");
+            }
+
+            if (array.Length - index < Count)
+            {
+                throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
+            }
+
+            LinkedListNode<T> tempNode = First;
+            for (int i = 0; i < Count; i++)
+            {
+                array[i + index] = tempNode.Value;
+                tempNode = tempNode.Next;
+            }
+        }
+
+        public LinkedListNode<T> Find(T value)
+        {
+            if (First == null)
+            {
+                return null;
+            }
+
+            LinkedListNode<T> tempNode = First;
+            while (tempNode.Next != null)
+            {
+                if (Comparer<T>.Default.Compare(tempNode.Value, value) == 0)
+                {
+                    return tempNode;
+                }
+
+                tempNode = tempNode.Next;
+            }
+
+            return null;
+        }
+
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
         {
             if (Last == null)
