@@ -240,5 +240,39 @@ namespace Arrays.Facts
             Assert.Equal(4, list.Count);
             Assert.Equal(list.Last, linkedListNode);
         }
+
+        [Fact]
+        public void TestRemoveFirst()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddLast(5);
+            list.AddLast(4);
+            list.AddFirst(3);
+
+            list.RemoveFirst();
+
+            Assert.Equal(4, list.Count);
+            Assert.Equal(list.First, linkedListNode);
+        }
+
+        [Fact]
+        public void TestRemoveLast()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
+            list.RemoveLast();
+
+            Assert.Equal(4, list.Count);
+            Assert.Equal(list.Last, linkedListNode);
+        }
     }
 }

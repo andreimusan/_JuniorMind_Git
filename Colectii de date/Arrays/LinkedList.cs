@@ -208,6 +208,28 @@ namespace Arrays
             return false;
         }
 
+        public void RemoveFirst()
+        {
+            if (First == null)
+            {
+                throw new InvalidOperationException("The list is empty.");
+            }
+
+            First = First.Next;
+            Count--;
+        }
+
+        public void RemoveLast()
+        {
+            if (Last == null)
+            {
+                throw new InvalidOperationException("The list is empty.");
+            }
+
+            Last = Last.Previous;
+            Count--;
+        }
+
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
         {
             if (Last == null)
