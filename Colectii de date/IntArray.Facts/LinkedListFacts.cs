@@ -186,5 +186,59 @@ namespace Arrays.Facts
             Assert.Equal(linkedListNode, list.FindLast(2));
             Assert.Null(list.FindLast(10));
         }
+
+        [Fact]
+        public void TestRemove()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
+            var testRemove = list.Remove(2);
+
+            Assert.True(testRemove);
+            Assert.Equal(4, list.Count);
+            Assert.Equal(list.Find(5).Next, list.FindLast(8));
+        }
+
+        [Fact]
+        public void TestRemoveFromFirstPosition()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
+            var testRemove = list.Remove(3);
+
+            Assert.True(testRemove);
+            Assert.Equal(4, list.Count);
+            Assert.Equal(list.First, list.Find(4));
+        }
+
+        [Fact]
+        public void TestRemoveFromLastPosition()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
+            var testRemove = list.Remove(8);
+
+            Assert.True(testRemove);
+            Assert.Equal(4, list.Count);
+            Assert.Equal(list.Last, linkedListNode);
+        }
     }
 }

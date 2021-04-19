@@ -173,6 +173,41 @@ namespace Arrays
             return null;
         }
 
+        public bool Remove(T value)
+        {
+            LinkedListNode<T> currentNode = First;
+            while (currentNode != null)
+            {
+                if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
+                {
+                    if (currentNode.Next == null)
+                    {
+                        Last = currentNode.Previous;
+                    }
+                    else
+                    {
+                        currentNode.Next.Previous = currentNode.Previous;
+                    }
+
+                    if (currentNode.Previous == null)
+                    {
+                        First = currentNode.Next;
+                    }
+                    else
+                    {
+                        currentNode.Previous.Next = currentNode.Next;
+                    }
+
+                    Count--;
+                    return true;
+                }
+
+                currentNode = currentNode.Next;
+            }
+
+            return false;
+        }
+
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
         {
             if (Last == null)
