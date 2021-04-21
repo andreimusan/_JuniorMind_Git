@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Arrays
 {
-    public class LinkedList<T>
+    public class LinkedList<T> : ICollection<T>
     {
         public LinkedList()
         {
@@ -19,13 +19,12 @@ namespace Arrays
 
         public int Count { get; private set; }
 
+        public bool IsReadOnly { get; }
+
         public void AddLast(LinkedListNode<T> node)
         {
-            if (node == null)
-            {
-                return;
-            }
-
+            ExceptionForArgumentNull(node);
+            ExceptionForNodeBelongsToAnotherList(node);
             ConnectToLastNode(node);
         }
 
@@ -37,11 +36,8 @@ namespace Arrays
 
         public void AddFirst(LinkedListNode<T> node)
         {
-            if (node == null)
-            {
-                return;
-            }
-
+            ExceptionForArgumentNull(node);
+            ExceptionForNodeBelongsToAnotherList(node);
             ConnectToFirstNode(node);
         }
 
@@ -53,20 +49,19 @@ namespace Arrays
 
         public void AddAfter(LinkedListNode<T> node, LinkedListNode<T> newNode)
         {
-            if (node == null || newNode == null)
-            {
-                return;
-            }
+            ExceptionForArgumentNull(node);
+            ExceptionForArgumentNull(newNode);
+
+            ExceptionForNodeNotExistingInList(node);
+            ExceptionForNodeBelongsToAnotherList(newNode);
 
             ConnectAfterNode(node, newNode);
         }
 
         public void AddAfter(LinkedListNode<T> node, T value)
         {
-            if (node == null)
-            {
-                return;
-            }
+            ExceptionForArgumentNull(node);
+            ExceptionForNodeNotExistingInList(node);
 
             LinkedListNode<T> newNode = new LinkedListNode<T>(value);
             ConnectAfterNode(node, newNode);
@@ -74,23 +69,27 @@ namespace Arrays
 
         public void AddBefore(LinkedListNode<T> node, LinkedListNode<T> newNode)
         {
-            if (node == null || newNode == null)
-            {
-                return;
-            }
+            ExceptionForArgumentNull(node);
+            ExceptionForArgumentNull(newNode);
+
+            ExceptionForNodeNotExistingInList(node);
+            ExceptionForNodeBelongsToAnotherList(newNode);
 
             ConnectAfterNode(node.Previous, newNode);
         }
 
         public void AddBefore(LinkedListNode<T> node, T value)
         {
-            if (node == null)
-            {
-                return;
-            }
+            ExceptionForArgumentNull(node);
+            ExceptionForNodeNotExistingInList(node);
 
             LinkedListNode<T> newNode = new LinkedListNode<T>(value);
             ConnectAfterNode(node.Previous, newNode);
+        }
+
+        public void Add(T item)
+        {
+            AddLast(item);
         }
 
         public void Clear()
@@ -116,19 +115,19 @@ namespace Arrays
             return false;
         }
 
-        public void CopyTo(T[] array, int index)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             if (array == null)
             {
-                throw new ArgumentNullException(Convert.ToString(index), "Array is null.");
+                throw new ArgumentNullException(Convert.ToString(arrayIndex), "Array is null.");
             }
 
-            if (index < 0)
+            if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException(Convert.ToString(index), "Index was out of range. Must be positive.");
+                throw new ArgumentOutOfRangeException(Convert.ToString(arrayIndex), "Index was out of range. Must be positive.");
             }
 
-            if (array.Length - index < Count)
+            if (array.Length - arrayIndex < Count)
             {
                 throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
             }
@@ -136,7 +135,7 @@ namespace Arrays
             LinkedListNode<T> currentNode = First;
             for (int i = 0; i < Count; i++)
             {
-                array[i + index] = currentNode.Value;
+                array[i + arrayIndex] = currentNode.Value;
                 currentNode = currentNode.Next;
             }
         }
@@ -173,36 +172,21 @@ namespace Arrays
             return null;
         }
 
-        public bool Remove(T value)
+        public void Remove(LinkedListNode<T> node)
         {
-            LinkedListNode<T> currentNode = First;
-            while (currentNode != null)
+            ExceptionForArgumentNull(node);
+            ExceptionForNodeNotExistingInList(node);
+
+            DisconnectNode(node);
+        }
+
+        public bool Remove(T item)
+        {
+            LinkedListNode<T> nodeToRemove = Find(item);
+            if (nodeToRemove != null)
             {
-                if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
-                {
-                    if (currentNode.Next == null)
-                    {
-                        Last = currentNode.Previous;
-                    }
-                    else
-                    {
-                        currentNode.Next.Previous = currentNode.Previous;
-                    }
-
-                    if (currentNode.Previous == null)
-                    {
-                        First = currentNode.Next;
-                    }
-                    else
-                    {
-                        currentNode.Previous.Next = currentNode.Next;
-                    }
-
-                    Count--;
-                    return true;
-                }
-
-                currentNode = currentNode.Next;
+                DisconnectNode(nodeToRemove);
+                return true;
             }
 
             return false;
@@ -210,10 +194,7 @@ namespace Arrays
 
         public void RemoveFirst()
         {
-            if (First == null)
-            {
-                throw new InvalidOperationException("The list is empty.");
-            }
+            ExceptionForEmptyList();
 
             First = First.Next;
             Count--;
@@ -221,13 +202,25 @@ namespace Arrays
 
         public void RemoveLast()
         {
-            if (Last == null)
-            {
-                throw new InvalidOperationException("The list is empty.");
-            }
+            ExceptionForEmptyList();
 
             Last = Last.Previous;
             Count--;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            LinkedListNode<T> current = First;
+            while (current != null)
+            {
+                yield return current.Value;
+                current = current.Next;
+            }
         }
 
         private void ConnectToLastNode(LinkedListNode<T> currentNode)
@@ -243,8 +236,6 @@ namespace Arrays
             }
 
             Last = currentNode;
-
-            currentNode.List = this;
 
             Count++;
         }
@@ -264,9 +255,23 @@ namespace Arrays
 
             First = currentNode;
 
-            currentNode.List = this;
-
             Count++;
+        }
+
+        private LinkedListNode<T> FindNode(LinkedListNode<T> node)
+        {
+            LinkedListNode<T> currentNode = First;
+            while (currentNode != null)
+            {
+                if (Comparer<T>.Default.Compare(currentNode.Value, node.Value) == 0 && currentNode.Previous == node.Previous && currentNode.Next == node.Next)
+                {
+                    return currentNode;
+                }
+
+                currentNode = currentNode.Next;
+            }
+
+            return null;
         }
 
         private void ConnectAfterNode(LinkedListNode<T> node, LinkedListNode<T> newNode)
@@ -277,6 +282,61 @@ namespace Arrays
             newNode.Next = temp;
             temp.Previous = newNode;
             Count++;
+        }
+
+        private void DisconnectNode(LinkedListNode<T> node)
+        {
+            if (node.Next == null)
+            {
+                Last = node.Previous;
+            }
+            else
+            {
+                node.Next.Previous = node.Previous;
+            }
+
+            if (node.Previous == null)
+            {
+                First = node.Next;
+            }
+            else
+            {
+                node.Previous.Next = node.Next;
+            }
+
+            Count--;
+        }
+
+        private void ExceptionForArgumentNull(LinkedListNode<T> node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(node), "Node is null.");
+            }
+        }
+
+        private void ExceptionForNodeBelongsToAnotherList(LinkedListNode<T> node)
+        {
+            if (node.Previous != null || node.Next != null)
+            {
+                throw new InvalidOperationException("Node belongs to another LinkedList<T>.");
+            }
+        }
+
+        private void ExceptionForNodeNotExistingInList(LinkedListNode<T> node = null)
+        {
+            if (FindNode(node) == null)
+            {
+                throw new InvalidOperationException("Node is not in the current LinkedList<T>.");
+            }
+        }
+
+        private void ExceptionForEmptyList()
+        {
+            if (First == null || Last == null)
+            {
+                throw new InvalidOperationException("The list is empty.");
+            }
         }
     }
 }

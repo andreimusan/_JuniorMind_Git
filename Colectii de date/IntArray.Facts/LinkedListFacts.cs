@@ -123,7 +123,7 @@ namespace Arrays.Facts
             list.AddLast(5);
             list.Clear();
 
-            Assert.Equal(0, list.Count);
+            Assert.Empty(list);
             Assert.Null(list.First);
             Assert.Null(list.Last);
         }
@@ -136,8 +136,8 @@ namespace Arrays.Facts
             list.AddLast(8);
             list.AddLast(5);
 
-            Assert.True(list.Contains(8));
-            Assert.False(list.Contains(10));
+            Assert.Contains(8, list);
+            Assert.DoesNotContain(10, list);
         }
 
         [Fact]
@@ -198,11 +198,45 @@ namespace Arrays.Facts
             list.AddFirst(4);
             list.AddFirst(3);
 
+            list.Remove(linkedListNode);
+
+            Assert.Equal(4, list.Count);
+            Assert.Equal(list.Find(5).Next, list.FindLast(8));
+        }
+
+        [Fact]
+        public void TestRemoveExistingValue()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
             var testRemove = list.Remove(2);
 
             Assert.True(testRemove);
             Assert.Equal(4, list.Count);
             Assert.Equal(list.Find(5).Next, list.FindLast(8));
+        }
+
+        [Fact]
+        public void TestRemoveNonExistingValue()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
+            var testRemove = list.Remove(10);
+
+            Assert.False(testRemove);
+            Assert.Equal(5, list.Count);
         }
 
         [Fact]
@@ -273,6 +307,153 @@ namespace Arrays.Facts
 
             Assert.Equal(4, list.Count);
             Assert.Equal(list.Last, linkedListNode);
+        }
+
+        [Fact]
+        public void TestYield()
+        {
+            var list = new LinkedList<int>();
+            var linkedListNode = new LinkedListNode<int>(2);
+            list.AddLast(linkedListNode);
+            list.AddLast(8);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+            var tested = false;
+
+            foreach (var value in list)
+            {
+                if ((int)value == 8)
+                {
+                    tested = true;
+                }
+            }
+
+            Assert.Equal(5, list.Count);
+            Assert.True(tested);
+        }
+
+        [Fact]
+        public void TestAddLastNullException()
+        {
+            LinkedListNode<int> linkedListNode = null;
+            var list = new LinkedList<int>();
+            list.AddLast(3);
+            list.AddLast(8);
+            list.AddLast(5);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => list.AddLast(linkedListNode));
+            Assert.Equal("Node is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestAddLastNodeBelongingToAnotherListException()
+        {
+            var linkedListNode = new LinkedListNode<int>(2);
+            var list1 = new LinkedList<int>();
+            list1.AddLast(3);
+            list1.AddLast(8);
+            list1.AddLast(linkedListNode);
+
+            var list2 = new LinkedList<int>();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => list1.AddLast(linkedListNode));
+            Assert.Equal("Node belongs to another LinkedList<T>.", exception.Message);
+        }
+
+        [Fact]
+        public void TestAddAfterNullExceptionForExistingNode()
+        {
+            LinkedListNode<int> node = null;
+            LinkedListNode<int> newNode = null;
+            var list = new LinkedList<int>();
+            list.AddLast(3);
+            list.AddLast(8);
+            list.AddLast(5);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => list.AddAfter(node, newNode));
+            Assert.Equal("Node is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestAddAfterNullExceptionForNewNode()
+        {
+            LinkedListNode<int> node = new LinkedListNode<int>(2);
+            LinkedListNode<int> newNode = null;
+            var list = new LinkedList<int>();
+            list.AddLast(node);
+            list.AddLast(3);
+            list.AddLast(8);
+            list.AddLast(5);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => list.AddAfter(node, newNode));
+            Assert.Equal("Node is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestAddAfterNodeNotExistingInListException()
+        {
+            var node = new LinkedListNode<int>(2);
+            var newNode = new LinkedListNode<int>(10);
+            var list1 = new LinkedList<int>();
+            list1.AddLast(3);
+            list1.AddLast(8);
+
+            var list2 = new LinkedList<int>();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => list1.AddAfter(node, newNode));
+            Assert.Equal("Node is not in the current LinkedList<T>.", exception.Message);
+        }
+
+        [Fact]
+        public void TestAddAfterNodeBelongingToAnotherListException()
+        {
+            var node = new LinkedListNode<int>(2);
+            var newNode = new LinkedListNode<int>(2);
+            var list1 = new LinkedList<int>();
+            list1.AddLast(3);
+            list1.AddLast(8);
+            list1.AddLast(newNode);
+
+            var list2 = new LinkedList<int>();
+            list2.AddLast(node);
+
+            var exception = Assert.Throws<InvalidOperationException>(() => list2.AddAfter(node, newNode));
+            Assert.Equal("Node belongs to another LinkedList<T>.", exception.Message);
+        }
+
+        [Fact]
+        public void TestRemoveNullException()
+        {
+            LinkedListNode<int> linkedListNode = null;
+            var list = new LinkedList<int>();
+            list.AddLast(3);
+            list.AddLast(8);
+            list.AddLast(5);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => list.Remove(linkedListNode));
+            Assert.Equal("Node is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestRemoveNodeNotExistingInListException()
+        {
+            var linkedListNode = new LinkedListNode<int>(2);
+            var list = new LinkedList<int>();
+            list.AddLast(3);
+            list.AddLast(8);
+
+            var exception = Assert.Throws<InvalidOperationException>(() => list.Remove(linkedListNode));
+            Assert.Equal("Node is not in the current LinkedList<T>.", exception.Message);
+        }
+
+        [Fact]
+        public void TestRemoveFirstEmptyListException()
+        {
+            var list = new LinkedList<int>();
+
+            var exception = Assert.Throws<InvalidOperationException>(() => list.RemoveFirst());
+            Assert.Equal("The list is empty.", exception.Message);
         }
     }
 }
