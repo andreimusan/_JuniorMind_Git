@@ -131,7 +131,7 @@ namespace Arrays.Facts
             list.AddLast(5);
             list.Clear();
 
-            Assert.Empty(list);
+            Assert.Equal(0, list.Count);
         }
 
         [Fact]
@@ -142,7 +142,7 @@ namespace Arrays.Facts
             list.AddLast(8);
             list.AddLast(5);
 
-            Assert.Contains(8, list);
+            Assert.Contains(5, list);
             Assert.DoesNotContain(10, list);
         }
 
