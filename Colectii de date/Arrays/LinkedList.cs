@@ -7,12 +7,12 @@ namespace Arrays
 {
     public class LinkedList<T> : ICollection<T>
     {
+        private LinkedListNode<T> sentinel;
+
         public LinkedList()
         {
-            First = null;
+            sentinel = null;
         }
-
-        public LinkedListNode<T> First { get; set; }
 
         public int Count { get; private set; }
 
@@ -92,12 +92,12 @@ namespace Arrays
         public void Clear()
         {
             Count = 0;
-            First = null;
+            sentinel = null;
         }
 
         public bool Contains(T item)
         {
-            LinkedListNode<T> currentNode = First;
+            LinkedListNode<T> currentNode = sentinel;
             for (int i = 0; i < Count; i++)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, item) == 0)
@@ -128,7 +128,7 @@ namespace Arrays
                 throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
             }
 
-            LinkedListNode<T> currentNode = First;
+            LinkedListNode<T> currentNode = sentinel;
             for (int i = 0; i < Count; i++)
             {
                 array[i + arrayIndex] = currentNode.Value;
@@ -138,7 +138,7 @@ namespace Arrays
 
         public LinkedListNode<T> Find(T value)
         {
-            LinkedListNode<T> currentNode = First;
+            LinkedListNode<T> currentNode = sentinel;
             for (int i = 0; i < Count; i++)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
@@ -154,7 +154,7 @@ namespace Arrays
 
         public LinkedListNode<T> FindLast(T value)
         {
-            LinkedListNode<T> currentNode = First.Previous;
+            LinkedListNode<T> currentNode = sentinel.Previous;
             for (int i = Count - 1; i >= 0; i--)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
@@ -192,7 +192,9 @@ namespace Arrays
         {
             ExceptionForEmptyList();
 
-            First = First.Next;
+            sentinel.Next.Previous = sentinel.Previous;
+            sentinel.Previous.Next = sentinel.Next;
+            sentinel = sentinel.Next;
             Count--;
         }
 
@@ -200,7 +202,8 @@ namespace Arrays
         {
             ExceptionForEmptyList();
 
-            First.Previous = First.Previous.Previous;
+            sentinel.Previous = sentinel.Previous.Previous;
+            sentinel.Previous.Next = sentinel;
             Count--;
         }
 
@@ -211,7 +214,7 @@ namespace Arrays
 
         public IEnumerator<T> GetEnumerator()
         {
-            LinkedListNode<T> current = First;
+            LinkedListNode<T> current = sentinel;
             for (int i = 0; i < Count; i++)
             {
                 yield return current.Value;
@@ -221,18 +224,18 @@ namespace Arrays
 
         private void ConnectToLastNode(LinkedListNode<T> newNode)
         {
-            if (First == null)
+            if (sentinel == null)
             {
-                First = newNode;
-                First.Previous = newNode;
-                First.Next = newNode;
+                sentinel = newNode;
+                sentinel.Previous = newNode;
+                sentinel.Next = newNode;
             }
             else
             {
-                First.Previous.Next = newNode;
-                newNode.Next = First;
-                newNode.Previous = First.Previous;
-                First.Previous = newNode;
+                sentinel.Previous.Next = newNode;
+                newNode.Next = sentinel;
+                newNode.Previous = sentinel.Previous;
+                sentinel.Previous = newNode;
             }
 
             Count++;
@@ -240,19 +243,19 @@ namespace Arrays
 
         private void ConnectToFirstNode(LinkedListNode<T> newNode)
         {
-            if (First == null)
+            if (sentinel == null)
             {
-                First = newNode;
-                First.Previous = newNode;
-                First.Next = newNode;
+                sentinel = newNode;
+                sentinel.Previous = newNode;
+                sentinel.Next = newNode;
             }
             else
             {
-                newNode.Next = First;
-                newNode.Previous = First.Previous;
-                First.Previous.Next = newNode;
-                First.Previous = newNode;
-                First = newNode;
+                newNode.Next = sentinel;
+                newNode.Previous = sentinel.Previous;
+                sentinel.Previous.Next = newNode;
+                sentinel.Previous = newNode;
+                sentinel = newNode;
             }
 
             Count++;
@@ -260,7 +263,7 @@ namespace Arrays
 
         private LinkedListNode<T> FindNode(LinkedListNode<T> node)
         {
-            LinkedListNode<T> currentNode = First;
+            LinkedListNode<T> currentNode = sentinel;
             for (int i = 0; i < Count; i++)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, node.Value) == 0 && currentNode.Previous == node.Previous && currentNode.Next == node.Next)
@@ -286,18 +289,18 @@ namespace Arrays
 
         private void DisconnectNode(LinkedListNode<T> node)
         {
-            if (node.Next == First)
+            if (node.Next == sentinel)
             {
-                First.Previous = node.Previous;
+                sentinel.Previous = node.Previous;
             }
             else
             {
                 node.Next.Previous = node.Previous;
             }
 
-            if (node.Previous == First.Previous)
+            if (node.Previous == sentinel.Previous)
             {
-                First = node.Next;
+                sentinel = node.Next;
             }
             else
             {
@@ -333,7 +336,7 @@ namespace Arrays
 
         private void ExceptionForEmptyList()
         {
-            if (First == null)
+            if (sentinel == null)
             {
                 throw new InvalidOperationException("The list is empty.");
             }
