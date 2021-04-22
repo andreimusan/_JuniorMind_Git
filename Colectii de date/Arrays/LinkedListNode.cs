@@ -15,7 +15,5 @@ namespace Arrays
         public LinkedListNode<T> Previous { get; set; }
 
         public LinkedList<T> List { get; }
-
-        public T ValueRef { get; }
     }
 }

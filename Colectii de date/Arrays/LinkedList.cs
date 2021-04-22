@@ -10,12 +10,9 @@ namespace Arrays
         public LinkedList()
         {
             First = null;
-            Last = null;
         }
 
         public LinkedListNode<T> First { get; set; }
-
-        public LinkedListNode<T> Last { get; set; }
 
         public int Count { get; private set; }
 
@@ -96,13 +93,12 @@ namespace Arrays
         {
             Count = 0;
             First = null;
-            Last = null;
         }
 
         public bool Contains(T item)
         {
             LinkedListNode<T> currentNode = First;
-            while (currentNode != null)
+            for (int i = 0; i < Count; i++)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, item) == 0)
                 {
@@ -143,7 +139,7 @@ namespace Arrays
         public LinkedListNode<T> Find(T value)
         {
             LinkedListNode<T> currentNode = First;
-            while (currentNode != null)
+            for (int i = 0; i < Count; i++)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
@@ -158,8 +154,8 @@ namespace Arrays
 
         public LinkedListNode<T> FindLast(T value)
         {
-            LinkedListNode<T> currentNode = Last;
-            while (currentNode != null)
+            LinkedListNode<T> currentNode = First.Previous;
+            for (int i = Count - 1; i >= 0; i--)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
@@ -204,7 +200,7 @@ namespace Arrays
         {
             ExceptionForEmptyList();
 
-            Last = Last.Previous;
+            First.Previous = First.Previous.Previous;
             Count--;
         }
 
@@ -216,44 +212,48 @@ namespace Arrays
         public IEnumerator<T> GetEnumerator()
         {
             LinkedListNode<T> current = First;
-            while (current != null)
+            for (int i = 0; i < Count; i++)
             {
                 yield return current.Value;
                 current = current.Next;
             }
         }
 
-        private void ConnectToLastNode(LinkedListNode<T> currentNode)
+        private void ConnectToLastNode(LinkedListNode<T> newNode)
         {
-            if (Last == null)
+            if (First == null)
             {
-                First = currentNode;
+                First = newNode;
+                First.Previous = newNode;
+                First.Next = newNode;
             }
             else
             {
-                currentNode.Previous = Last;
-                Last.Next = currentNode;
+                First.Previous.Next = newNode;
+                newNode.Next = First;
+                newNode.Previous = First.Previous;
+                First.Previous = newNode;
             }
-
-            Last = currentNode;
 
             Count++;
         }
 
-        private void ConnectToFirstNode(LinkedListNode<T> currentNode)
+        private void ConnectToFirstNode(LinkedListNode<T> newNode)
         {
-            currentNode.Next = First;
-
             if (First == null)
             {
-                Last = currentNode;
+                First = newNode;
+                First.Previous = newNode;
+                First.Next = newNode;
             }
             else
             {
-                First.Previous = currentNode;
+                newNode.Next = First;
+                newNode.Previous = First.Previous;
+                First.Previous.Next = newNode;
+                First.Previous = newNode;
+                First = newNode;
             }
-
-            First = currentNode;
 
             Count++;
         }
@@ -261,7 +261,7 @@ namespace Arrays
         private LinkedListNode<T> FindNode(LinkedListNode<T> node)
         {
             LinkedListNode<T> currentNode = First;
-            while (currentNode != null)
+            for (int i = 0; i < Count; i++)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, node.Value) == 0 && currentNode.Previous == node.Previous && currentNode.Next == node.Next)
                 {
@@ -286,16 +286,16 @@ namespace Arrays
 
         private void DisconnectNode(LinkedListNode<T> node)
         {
-            if (node.Next == null)
+            if (node.Next == First)
             {
-                Last = node.Previous;
+                First.Previous = node.Previous;
             }
             else
             {
                 node.Next.Previous = node.Previous;
             }
 
-            if (node.Previous == null)
+            if (node.Previous == First.Previous)
             {
                 First = node.Next;
             }
@@ -333,7 +333,7 @@ namespace Arrays
 
         private void ExceptionForEmptyList()
         {
-            if (First == null || Last == null)
+            if (First == null)
             {
                 throw new InvalidOperationException("The list is empty.");
             }
