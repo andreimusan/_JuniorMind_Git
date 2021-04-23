@@ -96,9 +96,9 @@ namespace Arrays
 
         public bool Contains(T item)
         {
-            foreach (var nodeValue in this)
+            for (LinkedListNode<T> currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
             {
-                if (Comparer<T>.Default.Compare(nodeValue, item) == 0)
+                if (Comparer<T>.Default.Compare(currentNode.Value, item) == 0)
                 {
                     return true;
                 }
@@ -202,30 +202,10 @@ namespace Arrays
 
         public IEnumerator<T> GetEnumerator()
         {
-            LinkedListNode<T> current = sentinel;
-            do
+            for (LinkedListNode<T> currentNode = sentinel.Previous; currentNode != sentinel; currentNode = currentNode.Previous)
             {
-                yield return current.Value;
-                current = current.Next;
+                yield return currentNode.Value;
             }
-            while (current != sentinel);
-        }
-
-        private LinkedListNode<T> FindNode(LinkedListNode<T> node)
-        {
-            LinkedListNode<T> currentNode = sentinel;
-            do
-            {
-                if (Comparer<T>.Default.Compare(currentNode.Value, node.Value) == 0 && currentNode.Previous == node.Previous && currentNode.Next == node.Next)
-                {
-                    return currentNode;
-                }
-
-                currentNode = currentNode.Next;
-            }
-            while (currentNode != sentinel);
-
-            return null;
         }
 
         private void ExceptionForArgumentNull(LinkedListNode<T> node)
