@@ -7,13 +7,14 @@ namespace Arrays
 {
     public class LinkedList<T> : ICollection<T>
     {
-        private LinkedListNode<T> sentinel;
+        private readonly LinkedListNode<T> sentinel;
 
         public LinkedList()
         {
             sentinel = new LinkedListNode<T>(default);
             sentinel.Next = sentinel;
             sentinel.Previous = sentinel;
+            sentinel.List = this;
         }
 
         public int Count { get; private set; }
@@ -22,34 +23,24 @@ namespace Arrays
 
         public void AddLast(LinkedListNode<T> node)
         {
-            ExceptionForArgumentNull(node);
-            ExceptionForNodeBelongsToAnotherList(node);
-            ConnectAfterNode(sentinel.Previous, node);
-            Count++;
+            AddBefore(sentinel, node);
         }
 
         public void AddLast(T value)
         {
             LinkedListNode<T> newNode = new LinkedListNode<T>(value);
-            ConnectAfterNode(sentinel.Previous, newNode);
-            Count++;
+            AddBefore(sentinel, newNode);
         }
 
         public void AddFirst(LinkedListNode<T> node)
         {
-            ExceptionForArgumentNull(node);
-            ExceptionForNodeBelongsToAnotherList(node);
-            ConnectAfterNode(sentinel.Previous, node);
-            sentinel = node;
-            Count++;
+            AddAfter(sentinel, node);
         }
 
         public void AddFirst(T value)
         {
             LinkedListNode<T> newNode = new LinkedListNode<T>(value);
-            ConnectAfterNode(sentinel.Previous, newNode);
-            sentinel = newNode;
-            Count++;
+            AddAfter(sentinel, newNode);
         }
 
         public void AddAfter(LinkedListNode<T> node, LinkedListNode<T> newNode)
@@ -60,30 +51,25 @@ namespace Arrays
             ExceptionForNodeNotExistingInList(node);
             ExceptionForNodeBelongsToAnotherList(newNode);
 
-            ConnectAfterNode(node, newNode);
+            newNode.Next = node.Next;
+            newNode.Previous = node;
+            node.Next.Previous = newNode;
+            node.Next = newNode;
+            newNode.List = this;
+
             Count++;
         }
 
         public void AddAfter(LinkedListNode<T> node, T value)
         {
-            ExceptionForArgumentNull(node);
-            ExceptionForNodeNotExistingInList(node);
-
             LinkedListNode<T> newNode = new LinkedListNode<T>(value);
-            ConnectAfterNode(node, newNode);
-            Count++;
+            AddAfter(node, newNode);
         }
 
         public void AddBefore(LinkedListNode<T> node, LinkedListNode<T> newNode)
         {
             ExceptionForArgumentNull(node);
-            ExceptionForArgumentNull(newNode);
-
-            ExceptionForNodeNotExistingInList(node);
-            ExceptionForNodeBelongsToAnotherList(newNode);
-
-            ConnectAfterNode(node.Previous, newNode);
-            Count++;
+            AddAfter(node.Previous, newNode);
         }
 
         public void AddBefore(LinkedListNode<T> node, T value)
@@ -92,8 +78,7 @@ namespace Arrays
             ExceptionForNodeNotExistingInList(node);
 
             LinkedListNode<T> newNode = new LinkedListNode<T>(value);
-            ConnectAfterNode(node.Previous, newNode);
-            Count++;
+            AddAfter(node.Previous, newNode);
         }
 
         public void Add(T item)
@@ -106,6 +91,7 @@ namespace Arrays
             Count = 0;
             sentinel.Next = sentinel;
             sentinel.Previous = sentinel;
+            sentinel.List = null;
         }
 
         public bool Contains(T item)
@@ -139,43 +125,35 @@ namespace Arrays
             }
 
             int index = 0;
-            foreach (var nodeValue in this)
+            for (LinkedListNode<T> currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
             {
-                array[index + arrayIndex] = nodeValue;
+                array[index + arrayIndex] = currentNode.Value;
                 index++;
             }
         }
 
         public LinkedListNode<T> Find(T value)
         {
-            LinkedListNode<T> currentNode = sentinel;
-            do
+            for (LinkedListNode<T> currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
                     return currentNode;
                 }
-
-                currentNode = currentNode.Next;
             }
-            while (currentNode != sentinel);
 
             return null;
         }
 
         public LinkedListNode<T> FindLast(T value)
         {
-            LinkedListNode<T> currentNode = sentinel.Previous;
-            do
+            for (LinkedListNode<T> currentNode = sentinel.Previous; currentNode != sentinel; currentNode = currentNode.Previous)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
                     return currentNode;
                 }
-
-                currentNode = currentNode.Previous;
             }
-            while (currentNode != sentinel.Previous);
 
             return null;
         }
@@ -185,7 +163,9 @@ namespace Arrays
             ExceptionForArgumentNull(node);
             ExceptionForNodeNotExistingInList(node);
 
-            ConnectAfterNode(node.Previous, node.Next);
+            node.Next.Previous = node.Previous;
+            node.Previous.Next = node.Next;
+
             Count--;
         }
 
@@ -194,8 +174,7 @@ namespace Arrays
             LinkedListNode<T> nodeToRemove = Find(item);
             if (nodeToRemove != null)
             {
-                ConnectAfterNode(nodeToRemove.Previous, nodeToRemove.Next);
-                Count--;
+                Remove(nodeToRemove);
                 return true;
             }
 
@@ -206,17 +185,14 @@ namespace Arrays
         {
             ExceptionForEmptyList();
 
-            sentinel = sentinel.Next;
-            ConnectAfterNode(sentinel.Previous.Previous, sentinel);
-            Count--;
+            Remove(sentinel.Next);
         }
 
         public void RemoveLast()
         {
             ExceptionForEmptyList();
 
-            ConnectAfterNode(sentinel.Previous.Previous, sentinel);
-            Count--;
+            Remove(sentinel.Previous);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -252,24 +228,6 @@ namespace Arrays
             return null;
         }
 
-        private void ConnectAfterNode(LinkedListNode<T> node, LinkedListNode<T> newNode)
-        {
-            if (Count == 0)
-            {
-                sentinel = newNode;
-                sentinel.Previous = newNode;
-                sentinel.Next = newNode;
-            }
-            else
-            {
-                LinkedListNode<T> temp = node.Next;
-                node.Next = newNode;
-                newNode.Previous = node;
-                newNode.Next = temp;
-                temp.Previous = newNode;
-            }
-        }
-
         private void ExceptionForArgumentNull(LinkedListNode<T> node)
         {
             if (node == null)
@@ -288,7 +246,7 @@ namespace Arrays
 
         private void ExceptionForNodeNotExistingInList(LinkedListNode<T> node = null)
         {
-            if (FindNode(node) == null)
+            if (node.List != this)
             {
                 throw new InvalidOperationException("Node is not in the current LinkedList<T>.");
             }

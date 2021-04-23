@@ -14,6 +14,6 @@ namespace Arrays
 
         public LinkedListNode<T> Previous { get; set; }
 
-        public LinkedList<T> List { get; }
+        public LinkedList<T> List { get; internal set; }
     }
 }

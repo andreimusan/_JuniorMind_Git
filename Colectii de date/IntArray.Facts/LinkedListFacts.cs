@@ -17,7 +17,7 @@ namespace Arrays.Facts
             Assert.Equal(3, list.Count);
             Assert.Equal(3, node.Value);
             Assert.Equal(8, node.Next.Value);
-            Assert.Equal(5, node.Previous.Value);
+            Assert.Equal(5, node.Previous.Previous.Value);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Arrays.Facts
 
             Assert.Equal(3, list.Count);
             Assert.Equal(3, node.Value);
-            Assert.Equal(5, node.Next.Value);
+            Assert.Equal(5, node.Next.Next.Value);
             Assert.Equal(8, node.Previous.Value);
         }
 
@@ -279,7 +279,7 @@ namespace Arrays.Facts
 
             Assert.True(testRemove);
             Assert.Equal(4, list.Count);
-            Assert.Equal(list.Find(3).Previous, linkedListNode);
+            Assert.Equal(list.Find(3).Previous.Previous, linkedListNode);
         }
 
         [Fact]
@@ -296,8 +296,8 @@ namespace Arrays.Facts
             list.RemoveFirst();
 
             Assert.Equal(4, list.Count);
-            Assert.Equal(list.FindLast(4), linkedListNode.Previous);
-            Assert.Equal(list.FindLast(4).Next, linkedListNode);
+            Assert.Equal(list.FindLast(4), linkedListNode.Previous.Previous);
+            Assert.Equal(list.Find(8).Previous, linkedListNode);
         }
 
         [Fact]
@@ -314,8 +314,8 @@ namespace Arrays.Facts
             list.RemoveLast();
 
             Assert.Equal(4, list.Count);
-            Assert.Equal(list.Find(3).Previous, linkedListNode);
-            Assert.Equal(list.Find(3), linkedListNode.Next);
+            Assert.Equal(list.Find(3).Previous.Previous, linkedListNode);
+            Assert.Equal(list.Find(5).Next, linkedListNode);
         }
 
         [Fact]

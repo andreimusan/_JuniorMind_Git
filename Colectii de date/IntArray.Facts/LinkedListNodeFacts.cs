@@ -24,9 +24,7 @@ namespace Arrays.Facts
             list.AddLast(linkedListNode);
 
             Assert.Equal(1, linkedListNode.List.Count);
-            Assert.Null(linkedListNode.Previous);
             Assert.Equal("orange", linkedListNode.Value);
-            Assert.Null(linkedListNode.Next);
         }
 
         [Fact]
