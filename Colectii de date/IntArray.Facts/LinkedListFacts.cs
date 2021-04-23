@@ -464,5 +464,22 @@ namespace Arrays.Facts
             var exception = Assert.Throws<InvalidOperationException>(() => list.RemoveFirst());
             Assert.Equal("The list is empty.", exception.Message);
         }
+
+        [Fact]
+        public void TestFirstAndLastProperties()
+        {
+            var list = new LinkedList<int>();
+            list.AddLast(8);
+            list.AddLast(9);
+            list.AddFirst(5);
+            list.AddFirst(4);
+            list.AddFirst(3);
+
+            Assert.Equal(5, list.Count);
+            Assert.Equal(list.Find(3), list.First);
+            Assert.Equal(3, list.First.Value);
+            Assert.Equal(list.FindLast(9), list.Last);
+            Assert.Equal(9, list.Last.Value);
+        }
     }
 }

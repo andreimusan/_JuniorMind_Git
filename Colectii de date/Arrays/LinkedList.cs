@@ -19,6 +19,10 @@ namespace Arrays
 
         public int Count { get; private set; }
 
+        public LinkedListNode<T> First => sentinel.Next;
+
+        public LinkedListNode<T> Last => sentinel.Previous;
+
         public bool IsReadOnly { get; }
 
         public void AddLast(LinkedListNode<T> node)
@@ -62,7 +66,7 @@ namespace Arrays
 
         public void AddAfter(LinkedListNode<T> node, T value)
         {
-            LinkedListNode<T> newNode = new LinkedListNode<T>(value);
+            var newNode = new LinkedListNode<T>(value);
             AddAfter(node, newNode);
         }
 
@@ -77,7 +81,7 @@ namespace Arrays
             ExceptionForArgumentNull(node);
             ExceptionForNodeNotExistingInList(node);
 
-            LinkedListNode<T> newNode = new LinkedListNode<T>(value);
+            var newNode = new LinkedListNode<T>(value);
             AddAfter(node.Previous, newNode);
         }
 
@@ -96,7 +100,7 @@ namespace Arrays
 
         public bool Contains(T item)
         {
-            for (LinkedListNode<T> currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
+            for (var currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, item) == 0)
                 {
@@ -125,7 +129,7 @@ namespace Arrays
             }
 
             int index = 0;
-            for (LinkedListNode<T> currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
+            for (var currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
             {
                 array[index + arrayIndex] = currentNode.Value;
                 index++;
@@ -134,7 +138,7 @@ namespace Arrays
 
         public LinkedListNode<T> Find(T value)
         {
-            for (LinkedListNode<T> currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
+            for (var currentNode = sentinel.Next; currentNode != sentinel; currentNode = currentNode.Next)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
@@ -147,7 +151,7 @@ namespace Arrays
 
         public LinkedListNode<T> FindLast(T value)
         {
-            for (LinkedListNode<T> currentNode = sentinel.Previous; currentNode != sentinel; currentNode = currentNode.Previous)
+            for (var currentNode = sentinel.Previous; currentNode != sentinel; currentNode = currentNode.Previous)
             {
                 if (Comparer<T>.Default.Compare(currentNode.Value, value) == 0)
                 {
@@ -171,7 +175,7 @@ namespace Arrays
 
         public bool Remove(T item)
         {
-            LinkedListNode<T> nodeToRemove = Find(item);
+            var nodeToRemove = Find(item);
             if (nodeToRemove != null)
             {
                 Remove(nodeToRemove);
@@ -202,7 +206,7 @@ namespace Arrays
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (LinkedListNode<T> currentNode = sentinel.Previous; currentNode != sentinel; currentNode = currentNode.Previous)
+            for (var currentNode = sentinel.Previous; currentNode != sentinel; currentNode = currentNode.Previous)
             {
                 yield return currentNode.Value;
             }
