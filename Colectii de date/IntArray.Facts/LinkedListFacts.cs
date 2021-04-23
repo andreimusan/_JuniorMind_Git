@@ -481,5 +481,15 @@ namespace Arrays.Facts
             Assert.Equal(list.FindLast(9), list.Last);
             Assert.Equal(9, list.Last.Value);
         }
+
+        [Fact]
+        public void TestFirstAndLastPropertiesInEmptyList()
+        {
+            var list = new LinkedList<int>();
+
+            Assert.Equal(0, list.Count);
+            Assert.Null(list.First);
+            Assert.Null(list.Last);
+        }
     }
 }

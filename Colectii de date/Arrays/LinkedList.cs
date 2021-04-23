@@ -19,9 +19,21 @@ namespace Arrays
 
         public int Count { get; private set; }
 
-        public LinkedListNode<T> First => sentinel.Next;
+        public LinkedListNode<T> First
+        {
+            get
+            {
+                return Count == 0 ? null : sentinel.Next;
+            }
+        }
 
-        public LinkedListNode<T> Last => sentinel.Previous;
+        public LinkedListNode<T> Last
+        {
+            get
+            {
+                return Count == 0 ? null : sentinel.Previous;
+            }
+        }
 
         public bool IsReadOnly { get; }
 
