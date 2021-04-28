@@ -18,7 +18,7 @@ namespace Arrays
             }
         }
 
-        public IEqualityComparer<TKey> Comparer { get; }
+        public IEqualityComparer<TKey> Comparer => EqualityComparer<TKey>.Default;
 
         public int Count { get; protected set; }
 
@@ -58,6 +58,26 @@ namespace Arrays
             Count++;
         }
 
+        public void Clear()
+        {
+            for (int i = 0; i < buckets.Length; i++)
+            {
+                buckets[i] = -1;
+            }
+
+            for (int i = Count - 1; i >= 0; i--)
+            {
+                bucketslist.Remove(bucketslist[i]);
+            }
+
+            Count = 0;
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return FindKey(key) >= 0;
+        }
+
         private int FindKey(TKey key)
         {
             if (buckets != null)
@@ -65,7 +85,7 @@ namespace Arrays
                 int hashCode = key.GetHashCode();
                 for (var i = buckets[hashCode % buckets.Length]; i >= 0; i = bucketslist[i].Next)
                 {
-                    if (Comparer<TKey>.Default.Compare(bucketslist[i].Key, key) == 0)
+                    if (Comparer.Equals(bucketslist[i].Key, key))
                     {
                         return i;
                     }

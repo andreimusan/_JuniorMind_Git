@@ -47,5 +47,22 @@ namespace Arrays.Facts
             Assert.Equal(5, dictionary.Count);
             Assert.Equal("z", dictionary[10]);
         }
+
+        [Fact]
+        public void TestClear()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            dictionary.Clear();
+            dictionary.Add(10, "z");
+
+            Assert.Equal(1, dictionary.Count);
+            Assert.Equal("z", dictionary[10]);
+        }
     }
 }
