@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Arrays
 {
-    public class Dictionary<TKey, TValue>
+    public class Dictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private readonly int[] buckets;
         private readonly List<BucketElement<TKey, TValue>> bucketslist = new List<BucketElement<TKey, TValue>>();
@@ -190,6 +189,48 @@ namespace Arrays
             {
                 value = (TValue)default;
                 return false;
+            }
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(arrayIndex), "Array is null.");
+            }
+
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(Convert.ToString(arrayIndex), "Index was out of range. Must be positive.");
+            }
+
+            if (array.Length - arrayIndex < Count)
+            {
+                throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
+            }
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (bucketslist[i] != null)
+                {
+                    array[i + arrayIndex] = new KeyValuePair<TKey, TValue>(bucketslist[i].Key, bucketslist[i].Value);
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                if (bucketslist[i] != null)
+                {
+                    yield return new KeyValuePair<TKey, TValue>(bucketslist[i].Key, bucketslist[i].Value);
+                }
             }
         }
 

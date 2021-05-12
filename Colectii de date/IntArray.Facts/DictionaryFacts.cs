@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Arrays.Facts
@@ -183,6 +184,56 @@ namespace Arrays.Facts
             Assert.False(values.Contains("a"));
             Assert.True(values.Contains("f"));
             Assert.True(values.Contains("g"));
+        }
+
+        [Fact]
+        public void TestYield()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            var testedKey = false;
+            var testedValue = false;
+
+            foreach (var elem in dictionary)
+            {
+                if (elem.Key == 10)
+                {
+                    testedKey = true;
+                }
+
+                if (elem.Value == "e")
+                {
+                    testedValue = true;
+                }
+            }
+
+            Assert.Equal(5, dictionary.Count);
+            Assert.True(testedKey);
+            Assert.True(testedValue);
+        }
+
+        [Fact]
+        public void TestCopyTo()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+            dictionary.Add(20, "f");
+
+            var array = new KeyValuePair<int, string>[8];
+
+            dictionary.CopyTo(array, 2);
+
+            Assert.Equal(8, array.Length);
+            Assert.Equal(dictionary[1], array[2].Value);
         }
     }
 }
