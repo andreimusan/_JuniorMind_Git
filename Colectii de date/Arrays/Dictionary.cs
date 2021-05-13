@@ -66,6 +66,8 @@ namespace Arrays
         {
             get
             {
+                ExceptionForArgumentNull(key);
+                ExceptionForKeyNotFound(key);
                 int index = FindKey(key);
                 if (index >= 0)
                 {
@@ -77,21 +79,33 @@ namespace Arrays
 
             set
             {
+                ExceptionForArgumentNull(key);
                 int index = FindKey(key);
-                if (index >= 0)
+
+                try
                 {
                     bucketslist[index].Value = value;
                 }
-                else
+                catch
                 {
-                    Add(key, value);
+                    throw new KeyNotFoundException("Key is not found.");
+                }
+                finally
+                {
+                    if (index < 0)
+                    {
+                        Add(key, value);
+                    }
                 }
             }
         }
 
         public void Add(TKey key, TValue value)
         {
-            int hashCode = key.GetHashCode();
+            ExceptionForArgumentNull(key);
+            ArgumentExceptionForExistingKey(key);
+
+            int hashCode = Math.Abs(key.GetHashCode());
             int targetBucket = hashCode % buckets.Length;
 
             var element = new BucketElement<TKey, TValue>(key, value);
@@ -136,19 +150,35 @@ namespace Arrays
 
         public bool ContainsKey(TKey key)
         {
+            ExceptionForArgumentNull(key);
             return FindKey(key) >= 0;
+        }
+
+        public bool ContainsValue(TValue value)
+        {
+            foreach (var elem in bucketslist)
+            {
+                if (elem != null && EqualityComparer<TValue>.Default.Equals(elem.Value, value))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item) => ContainsKey(item.Key);
 
         public bool Remove(TKey key)
         {
+            ExceptionForArgumentNull(key);
+
             if (buckets == null)
             {
                 return false;
             }
 
-            int hashCode = key.GetHashCode();
+            int hashCode = Math.Abs(key.GetHashCode());
             int targetBucket = hashCode % buckets.Length;
             int last = -1;
             for (var i = buckets[targetBucket]; i >= 0; last = i, i = bucketslist[i].Next)
@@ -238,7 +268,7 @@ namespace Arrays
         {
             if (buckets != null)
             {
-                int hashCode = key.GetHashCode();
+                int hashCode = Math.Abs(key.GetHashCode());
                 int targetBucket = hashCode % buckets.Length;
                 for (var i = buckets[targetBucket]; i >= 0; i = bucketslist[i].Next)
                 {
@@ -250,6 +280,30 @@ namespace Arrays
             }
 
             return -1;
+        }
+
+        private void ExceptionForArgumentNull(TKey key)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(key), "Key is null.");
+            }
+        }
+
+        private void ExceptionForKeyNotFound(TKey key)
+        {
+            if (FindKey(key) == -1)
+            {
+                throw new KeyNotFoundException("Key is not found.");
+            }
+        }
+
+        private void ArgumentExceptionForExistingKey(TKey key)
+        {
+            if (FindKey(key) != -1)
+            {
+                throw new ArgumentException("An element with the same key already exists.");
+            }
         }
     }
 }

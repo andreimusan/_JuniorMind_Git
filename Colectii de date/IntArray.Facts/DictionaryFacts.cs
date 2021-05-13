@@ -235,5 +235,124 @@ namespace Arrays.Facts
             Assert.Equal(8, array.Length);
             Assert.Equal(dictionary[1], array[2].Value);
         }
+
+        [Fact]
+        public void TestContainsValue()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            Assert.Equal(5, dictionary.Count);
+            Assert.True(dictionary.ContainsValue("d"));
+            Assert.False(dictionary.ContainsValue("z"));
+        }
+
+        [Fact]
+        public void TestIndexerGetArgumentNullException()
+        {
+            var dictionary = new Dictionary<string, string>(5);
+            dictionary.Add("a", "a");
+            dictionary.Add("b", "b");
+            dictionary.Add("c", "c");
+            dictionary.Add("d", "d");
+            dictionary.Add("e", "e");
+
+            var exception = Assert.Throws<ArgumentNullException>(() => dictionary[null]);
+            Assert.Equal("Key is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestIndexerGetKeyNotFoundException()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            var exception = Assert.Throws<KeyNotFoundException>(() => dictionary[100]);
+            Assert.Equal("Key is not found.", exception.Message);
+        }
+
+        [Fact]
+        public void TestIndexerSetArgumentNullException()
+        {
+            var dictionary = new Dictionary<string, string>(5);
+            dictionary.Add("a", "a");
+            dictionary.Add("b", "b");
+            dictionary.Add("c", "c");
+            dictionary.Add("d", "d");
+            dictionary.Add("e", "e");
+
+            var exception = Assert.Throws<ArgumentNullException>(() => dictionary[null] = "f");
+            Assert.Equal("Key is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestIndexerSetKeyNotFoundException()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            var exception = Assert.Throws<KeyNotFoundException>(() => dictionary[100] = "f");
+            Assert.Equal("Key is not found.", exception.Message);
+            Assert.Equal("f", dictionary[100]);
+        }
+
+        [Fact]
+        public void TestAddArgumentNullException()
+        {
+            var dictionary = new Dictionary<string, string>(5);
+            dictionary.Add("a", "a");
+            dictionary.Add("b", "b");
+
+            var exception = Assert.Throws<ArgumentNullException>(() => dictionary.Add(null, "c"));
+            Assert.Equal("Key is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestAddArgumentExceptionForExistingKey()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            var exception = Assert.Throws<ArgumentException>(() => dictionary.Add(10, "z"));
+            Assert.Equal("An element with the same key already exists.", exception.Message);
+        }
+
+        [Fact]
+        public void TestContainsArgumentNullException()
+        {
+            var dictionary = new Dictionary<string, string>(5);
+            dictionary.Add("a", "a");
+            dictionary.Add("b", "b");
+
+            var exception = Assert.Throws<ArgumentNullException>(() => dictionary.ContainsKey(null));
+            Assert.Equal("Key is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestRemoveArgumentNullException()
+        {
+            var dictionary = new Dictionary<string, string>(5);
+            dictionary.Add("a", "a");
+            dictionary.Add("b", "b");
+
+            var exception = Assert.Throws<ArgumentNullException>(() => dictionary.Remove(null));
+            Assert.Equal("Key is null.", exception.Message);
+        }
     }
 }
