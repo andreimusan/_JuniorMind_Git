@@ -252,6 +252,30 @@ namespace Arrays.Facts
         }
 
         [Fact]
+        public void TestContains()
+        {
+            var dictionary = new Dictionary<int, string>(5);
+            dictionary.Add(1, "a");
+            dictionary.Add(2, "b");
+            dictionary.Add(10, "c");
+            dictionary.Add(7, "d");
+            dictionary.Add(12, "e");
+
+            dictionary.Remove(7);
+            dictionary.Remove(1);
+
+            dictionary.Add(17, "f");
+            dictionary.Add(3, "g");
+
+            Assert.Equal(5, dictionary.Count);
+            Assert.Contains(new KeyValuePair<int, string>(10, "c"), dictionary);
+            Assert.Contains(new KeyValuePair<int, string>(17, "f"), dictionary);
+            Assert.DoesNotContain(new KeyValuePair<int, string>(2, "z"), dictionary);
+            Assert.DoesNotContain(new KeyValuePair<int, string>(7, "d"), dictionary);
+            Assert.DoesNotContain(new KeyValuePair<int, string>(1, "a"), dictionary);
+        }
+
+        [Fact]
         public void TestIndexerGetArgumentNullException()
         {
             var dictionary = new Dictionary<string, string>(5);
