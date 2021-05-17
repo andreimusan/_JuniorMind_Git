@@ -226,13 +226,12 @@ namespace Arrays.Facts
             dictionary.Add(10, "c");
             dictionary.Add(7, "d");
             dictionary.Add(12, "e");
-            dictionary.Add(20, "f");
 
-            var array = new KeyValuePair<int, string>[8];
+            var array = new KeyValuePair<int, string>[7];
 
             dictionary.CopyTo(array, 2);
 
-            Assert.Equal(8, array.Length);
+            Assert.Equal(7, array.Length);
             Assert.Equal(dictionary[1], array[2].Value);
         }
 
@@ -325,7 +324,6 @@ namespace Arrays.Facts
             dictionary.Add(2, "b");
             dictionary.Add(10, "c");
             dictionary.Add(7, "d");
-            dictionary.Add(12, "e");
 
             var exception = Assert.Throws<KeyNotFoundException>(() => dictionary[100] = "f");
             Assert.Equal("Key is not found.", exception.Message);
