@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Arrays
 {
@@ -81,7 +82,6 @@ namespace Arrays
                 else
                 {
                     Add(key, value);
-                    throw new KeyNotFoundException("Key is not found.");
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace Arrays
 
         public bool Remove(TKey key)
         {
-            return RemoveElement(key, (TValue)default);
+            return RemoveElement(key);
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
@@ -195,12 +195,11 @@ namespace Arrays
                 throw new ArgumentException("The number of elements to copy is greater than the available space in the array.");
             }
 
-            for (int i = 0; i < Count; i++)
+            int index = 0;
+            foreach (var elem in this)
             {
-                if (elements[i] != null)
-                {
-                    array[i + arrayIndex] = new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
-                }
+                array[index + arrayIndex] = new KeyValuePair<TKey, TValue>(elem.Key, elem.Value);
+                index++;
             }
         }
 
@@ -213,7 +212,7 @@ namespace Arrays
         {
             for (int i = 0; i < Count; i++)
             {
-                if (CompareToFreeElements(i))
+                if (!IsElementFree(i))
                 {
                     yield return new KeyValuePair<TKey, TValue>(elements[i].Key, elements[i].Value);
                 }
@@ -241,7 +240,7 @@ namespace Arrays
             return -1;
         }
 
-        private bool RemoveElement(TKey key, TValue value)
+        private bool RemoveElement(TKey key, [Optional] TValue value)
         {
             ExceptionForArgumentNull(key);
 
@@ -251,9 +250,9 @@ namespace Arrays
             }
 
             int index = FindKey(key, out int last);
-            bool validation = EqualityComparer<TValue>.Default.Equals(value, (TValue)default)
-                ? index >= 0
-                : index >= 0 && EqualityComparer<TValue>.Default.Equals(elements[index].Value, value);
+            bool validation = EqualityComparer<TValue>.Default.Equals(elements[index].Value, value)
+                ? index >= 0 && EqualityComparer<TValue>.Default.Equals(elements[index].Value, value)
+                : index >= 0;
 
             if (validation)
             {
@@ -278,17 +277,17 @@ namespace Arrays
             return false;
         }
 
-        private bool CompareToFreeElements(int index)
+        private bool IsElementFree(int index)
         {
             for (int j = freeIndex; j != -1; j = elements[freeIndex].Next)
             {
                 if (elements[index] == elements[j])
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
 
         private void ExceptionForArgumentNull(TKey key)

@@ -325,8 +325,8 @@ namespace Arrays.Facts
             dictionary.Add(10, "c");
             dictionary.Add(7, "d");
 
-            var exception = Assert.Throws<KeyNotFoundException>(() => dictionary[100] = "f");
-            Assert.Equal("Key is not found.", exception.Message);
+            dictionary[100] = "f";
+
             Assert.Equal("f", dictionary[100]);
         }
 
