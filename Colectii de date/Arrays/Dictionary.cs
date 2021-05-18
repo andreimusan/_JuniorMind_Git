@@ -154,12 +154,40 @@ namespace Arrays
 
         public bool Remove(TKey key)
         {
-            return RemoveElement(key);
+            ExceptionForArgumentNull(key);
+
+            if (buckets == null)
+            {
+                return false;
+            }
+
+            int index = FindKey(key, out int last);
+            if (index >= 0)
+            {
+                RemoveElement(key, index, last);
+                return true;
+            }
+
+            return false;
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            return RemoveElement(item.Key, item.Value);
+            ExceptionForArgumentNull(item.Key);
+
+            if (buckets == null)
+            {
+                return false;
+            }
+
+            int index = FindKey(item.Key, out int last);
+            if (index >= 0 && EqualityComparer<TValue>.Default.Equals(elements[index].Value, item.Value))
+            {
+                RemoveElement(item.Key, index, last);
+                return true;
+            }
+
+            return false;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
@@ -240,41 +268,22 @@ namespace Arrays
             return -1;
         }
 
-        private bool RemoveElement(TKey key, [Optional] TValue value)
+        private void RemoveElement(TKey key, int currentindex, int prevIndex)
         {
-            ExceptionForArgumentNull(key);
-
-            if (buckets == null)
+            if (prevIndex < 0)
             {
-                return false;
+                buckets[TargetBucket(key)] = elements[currentindex].Next;
+            }
+            else
+            {
+                elements[prevIndex].Next = elements[currentindex].Next;
             }
 
-            int index = FindKey(key, out int last);
-            bool validation = EqualityComparer<TValue>.Default.Equals(elements[index].Value, value)
-                ? index >= 0 && EqualityComparer<TValue>.Default.Equals(elements[index].Value, value)
-                : index >= 0;
+            int oldFreeIndex = freeIndex;
+            freeIndex = currentindex;
+            elements[freeIndex].Next = oldFreeIndex;
 
-            if (validation)
-            {
-                if (last < 0)
-                {
-                    buckets[TargetBucket(key)] = elements[index].Next;
-                }
-                else
-                {
-                    elements[last].Next = elements[index].Next;
-                }
-
-                int oldFreeIndex = freeIndex;
-                freeIndex = index;
-                elements[freeIndex].Next = oldFreeIndex;
-
-                Count--;
-
-                return true;
-            }
-
-            return false;
+            Count--;
         }
 
         private bool IsElementFree(int index)
