@@ -156,11 +156,6 @@ namespace Arrays
         {
             ExceptionForArgumentNull(key);
 
-            if (buckets == null)
-            {
-                return false;
-            }
-
             int index = FindKey(key, out int last);
             if (index >= 0)
             {
@@ -174,11 +169,6 @@ namespace Arrays
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             ExceptionForArgumentNull(item.Key);
-
-            if (buckets == null)
-            {
-                return false;
-            }
 
             int index = FindKey(item.Key, out int last);
             if (index >= 0 && EqualityComparer<TValue>.Default.Equals(elements[index].Value, item.Value))
@@ -279,9 +269,8 @@ namespace Arrays
                 elements[prevIndex].Next = elements[currentindex].Next;
             }
 
-            int oldFreeIndex = freeIndex;
+            elements[currentindex].Next = freeIndex;
             freeIndex = currentindex;
-            elements[freeIndex].Next = oldFreeIndex;
 
             Count--;
         }
