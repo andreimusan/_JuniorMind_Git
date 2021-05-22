@@ -45,5 +45,28 @@ namespace Linq
 
             return false;
         }
+
+        public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
+            }
+
+            foreach (TSource element in source)
+            {
+                if (predicate(element))
+                {
+                    return element;
+                }
+            }
+
+            throw new InvalidOperationException("No element was found.");
+        }
     }
 }

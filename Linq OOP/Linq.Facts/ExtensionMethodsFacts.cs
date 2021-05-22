@@ -37,5 +37,24 @@ namespace Linq.Facts
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Any(c => c > 'a'));
             Assert.Equal("Source is null.", exception.Message);
         }
+
+        [Fact]
+        public void TestFirst()
+        {
+            var array = new char[] { 'd', 'x', 'b', 'c', 'y' };
+            char existingFirst = array.First(c => c > 'a' && c < 'd');
+            string exceptionArray = null;
+
+            Assert.Equal('b', existingFirst);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.First(c => c > 'a'));
+            Assert.Equal("Source is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => array.First(null));
+            Assert.Equal("Predicate is null.", exception.Message);
+
+            var notExistingException = Assert.Throws<InvalidOperationException>(() => array.First(c => c > 'z'));
+            Assert.Equal("No element was found.", notExistingException.Message);
+        }
     }
 }
