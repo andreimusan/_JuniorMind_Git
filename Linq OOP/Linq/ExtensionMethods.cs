@@ -68,5 +68,65 @@ namespace Linq
 
             throw new InvalidOperationException("No element was found.");
         }
+
+        public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
+            }
+
+            foreach (TSource element in source)
+            {
+                yield return selector(element);
+            }
+        }
+
+        public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
+            }
+
+            foreach (TSource element in source)
+            {
+                foreach (TResult subelement in selector(element))
+                {
+                    yield return subelement;
+                }
+            }
+        }
+
+        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
+            }
+
+            foreach (TSource element in source)
+            {
+                if (predicate(element))
+                {
+                    yield return element;
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Linq.Facts
@@ -55,6 +56,61 @@ namespace Linq.Facts
 
             var notExistingException = Assert.Throws<InvalidOperationException>(() => array.First(c => c > 'z'));
             Assert.Equal("No element was found.", notExistingException.Message);
+        }
+
+        [Fact]
+        public void TestSelect()
+        {
+            int[] numbers = { 2, 55, 67, 82, 99, 13 };
+            var result = numbers.Select(x => x / 2);
+            string[] exceptionArray = null;
+
+            Assert.Equal(new int[] { 1, 27, 33, 41, 49, 6 }, result);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Select(c => c.Length > 2));
+            Assert.Equal("Source is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => numbers.Select(exceptionArray => exceptionArray));
+            Assert.Equal("Selector is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestSelectMany()
+        {
+            int[][] arrays = {
+                new[] {1, 2, 3},
+                new[] {4},
+                new[] {5, 6, 7, 8},
+                new[] {12, 14}
+            };
+            IEnumerable<int> result = arrays.SelectMany(array => array);
+            var exceptionArray = new List<string>() { null };
+
+            Assert.Equal(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 12, 14 }, result);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.SelectMany(c => c));
+            Assert.Equal("Source is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => arrays.SelectMany(exceptionArray => exceptionArray));
+            Assert.Equal("Predicate is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestWhere()
+        {
+            List<string> fruits = new List<string> { "apple", "passionfruit", "banana", "mango", "orange", "blueberry", "grape", "strawberry" };
+
+            IEnumerable<string> result = fruits.Where(fruit => fruit.Length < 6);
+
+            string exceptionArray = null;
+
+            Assert.Equal(new string[] { "apple", "mango", "grape" }, result);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Where(c => c > 'a'));
+            Assert.Equal("Source is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.Where(null));
+            Assert.Equal("Predicate is null.", exception.Message);
         }
     }
 }
