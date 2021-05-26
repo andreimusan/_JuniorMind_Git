@@ -72,7 +72,7 @@ namespace Linq.Facts
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Select(c => c.Length > 2));
             Assert.Equal("Source is null.", exception.Message);
 
-            exception = Assert.Throws<ArgumentNullException>(() => fruits.Select(null));
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.Select((Func<string, int>)null));
             Assert.Equal("Selector is null.", exception.Message);
         }
 
@@ -86,15 +86,16 @@ namespace Linq.Facts
                 new[] {12, 14}
             };
             IEnumerable<int> result = arrays.SelectMany(array => array);
-            var exceptionArray = new List<string>() { null };
-
             Assert.Equal(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 12, 14 }, result);
+
+            List<string> fruits = new List<string> { "apple", "passionfruit", "banana", "mango", "orange", "blueberry", "grape", "strawberry" };
+            string[] exceptionArray = null;
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.SelectMany(c => c));
             Assert.Equal("Source is null.", exception.Message);
 
-            exception = Assert.Throws<ArgumentNullException>(() => arrays.SelectMany(exceptionArray => exceptionArray));
-            Assert.Equal("Predicate is null.", exception.Message);
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.SelectMany((Func<string, IEnumerable<int>>)null));
+            Assert.Equal("Selector is null.", exception.Message);
         }
 
         [Fact]
