@@ -81,10 +81,15 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
             }
 
-            foreach (TSource element in source)
+            IEnumerable<TResult> SelectImplementation()
             {
-                yield return selector(element);
+                foreach (TSource element in source)
+                {
+                    yield return selector(element);
+                }
             }
+
+            return SelectImplementation();
         }
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
@@ -99,13 +104,18 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
             }
 
-            foreach (TSource element in source)
+            IEnumerable<TResult> SelectManyImplementation()
             {
-                foreach (TResult subelement in selector(element))
+                foreach (TSource element in source)
                 {
-                    yield return subelement;
+                    foreach (TResult subelement in selector(element))
+                    {
+                        yield return subelement;
+                    }
                 }
             }
+
+            return SelectManyImplementation();
         }
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
@@ -120,13 +130,18 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
             }
 
-            foreach (TSource element in source)
+            IEnumerable<TSource> WhereImplementation()
             {
-                if (predicate(element))
+                foreach (TSource element in source)
                 {
-                    yield return element;
+                    if (predicate(element))
+                    {
+                        yield return element;
+                    }
                 }
             }
+
+            return WhereImplementation();
         }
     }
 }

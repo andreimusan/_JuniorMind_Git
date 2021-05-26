@@ -63,14 +63,16 @@ namespace Linq.Facts
         {
             int[] numbers = { 2, 55, 67, 82, 99, 13 };
             var result = numbers.Select(x => x / 2);
-            string[] exceptionArray = null;
 
             Assert.Equal(new int[] { 1, 27, 33, 41, 49, 6 }, result);
+
+            List<string> fruits = new List<string> { "apple", "passionfruit", "banana", "mango", "orange", "blueberry", "grape", "strawberry" };
+            string[] exceptionArray = null;
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Select(c => c.Length > 2));
             Assert.Equal("Source is null.", exception.Message);
 
-            exception = Assert.Throws<ArgumentNullException>(() => numbers.Select(exceptionArray => exceptionArray));
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.Select(null));
             Assert.Equal("Selector is null.", exception.Message);
         }
 
