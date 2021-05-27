@@ -173,5 +173,33 @@ namespace Linq
 
             return d;
         }
+
+        public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
+            this IEnumerable<TFirst> first,
+            IEnumerable<TSecond> second,
+            Func<TFirst, TSecond, TResult> resultSelector)
+        {
+            if (first == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
+            }
+
+            if (second == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
+            }
+
+            IEnumerable<TResult> ZipImplementation()
+            {
+                using var e1 = first.GetEnumerator();
+                using var e2 = second.GetEnumerator();
+                while (e1.MoveNext() && e2.MoveNext())
+                {
+                    yield return resultSelector(e1.Current, e2.Current);
+                }
+            }
+
+            return ZipImplementation();
+        }
     }
 }

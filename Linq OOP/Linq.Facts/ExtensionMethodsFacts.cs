@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Linq.Facts
@@ -135,6 +136,24 @@ namespace Linq.Facts
 
             exception = Assert.Throws<ArgumentNullException>(() => fruits.ToDictionary(item => item, (Func<string, string>)null));
             Assert.Equal("ElementSelector is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestZip()
+        {
+            int[] integers1 = new int[] { 1, 2, 3, 4, 5 };
+            int[] integers2 = new int[] { 10, 20, 30, 40, 50 };
+            var result = integers1.Zip(integers2, (i, j) => i + j);
+
+            string exceptionArray = null;
+
+            Assert.Equal(22, result.ElementAt(1));
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Zip(integers2, (first, second) => first + " " + second));
+            Assert.Equal("The first sequence is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => integers1.Zip(exceptionArray, (first, second) => first + " " + second));
+            Assert.Equal("The second sequence is null.", exception.Message);
         }
     }
 }
