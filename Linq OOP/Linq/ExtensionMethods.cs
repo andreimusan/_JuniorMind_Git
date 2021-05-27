@@ -143,5 +143,35 @@ namespace Linq
 
             return WhereImplementation();
         }
+
+        public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            if (keySelector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(keySelector), "KeySelector is null.");
+            }
+
+            if (elementSelector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(elementSelector), "ElementSelector is null.");
+            }
+
+            Dictionary<TKey, TElement> d = new Dictionary<TKey, TElement>();
+
+            foreach (TSource element in source)
+            {
+                d.Add(keySelector(element), elementSelector(element));
+            }
+
+            return d;
+        }
     }
 }

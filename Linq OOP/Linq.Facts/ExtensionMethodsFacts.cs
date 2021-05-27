@@ -115,5 +115,26 @@ namespace Linq.Facts
             exception = Assert.Throws<ArgumentNullException>(() => fruits.Where(null));
             Assert.Equal("Predicate is null.", exception.Message);
         }
+
+        [Fact]
+        public void TestToDictionary()
+        {
+            string[] fruits = new string[] { "apple", "passionfruit", "banana", "mango", "orange", "blueberry", "grape", "strawberry" };
+
+            var result = fruits.ToDictionary(item => item, item => true);
+
+            string exceptionArray = null;
+
+            Assert.True(result.ContainsKey("mango"));
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.ToDictionary(item => item, item => true));
+            Assert.Equal("Source is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.ToDictionary((Func<string, string>)null, item => true));
+            Assert.Equal("KeySelector is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.ToDictionary(item => item, (Func<string, string>)null));
+            Assert.Equal("ElementSelector is null.", exception.Message);
+        }
     }
 }
