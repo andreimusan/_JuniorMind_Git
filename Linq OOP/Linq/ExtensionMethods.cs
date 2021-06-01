@@ -201,5 +201,29 @@ namespace Linq
 
             return ZipImplementation();
         }
+
+        public static TAccumulate Aggregate<TSource, TAccumulate>(
+            this IEnumerable<TSource> source,
+            TAccumulate seed,
+            Func<TAccumulate, TSource, TAccumulate> func)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            if (func == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(func), "Function is null.");
+            }
+
+            TAccumulate result = seed;
+            foreach (var element in source)
+            {
+                result = func(result, element);
+            }
+
+            return result;
+        }
     }
 }

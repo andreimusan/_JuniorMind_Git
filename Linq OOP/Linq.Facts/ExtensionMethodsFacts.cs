@@ -155,5 +155,22 @@ namespace Linq.Facts
             exception = Assert.Throws<ArgumentNullException>(() => integers1.Zip(exceptionArray, (first, second) => first + " " + second));
             Assert.Equal("The second sequence is null.", exception.Message);
         }
+
+        [Fact]
+        public void TestAggregate()
+        {
+            int[] ints = { 4, 8, 8, 3, 9, 0, 7, 8, 2 };
+            int numEven = ints.Aggregate(0, (total, next) => next % 2 == 0 ? total + 1 : total);
+
+            string exceptionArray = null;
+
+            Assert.Equal(6, numEven);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Aggregate(0, (total, next) => next % 2 == 0 ? total + 1 : total));
+            Assert.Equal("Source is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => ints.Aggregate(0, (Func<int, int, int>)null));
+            Assert.Equal("Function is null.", exception.Message);
+        }
     }
 }
