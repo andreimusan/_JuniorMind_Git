@@ -172,5 +172,66 @@ namespace Linq.Facts
             exception = Assert.Throws<ArgumentNullException>(() => ints.Aggregate(0, (Func<int, int, int>)null));
             Assert.Equal("Function is null.", exception.Message);
         }
+
+        [Fact]
+        public void TestJoin()
+        {
+            int[] outer = { 5, 3, 7 };
+            string[] inner = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
+            var query = outer.Join(inner,
+                            outerElement => outerElement,
+                            innerElement => innerElement.Length,
+                            (outerElement, innerElement) => outerElement + ":" + innerElement);
+
+            Assert.Equal("5:tiger", query.ElementAt(0));
+
+            string exceptionOuter = null;
+            string[] exceptionInner = null;
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionOuter.Join(inner,
+                           outerElement => outerElement,
+                           innerElement => innerElement.Length,
+                           (outerElement, innerElement) => outerElement + ":" + innerElement));
+            Assert.Equal("Outer is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => outer.Join(exceptionInner,
+                           outerElement => outerElement,
+                           innerElement => innerElement.Length,
+                           (outerElement, innerElement) => outerElement + ":" + innerElement));
+            Assert.Equal("Inner is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => outer.Join(inner,
+                           (Func<int, int>)null,
+                           innerElement => innerElement.Length,
+                           (outerElement, innerElement) => outerElement + ":" + innerElement));
+            Assert.Equal("OuterKeySelector is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => outer.Join(inner,
+                           outerElement => outerElement,
+                           (Func<string, int>)null,
+                           (outerElement, innerElement) => outerElement + ":" + innerElement));
+            Assert.Equal("InnerKeySelector is null.", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => outer.Join(inner,
+                           outerElement => outerElement,
+                           innerElement => innerElement.Length,
+                           (Func<int, string, string>)null));
+            Assert.Equal("ResultSelector is null.", exception.Message);
+        }
+
+        [Fact]
+        public void TestDistinct()
+        {
+            List<int> intCollection = new List<int>() { 1, 2, 3, 2, 3, 4, 4, 5, 6, 3, 4, 5 };
+            IEnumerable<int> distinctCollection = new List<int> { 1, 2, 3, 4, 5, 6 };
+            var distinct = intCollection.Distinct(EqualityComparer<int>.Default);
+
+            string[] exceptionArray = null;
+
+            Assert.Equal(distinctCollection, distinct);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Distinct(EqualityComparer<string>.Default));
+            Assert.Equal("Source is null.", exception.Message);
+        }
     }
 }

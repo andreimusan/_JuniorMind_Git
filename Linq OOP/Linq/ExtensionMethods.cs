@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Linq
 {
@@ -224,6 +225,79 @@ namespace Linq
             }
 
             return result;
+        }
+
+        public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
+            this IEnumerable<TOuter> outer,
+            IEnumerable<TInner> inner,
+            Func<TOuter, TKey> outerKeySelector,
+            Func<TInner, TKey> innerKeySelector,
+            Func<TOuter, TInner, TResult> resultSelector)
+        {
+
+            if (outer == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(outer), "Outer is null.");
+            }
+
+            if (inner == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(inner), "Inner is null.");
+            }
+
+            if (outerKeySelector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(outerKeySelector), "OuterKeySelector is null.");
+            }
+
+            if (innerKeySelector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(innerKeySelector), "InnerKeySelector is null.");
+            }
+
+            if (resultSelector == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(resultSelector), "ResultSelector is null.");
+            }
+
+            IEnumerable<TResult> JoinImplementation()
+            {
+                var lookup = inner.ToLookup(innerKeySelector);
+                foreach (var outerElement in outer)
+                {
+                    var key = outerKeySelector(outerElement);
+                    foreach (var innerElement in lookup[key])
+                    {
+                        yield return resultSelector(outerElement, innerElement);
+                    }
+                }
+            }
+
+            return JoinImplementation();
+        }
+
+        public static IEnumerable<TSource> Distinct<TSource>(
+            this IEnumerable<TSource> source,
+            IEqualityComparer<TSource> comparer)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
+            }
+
+            IEnumerable<TSource> DistinctImplementation()
+            {
+                HashSet<TSource> elements = new HashSet<TSource>(comparer);
+                foreach (var item in source)
+                {
+                    if (elements.Add(item))
+                    {
+                        yield return item;
+                    }
+                }
+            }
+
+            return DistinctImplementation();
         }
     }
 }
