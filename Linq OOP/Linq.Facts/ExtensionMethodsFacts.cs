@@ -183,7 +183,7 @@ namespace Linq.Facts
                             innerElement => innerElement.Length,
                             (outerElement, innerElement) => outerElement + ":" + innerElement);
 
-            Assert.Equal("5:tiger", query.ElementAt(0));
+            Assert.Equal("3:bee", query.ElementAt(1));
 
             string exceptionOuter = null;
             string[] exceptionInner = null;

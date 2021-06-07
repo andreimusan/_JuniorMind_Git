@@ -240,13 +240,14 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(resultSelector), "ResultSelector is null.");
             }
 
-            var lookup = inner.ToLookup(innerKeySelector);
             foreach (var outerElement in outer)
             {
-                var key = outerKeySelector(outerElement);
-                foreach (var innerElement in lookup[key])
+                foreach (var innerElement in inner)
                 {
-                    yield return resultSelector(outerElement, innerElement);
+                    if (EqualityComparer<TKey>.Default.Equals(outerKeySelector(outerElement), innerKeySelector(innerElement)))
+                    {
+                        yield return resultSelector(outerElement, innerElement);
+                    }
                 }
             }
         }
