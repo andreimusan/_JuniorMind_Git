@@ -82,15 +82,10 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
             }
 
-            IEnumerable<TResult> SelectImplementation()
+            foreach (TSource element in source)
             {
-                foreach (TSource element in source)
-                {
-                    yield return selector(element);
-                }
+                yield return selector(element);
             }
-
-            return SelectImplementation();
         }
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
@@ -105,18 +100,13 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
             }
 
-            IEnumerable<TResult> SelectManyImplementation()
+            foreach (TSource element in source)
             {
-                foreach (TSource element in source)
+                foreach (TResult subelement in selector(element))
                 {
-                    foreach (TResult subelement in selector(element))
-                    {
-                        yield return subelement;
-                    }
+                    yield return subelement;
                 }
             }
-
-            return SelectManyImplementation();
         }
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
@@ -131,18 +121,13 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
             }
 
-            IEnumerable<TSource> WhereImplementation()
+            foreach (TSource element in source)
             {
-                foreach (TSource element in source)
+                if (predicate(element))
                 {
-                    if (predicate(element))
-                    {
-                        yield return element;
-                    }
+                    yield return element;
                 }
             }
-
-            return WhereImplementation();
         }
 
         public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
@@ -190,17 +175,12 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
             }
 
-            IEnumerable<TResult> ZipImplementation()
+            using var e1 = first.GetEnumerator();
+            using var e2 = second.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext())
             {
-                using var e1 = first.GetEnumerator();
-                using var e2 = second.GetEnumerator();
-                while (e1.MoveNext() && e2.MoveNext())
-                {
-                    yield return resultSelector(e1.Current, e2.Current);
-                }
+                yield return resultSelector(e1.Current, e2.Current);
             }
-
-            return ZipImplementation();
         }
 
         public static TAccumulate Aggregate<TSource, TAccumulate>(
@@ -260,20 +240,15 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(resultSelector), "ResultSelector is null.");
             }
 
-            IEnumerable<TResult> JoinImplementation()
+            var lookup = inner.ToLookup(innerKeySelector);
+            foreach (var outerElement in outer)
             {
-                var lookup = inner.ToLookup(innerKeySelector);
-                foreach (var outerElement in outer)
+                var key = outerKeySelector(outerElement);
+                foreach (var innerElement in lookup[key])
                 {
-                    var key = outerKeySelector(outerElement);
-                    foreach (var innerElement in lookup[key])
-                    {
-                        yield return resultSelector(outerElement, innerElement);
-                    }
+                    yield return resultSelector(outerElement, innerElement);
                 }
             }
-
-            return JoinImplementation();
         }
 
         public static IEnumerable<TSource> Distinct<TSource>(
@@ -285,19 +260,82 @@ namespace Linq
                 throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
             }
 
-            IEnumerable<TSource> DistinctImplementation()
+            HashSet<TSource> elements = new HashSet<TSource>(comparer);
+            foreach (var item in source)
             {
-                HashSet<TSource> elements = new HashSet<TSource>(comparer);
-                foreach (var item in source)
+                if (elements.Add(item))
                 {
-                    if (elements.Add(item))
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
+        }
 
-            return DistinctImplementation();
+        public static IEnumerable<TSource> Union<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            if (first == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
+            }
+
+            if (second == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
+            }
+
+            return first.Concat(second).Distinct(comparer);
+        }
+
+        public static IEnumerable<TSource> Intersect<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            if (first == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
+            }
+
+            if (second == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
+            }
+
+            HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
+            foreach (var item in first)
+            {
+                if (elements.Remove(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        public static IEnumerable<TSource> Except<TSource>(
+            this IEnumerable<TSource> first,
+            IEnumerable<TSource> second,
+            IEqualityComparer<TSource> comparer)
+        {
+            if (first == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
+            }
+
+            if (second == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
+            }
+
+            HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
+            foreach (var item in first)
+            {
+                if (elements.Add(item))
+                {
+                    yield return item;
+                }
+            }
         }
     }
 }
