@@ -8,15 +8,8 @@ namespace Linq
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(predicate, "Predicate");
 
             foreach (TSource element in source)
             {
@@ -31,10 +24,7 @@ namespace Linq
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
+            CheckForNull(source, "Source");
 
             foreach (TSource element in source)
             {
@@ -49,15 +39,8 @@ namespace Linq
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(predicate, "Predicate");
 
             foreach (TSource element in source)
             {
@@ -72,15 +55,8 @@ namespace Linq
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (selector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(selector, "Selector");
 
             foreach (TSource element in source)
             {
@@ -90,15 +66,8 @@ namespace Linq
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (selector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(selector), "Selector is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(selector, "Selector");
 
             foreach (TSource element in source)
             {
@@ -111,15 +80,8 @@ namespace Linq
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(predicate), "Predicate is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(predicate, "Predicate");
 
             foreach (TSource element in source)
             {
@@ -135,20 +97,9 @@ namespace Linq
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (keySelector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(keySelector), "KeySelector is null.");
-            }
-
-            if (elementSelector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(elementSelector), "ElementSelector is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(keySelector, "KeySelector");
+            CheckForNull(elementSelector, "ElementSelector");
 
             Dictionary<TKey, TElement> d = new Dictionary<TKey, TElement>();
 
@@ -165,15 +116,8 @@ namespace Linq
             IEnumerable<TSecond> second,
             Func<TFirst, TSecond, TResult> resultSelector)
         {
-            if (first == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
-            }
-
-            if (second == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
-            }
+            CheckForNull(first, "First sequence");
+            CheckForNull(second, "Second sequence");
 
             using var e1 = first.GetEnumerator();
             using var e2 = second.GetEnumerator();
@@ -188,15 +132,8 @@ namespace Linq
             TAccumulate seed,
             Func<TAccumulate, TSource, TAccumulate> func)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
-
-            if (func == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(func), "Function is null.");
-            }
+            CheckForNull(source, "Source");
+            CheckForNull(func, "Function");
 
             TAccumulate result = seed;
             foreach (var element in source)
@@ -214,31 +151,11 @@ namespace Linq
             Func<TInner, TKey> innerKeySelector,
             Func<TOuter, TInner, TResult> resultSelector)
         {
-
-            if (outer == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(outer), "Outer is null.");
-            }
-
-            if (inner == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(inner), "Inner is null.");
-            }
-
-            if (outerKeySelector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(outerKeySelector), "OuterKeySelector is null.");
-            }
-
-            if (innerKeySelector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(innerKeySelector), "InnerKeySelector is null.");
-            }
-
-            if (resultSelector == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(resultSelector), "ResultSelector is null.");
-            }
+            CheckForNull(outer, "Outer");
+            CheckForNull(inner, "Inner");
+            CheckForNull(outerKeySelector, "OuterKeySelector");
+            CheckForNull(innerKeySelector, "InnerKeySelector");
+            CheckForNull(resultSelector, "ResultSelector");
 
             foreach (var outerElement in outer)
             {
@@ -256,10 +173,7 @@ namespace Linq
             this IEnumerable<TSource> source,
             IEqualityComparer<TSource> comparer)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(source), "Source is null.");
-            }
+            CheckForNull(source, "Source");
 
             HashSet<TSource> elements = new HashSet<TSource>(comparer);
             foreach (var item in source)
@@ -276,15 +190,8 @@ namespace Linq
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
         {
-            if (first == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
-            }
-
-            if (second == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
-            }
+            CheckForNull(first, "First sequence");
+            CheckForNull(second, "Second sequence");
 
             return first.Concat(second).Distinct(comparer);
         }
@@ -294,15 +201,8 @@ namespace Linq
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
         {
-            if (first == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
-            }
-
-            if (second == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
-            }
+            CheckForNull(first, "First sequence");
+            CheckForNull(second, "Second sequence");
 
             HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
             foreach (var item in first)
@@ -319,15 +219,8 @@ namespace Linq
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
         {
-            if (first == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(first), "The first sequence is null.");
-            }
-
-            if (second == null)
-            {
-                throw new ArgumentNullException(Convert.ToString(second), "The second sequence is null.");
-            }
+            CheckForNull(first, "First sequence");
+            CheckForNull(second, "Second sequence");
 
             HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
             foreach (var item in first)
@@ -336,6 +229,14 @@ namespace Linq
                 {
                     yield return item;
                 }
+            }
+        }
+
+        private static void CheckForNull<T>(T source, string sourceName)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(Convert.ToString(source), $"{sourceName} is null.");
             }
         }
     }

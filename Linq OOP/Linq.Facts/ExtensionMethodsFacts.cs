@@ -150,10 +150,10 @@ namespace Linq.Facts
             Assert.Equal(22, result.ElementAt(1));
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Zip(integers2, (first, second) => first + " " + second).GetEnumerator().MoveNext());
-            Assert.Equal("The first sequence is null.", exception.Message);
+            Assert.Equal("First sequence is null.", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => integers1.Zip(exceptionArray, (first, second) => first + " " + second).GetEnumerator().MoveNext());
-            Assert.Equal("The second sequence is null.", exception.Message);
+            Assert.Equal("Second sequence is null.", exception.Message);
         }
 
         [Fact]
@@ -249,10 +249,10 @@ namespace Linq.Facts
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Union(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("The first sequence is null.", exception.Message);
+            Assert.Equal("First sequence is null.", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => sequence.Union(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("The second sequence is null.", exception.Message);
+            Assert.Equal("Second sequence is null.", exception.Message);
         }
 
         [Fact]
@@ -270,10 +270,10 @@ namespace Linq.Facts
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Intersect(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("The first sequence is null.", exception.Message);
+            Assert.Equal("First sequence is null.", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => sequence.Intersect(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("The second sequence is null.", exception.Message);
+            Assert.Equal("Second sequence is null.", exception.Message);
         }
 
         [Fact]
@@ -291,10 +291,10 @@ namespace Linq.Facts
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Except(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("The first sequence is null.", exception.Message);
+            Assert.Equal("First sequence is null.", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => sequence.Except(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("The second sequence is null.", exception.Message);
+            Assert.Equal("Second sequence is null.", exception.Message);
         }
     }
 }
