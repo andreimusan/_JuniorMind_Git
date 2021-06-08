@@ -19,10 +19,10 @@ namespace Linq.Facts
             Assert.False(isGreaterThanFive);
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.All(c => c > 'a'));
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => array.All(null));
-            Assert.Equal("Predicate is null.", exception.Message);
+            Assert.Equal("predicate", exception.Message);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace Linq.Facts
             Assert.False(isGreaterThanZ);
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Any(c => c > 'a'));
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
         }
 
         [Fact]
@@ -50,10 +50,10 @@ namespace Linq.Facts
             Assert.Equal('b', existingFirst);
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.First(c => c > 'a'));
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => array.First(null));
-            Assert.Equal("Predicate is null.", exception.Message);
+            Assert.Equal("predicate", exception.Message);
 
             var notExistingException = Assert.Throws<InvalidOperationException>(() => array.First(c => c > 'z'));
             Assert.Equal("No element was found.", notExistingException.Message);
@@ -71,10 +71,10 @@ namespace Linq.Facts
             string[] exceptionArray = null;
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Select(c => c.Length > 2).GetEnumerator().MoveNext());
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => fruits.Select((Func<string, int>)null).GetEnumerator().MoveNext());
-            Assert.Equal("Selector is null.", exception.Message);
+            Assert.Equal("selector", exception.Message);
         }
 
         [Fact]
@@ -93,10 +93,10 @@ namespace Linq.Facts
             string[] exceptionArray = null;
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.SelectMany(c => c).GetEnumerator().MoveNext());
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => fruits.SelectMany((Func<string, IEnumerable<int>>)null).GetEnumerator().MoveNext());
-            Assert.Equal("Selector is null.", exception.Message);
+            Assert.Equal("selector", exception.Message);
         }
 
         [Fact]
@@ -111,10 +111,10 @@ namespace Linq.Facts
             Assert.Equal(new string[] { "apple", "mango", "grape" }, result);
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Where(c => c > 'a').GetEnumerator().MoveNext());
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => fruits.Where(null).GetEnumerator().MoveNext());
-            Assert.Equal("Predicate is null.", exception.Message);
+            Assert.Equal("predicate", exception.Message);
         }
 
         [Fact]
@@ -129,13 +129,13 @@ namespace Linq.Facts
             Assert.True(result.ContainsKey("mango"));
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.ToDictionary(item => item, item => true));
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => fruits.ToDictionary((Func<string, string>)null, item => true));
-            Assert.Equal("KeySelector is null.", exception.Message);
+            Assert.Equal("keySelector", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => fruits.ToDictionary(item => item, (Func<string, string>)null));
-            Assert.Equal("ElementSelector is null.", exception.Message);
+            Assert.Equal("elementSelector", exception.Message);
         }
 
         [Fact]
@@ -150,10 +150,10 @@ namespace Linq.Facts
             Assert.Equal(22, result.ElementAt(1));
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Zip(integers2, (first, second) => first + " " + second).GetEnumerator().MoveNext());
-            Assert.Equal("First sequence is null.", exception.Message);
+            Assert.Equal("first", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => integers1.Zip(exceptionArray, (first, second) => first + " " + second).GetEnumerator().MoveNext());
-            Assert.Equal("Second sequence is null.", exception.Message);
+            Assert.Equal("second", exception.Message);
         }
 
         [Fact]
@@ -167,10 +167,10 @@ namespace Linq.Facts
             Assert.Equal(6, numEven);
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Aggregate(0, (total, next) => next % 2 == 0 ? total + 1 : total));
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => ints.Aggregate(0, (Func<int, int, int>)null));
-            Assert.Equal("Function is null.", exception.Message);
+            Assert.Equal("func", exception.Message);
         }
 
         [Fact]
@@ -192,31 +192,31 @@ namespace Linq.Facts
                            outerElement => outerElement,
                            innerElement => innerElement.Length,
                            (outerElement, innerElement) => outerElement + ":" + innerElement).GetEnumerator().MoveNext());
-            Assert.Equal("Outer is null.", exception.Message);
+            Assert.Equal("outer", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => outer.Join(exceptionInner,
                            outerElement => outerElement,
                            innerElement => innerElement.Length,
                            (outerElement, innerElement) => outerElement + ":" + innerElement).GetEnumerator().MoveNext());
-            Assert.Equal("Inner is null.", exception.Message);
+            Assert.Equal("inner", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => outer.Join(inner,
                            (Func<int, int>)null,
                            innerElement => innerElement.Length,
                            (outerElement, innerElement) => outerElement + ":" + innerElement).GetEnumerator().MoveNext());
-            Assert.Equal("OuterKeySelector is null.", exception.Message);
+            Assert.Equal("outerKeySelector", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => outer.Join(inner,
                            outerElement => outerElement,
                            (Func<string, int>)null,
                            (outerElement, innerElement) => outerElement + ":" + innerElement).GetEnumerator().MoveNext());
-            Assert.Equal("InnerKeySelector is null.", exception.Message);
+            Assert.Equal("innerKeySelector", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => outer.Join(inner,
                            outerElement => outerElement,
                            innerElement => innerElement.Length,
                            (Func<int, string, string>)null).GetEnumerator().MoveNext());
-            Assert.Equal("ResultSelector is null.", exception.Message);
+            Assert.Equal("resultSelector", exception.Message);
         }
 
         [Fact]
@@ -231,7 +231,7 @@ namespace Linq.Facts
             Assert.Equal(distinctCollection, distinct);
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Distinct(EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("Source is null.", exception.Message);
+            Assert.Equal("source", exception.Message);
         }
 
         [Fact]
@@ -249,10 +249,10 @@ namespace Linq.Facts
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Union(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("First sequence is null.", exception.Message);
+            Assert.Equal("first", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => sequence.Union(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("Second sequence is null.", exception.Message);
+            Assert.Equal("second", exception.Message);
         }
 
         [Fact]
@@ -270,10 +270,10 @@ namespace Linq.Facts
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Intersect(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("First sequence is null.", exception.Message);
+            Assert.Equal("first", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => sequence.Intersect(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("Second sequence is null.", exception.Message);
+            Assert.Equal("second", exception.Message);
         }
 
         [Fact]
@@ -291,10 +291,10 @@ namespace Linq.Facts
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
             var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Except(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("First sequence is null.", exception.Message);
+            Assert.Equal("first", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => sequence.Except(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
-            Assert.Equal("Second sequence is null.", exception.Message);
+            Assert.Equal("second", exception.Message);
         }
     }
 }

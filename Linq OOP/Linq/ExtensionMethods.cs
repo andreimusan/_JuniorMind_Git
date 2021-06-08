@@ -8,8 +8,8 @@ namespace Linq
     {
         public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(predicate, "Predicate");
+            CheckForNull(source, nameof(source));
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -24,7 +24,7 @@ namespace Linq
 
         public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source, "Source");
+            CheckForNull(source, nameof(source));
 
             foreach (TSource element in source)
             {
@@ -39,8 +39,8 @@ namespace Linq
 
         public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(predicate, "Predicate");
+            CheckForNull(source, nameof(source));
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -55,8 +55,8 @@ namespace Linq
 
         public static IEnumerable<TResult> Select<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(selector, "Selector");
+            CheckForNull(source, nameof(source));
+            CheckForNull(selector, nameof(selector));
 
             foreach (TSource element in source)
             {
@@ -66,8 +66,8 @@ namespace Linq
 
         public static IEnumerable<TResult> SelectMany<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TResult>> selector)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(selector, "Selector");
+            CheckForNull(source, nameof(source));
+            CheckForNull(selector, nameof(selector));
 
             foreach (TSource element in source)
             {
@@ -80,8 +80,8 @@ namespace Linq
 
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(predicate, "Predicate");
+            CheckForNull(source, nameof(source));
+            CheckForNull(predicate, nameof(predicate));
 
             foreach (TSource element in source)
             {
@@ -97,9 +97,9 @@ namespace Linq
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(keySelector, "KeySelector");
-            CheckForNull(elementSelector, "ElementSelector");
+            CheckForNull(source, nameof(source));
+            CheckForNull(keySelector, nameof(keySelector));
+            CheckForNull(elementSelector, nameof(elementSelector));
 
             Dictionary<TKey, TElement> d = new Dictionary<TKey, TElement>();
 
@@ -116,8 +116,8 @@ namespace Linq
             IEnumerable<TSecond> second,
             Func<TFirst, TSecond, TResult> resultSelector)
         {
-            CheckForNull(first, "First sequence");
-            CheckForNull(second, "Second sequence");
+            CheckForNull(first, nameof(first));
+            CheckForNull(second, nameof(second));
 
             using var e1 = first.GetEnumerator();
             using var e2 = second.GetEnumerator();
@@ -132,8 +132,8 @@ namespace Linq
             TAccumulate seed,
             Func<TAccumulate, TSource, TAccumulate> func)
         {
-            CheckForNull(source, "Source");
-            CheckForNull(func, "Function");
+            CheckForNull(source, nameof(source));
+            CheckForNull(func, nameof(func));
 
             TAccumulate result = seed;
             foreach (var element in source)
@@ -151,11 +151,11 @@ namespace Linq
             Func<TInner, TKey> innerKeySelector,
             Func<TOuter, TInner, TResult> resultSelector)
         {
-            CheckForNull(outer, "Outer");
-            CheckForNull(inner, "Inner");
-            CheckForNull(outerKeySelector, "OuterKeySelector");
-            CheckForNull(innerKeySelector, "InnerKeySelector");
-            CheckForNull(resultSelector, "ResultSelector");
+            CheckForNull(outer, nameof(outer));
+            CheckForNull(inner, nameof(inner));
+            CheckForNull(outerKeySelector, nameof(outerKeySelector));
+            CheckForNull(innerKeySelector, nameof(innerKeySelector));
+            CheckForNull(resultSelector, nameof(resultSelector));
 
             foreach (var outerElement in outer)
             {
@@ -173,7 +173,7 @@ namespace Linq
             this IEnumerable<TSource> source,
             IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(source, "Source");
+            CheckForNull(source, nameof(source));
 
             HashSet<TSource> elements = new HashSet<TSource>(comparer);
             foreach (var item in source)
@@ -190,8 +190,8 @@ namespace Linq
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(first, "First sequence");
-            CheckForNull(second, "Second sequence");
+            CheckForNull(first, nameof(first));
+            CheckForNull(second, nameof(second));
 
             return first.Concat(second).Distinct(comparer);
         }
@@ -201,8 +201,8 @@ namespace Linq
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(first, "First sequence");
-            CheckForNull(second, "Second sequence");
+            CheckForNull(first, nameof(first));
+            CheckForNull(second, nameof(second));
 
             HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
             foreach (var item in first)
@@ -219,8 +219,8 @@ namespace Linq
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
         {
-            CheckForNull(first, "First sequence");
-            CheckForNull(second, "Second sequence");
+            CheckForNull(first, nameof(first));
+            CheckForNull(second, nameof(second));
 
             HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
             foreach (var item in first)
@@ -236,7 +236,7 @@ namespace Linq
         {
             if (source == null)
             {
-                throw new ArgumentNullException(Convert.ToString(source), $"{sourceName} is null.");
+                throw new ArgumentNullException(Convert.ToString(source), sourceName);
             }
         }
     }
