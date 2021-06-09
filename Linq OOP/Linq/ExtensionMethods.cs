@@ -193,7 +193,10 @@ namespace Linq
             CheckForNull(first, nameof(first));
             CheckForNull(second, nameof(second));
 
-            return first.Concat(second).Distinct(comparer);
+            HashSet<TSource> elements = new HashSet<TSource>(first, comparer);
+            elements.UnionWith(second);
+
+            return elements;
         }
 
         public static IEnumerable<TSource> Intersect<TSource>(
@@ -204,14 +207,10 @@ namespace Linq
             CheckForNull(first, nameof(first));
             CheckForNull(second, nameof(second));
 
-            HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
-            foreach (var item in first)
-            {
-                if (elements.Remove(item))
-                {
-                    yield return item;
-                }
-            }
+            HashSet<TSource> elements = new HashSet<TSource>(first, comparer);
+            elements.IntersectWith(second);
+
+            return elements;
         }
 
         public static IEnumerable<TSource> Except<TSource>(
@@ -222,14 +221,10 @@ namespace Linq
             CheckForNull(first, nameof(first));
             CheckForNull(second, nameof(second));
 
-            HashSet<TSource> elements = new HashSet<TSource>(second, comparer);
-            foreach (var item in first)
-            {
-                if (elements.Add(item))
-                {
-                    yield return item;
-                }
-            }
+            HashSet<TSource> elements = new HashSet<TSource>(first, comparer);
+            elements.ExceptWith(second);
+
+            return elements;
         }
 
         private static void CheckForNull<T>(T source, string sourceName)
