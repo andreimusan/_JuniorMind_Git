@@ -248,10 +248,10 @@ namespace Linq.Facts
             string[] exceptionArray = null;
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
-            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Union(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Union(sequence, EqualityComparer<string>.Default));
             Assert.Equal("first", exception.Message);
 
-            exception = Assert.Throws<ArgumentNullException>(() => sequence.Union(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
+            exception = Assert.Throws<ArgumentNullException>(() => sequence.Union(exceptionArray, EqualityComparer<string>.Default));
             Assert.Equal("second", exception.Message);
         }
 
@@ -269,10 +269,10 @@ namespace Linq.Facts
             string[] exceptionArray = null;
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
-            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Intersect(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Intersect(sequence, EqualityComparer<string>.Default));
             Assert.Equal("first", exception.Message);
 
-            exception = Assert.Throws<ArgumentNullException>(() => sequence.Intersect(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
+            exception = Assert.Throws<ArgumentNullException>(() => sequence.Intersect(exceptionArray, EqualityComparer<string>.Default));
             Assert.Equal("second", exception.Message);
         }
 
@@ -290,11 +290,46 @@ namespace Linq.Facts
             string[] exceptionArray = null;
             string[] sequence = { "bee", "giraffe", "tiger", "badger", "ox", "cat", "dog" };
 
-            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Except(sequence, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.Except(sequence, EqualityComparer<string>.Default));
             Assert.Equal("first", exception.Message);
 
-            exception = Assert.Throws<ArgumentNullException>(() => sequence.Except(exceptionArray, EqualityComparer<string>.Default).GetEnumerator().MoveNext());
+            exception = Assert.Throws<ArgumentNullException>(() => sequence.Except(exceptionArray, EqualityComparer<string>.Default));
             Assert.Equal("second", exception.Message);
+        }
+
+        [Fact]
+        public void TestGroupBy()
+        {
+            string[] sequence = { "abc", "hello", "def", "there", "four" };
+            var groups = sequence.GroupBy(x => x.Length,
+                                        x => x,
+                                        (key, values) => key + ":" + string.Join(";", values),
+                                        EqualityComparer<int>.Default);
+            IEnumerable<string> groupCollection = new List<string> { "3:abc;def", "5:hello;there", "4:four" };
+
+            Assert.Equal(groupCollection, groups);
+
+            string[] exceptionArray = null;
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.GroupBy(x => x.Length, x => x, (key, values) => key + ":" + string.Join(";", values), EqualityComparer<int>.Default));
+            Assert.Equal("source", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => sequence.GroupBy((Func<string, int>)null, x => x, (key, values) => key + ":" + string.Join(";", values), EqualityComparer<int>.Default));
+            Assert.Equal("keySelector", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => sequence.GroupBy(x => x.Length, (Func<string, string>)null, (key, values) => key + ":" + string.Join(";", values), EqualityComparer<int>.Default));
+            Assert.Equal("elementSelector", exception.Message);
+        }
+
+        [Fact]
+        public void TestOrderBy()
+        {
+            string[] fruits = { "orange", "mango", "cherry", "strawberry", "berry", "grapes", "grapefruit" };
+            var result = fruits.OrderBy(x => x.Length, null).ToList();
+
+            IEnumerable<string> orderedFruits = new List<string> { "mango", "berry", "orange", "cherry", "grapes", "strawberry", "grapefruit" };
+
+            Assert.Equal(orderedFruits, result);
         }
     }
 }

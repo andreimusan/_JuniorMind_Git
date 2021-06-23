@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -225,6 +226,63 @@ namespace Linq
             elements.ExceptWith(second);
 
             return elements;
+        }
+
+        public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector,
+            Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
+            IEqualityComparer<TKey> comparer)
+        {
+            CheckForNull(source, nameof(source));
+            CheckForNull(source, nameof(source));
+            CheckForNull(keySelector, nameof(keySelector));
+            CheckForNull(elementSelector, nameof(elementSelector));
+
+            return source.GroupByImpl(keySelector, elementSelector, comparer)
+                 .Select(group => resultSelector(group.Key, group));
+        }
+
+        public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            IComparer<TKey> comparer)
+        {
+            CheckForNull(source, nameof(source));
+            CheckForNull(keySelector, nameof(keySelector));
+
+            comparer ??= Comparer<TKey>.Default;
+
+            List<TSource> list = source.ToList();
+
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                for (int j = 0; j < list.Count - 1; j++)
+                {
+                    if (comparer.Compare(keySelector(list[j]), keySelector(list[j + 1])) < 0)
+                    {
+                        var temp = list[j];
+                        list[j] = list[j + 1];
+                        list[j + 1] = temp;
+                    }
+                }
+            }
+
+            return (IOrderedEnumerable<TSource>)list;
+        }
+
+        private static IEnumerable<IGrouping<TKey, TElement>> GroupByImpl<TSource, TKey, TElement>(
+            this IEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            Func<TSource, TElement> elementSelector,
+            IEqualityComparer<TKey> comparer)
+        {
+            var lookup = source.ToLookup(keySelector, elementSelector, comparer);
+            foreach (var result in lookup)
+            {
+                yield return result;
+            }
         }
 
         private static void CheckForNull<T>(T source, string sourceName)
