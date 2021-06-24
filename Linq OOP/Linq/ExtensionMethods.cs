@@ -252,24 +252,7 @@ namespace Linq
             CheckForNull(source, nameof(source));
             CheckForNull(keySelector, nameof(keySelector));
 
-            comparer ??= Comparer<TKey>.Default;
-
-            List<TSource> list = source.ToList();
-
-            for (int i = 0; i < list.Count - 1; i++)
-            {
-                for (int j = 0; j < list.Count - 1; j++)
-                {
-                    if (comparer.Compare(keySelector(list[j]), keySelector(list[j + 1])) < 0)
-                    {
-                        var temp = list[j];
-                        list[j] = list[j + 1];
-                        list[j + 1] = temp;
-                    }
-                }
-            }
-
-            return (IOrderedEnumerable<TSource>)list;
+            return new OrderedElements<TSource>(source, new NewComparer<TSource, TKey>(keySelector, comparer));
         }
 
         private static IEnumerable<IGrouping<TKey, TElement>> GroupByImpl<TSource, TKey, TElement>(

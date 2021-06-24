@@ -330,6 +330,14 @@ namespace Linq.Facts
             IEnumerable<string> orderedFruits = new List<string> { "mango", "berry", "orange", "cherry", "grapes", "strawberry", "grapefruit" };
 
             Assert.Equal(orderedFruits, result);
+
+            string[] exceptionArray = null;
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.OrderBy(x => x.Length, Comparer<int>.Default));
+            Assert.Equal("source", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.OrderBy((Func<string, int>)null, null));
+            Assert.Equal("keySelector", exception.Message);
         }
     }
 }
