@@ -339,5 +339,24 @@ namespace Linq.Facts
             exception = Assert.Throws<ArgumentNullException>(() => fruits.OrderBy((Func<string, int>)null, null));
             Assert.Equal("keySelector", exception.Message);
         }
+
+        [Fact]
+        public void TestThenBy()
+        {
+            string[] fruits = { "orange", "mango", "cherry", "strawberry", "berry", "grapes", "grapefruit" };
+            var result = fruits.OrderBy(x => x.Length, null).ThenBy(x => x, Comparer<string>.Default);
+
+            IEnumerable<string> orderedFruits = new List<string> { "berry", "mango", "cherry", "grapes", "orange", "grapefruit", "strawberry" };
+
+            Assert.Equal(orderedFruits, result);
+
+            string[] exceptionArray = null;
+
+            var exception = Assert.Throws<ArgumentNullException>(() => exceptionArray.OrderBy(x => x.Length, Comparer<int>.Default).ThenBy(x => x, Comparer<string>.Default));
+            Assert.Equal("source", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => fruits.OrderBy(x => x.Length, null).ThenBy((Func<string, int>)null, null));
+            Assert.Equal("keySelector", exception.Message);
+        }
     }
 }

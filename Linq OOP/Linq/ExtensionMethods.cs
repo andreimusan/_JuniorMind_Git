@@ -252,7 +252,18 @@ namespace Linq
             CheckForNull(source, nameof(source));
             CheckForNull(keySelector, nameof(keySelector));
 
-            return new OrderedElements<TSource>(source, new NewComparer<TSource, TKey>(keySelector, comparer));
+            return new OrderedElements<TSource>(source, new OrderingComparer<TSource, TKey>(keySelector, comparer));
+        }
+
+        public static IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
+            this IOrderedEnumerable<TSource> source,
+            Func<TSource, TKey> keySelector,
+            IComparer<TKey> comparer)
+        {
+            CheckForNull(source, nameof(source));
+            CheckForNull(keySelector, nameof(keySelector));
+
+            return source.CreateOrderedEnumerable(keySelector, comparer, false);
         }
 
         private static IEnumerable<IGrouping<TKey, TElement>> GroupByImpl<TSource, TKey, TElement>(

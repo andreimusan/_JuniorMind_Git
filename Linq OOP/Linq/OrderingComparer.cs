@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Linq
 {
-    public class NewComparer<TSource, TKey> : IComparer<TSource>
+    public class OrderingComparer<TSource, TKey> : IComparer<TSource>
     {
         private readonly Func<TSource, TKey> keySelector;
         private readonly IComparer<TKey> comparer;
-        internal NewComparer(Func<TSource, TKey> keySelector,
+        internal OrderingComparer(Func<TSource, TKey> keySelector,
             IComparer<TKey> comparer)
         {
             this.keySelector = keySelector;
