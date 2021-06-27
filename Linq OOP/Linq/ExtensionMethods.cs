@@ -272,10 +272,26 @@ namespace Linq
             Func<TSource, TElement> elementSelector,
             IEqualityComparer<TKey> comparer)
         {
-            var lookup = source.ToLookup(keySelector, elementSelector, comparer);
-            foreach (var result in lookup)
+            var d = new Dictionary<TKey, List<TElement>>(comparer);
+            var keysList = new List<TKey>();
+            foreach (var item in source)
             {
-                yield return result;
+                var key = keySelector(item);
+                var value = elementSelector(item);
+                if (d.ContainsKey(key))
+                {
+                    d[key].Add(value);
+                }
+                else
+                {
+                    d.Add(key, new List<TElement> { value });
+                    keysList.Add(key);
+                }
+            }
+
+            foreach (var item in keysList)
+            {
+                yield return new Grouping<TKey, TElement>(item, d[item]);
             }
         }
 
