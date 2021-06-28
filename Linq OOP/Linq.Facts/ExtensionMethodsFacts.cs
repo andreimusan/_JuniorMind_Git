@@ -358,5 +358,31 @@ namespace Linq.Facts
             exception = Assert.Throws<ArgumentNullException>(() => fruits.OrderBy(x => x.Length, null).ThenBy((Func<string, int>)null, null));
             Assert.Equal("keySelector", exception.Message);
         }
+
+        [Fact]
+        public void TestMultipleThenBy()
+        {
+            List<Student> students = new List<Student>
+            {
+                new Student { Id = 1, Name = "Andrei", Rank = 1, Age = 39, Grade = 8.5 },
+                new Student { Id = 2, Name = "Mirel", Rank = 1, Age = 32, Grade = 9.5 },
+                new Student { Id = 3, Name = "Mihai", Rank = 2, Age = 39, Grade = 6 },
+                new Student { Id = 4, Name = "Ioana", Rank = 2, Age = 39, Grade = 10 },
+                new Student { Id = 5, Name = "Bianca", Rank = 2, Age = 39, Grade = 5.75 }
+            };
+
+            var orederedStudents = students.OrderBy(x => x.Rank, null).ThenBy(x => x.Age, Comparer<int>.Default).ThenBy(x => x.Grade, Comparer<double>.Default).ToList();
+
+            List<Student> result = new List<Student>
+            {
+                new Student { Id = 2, Name = "Mirel", Rank = 1, Age = 32, Grade = 9.5 },
+                new Student { Id = 1, Name = "Andrei", Rank = 1, Age = 39, Grade = 8.5 },
+                new Student { Id = 5, Name = "Bianca", Rank = 2, Age = 39, Grade = 5.75 },
+                new Student { Id = 3, Name = "Mihai", Rank = 2, Age = 39, Grade = 6 },
+                new Student { Id = 4, Name = "Ioana", Rank = 2, Age = 39, Grade = 10 }
+            };
+
+            Assert.Equal(orederedStudents, result);
+        }
     }
 }
