@@ -6,6 +6,9 @@ namespace LinqExercitii
     public class Stock<TKey, TValue>
     {
         private readonly Dictionary<string, List<Product>> stock;
+        private readonly int firstThreshold = 10;
+        private readonly int secondThreshold = 5;
+        private readonly int thirdThreshold = 2;
 
         public Stock()
         {
@@ -25,10 +28,32 @@ namespace LinqExercitii
         }
 
         public void RemoveProduct(string category, Product product)
-        {
-            if (stock.ContainsKey(category))
             {
-                stock[category].Remove(product);
+            if (!stock.ContainsKey(category))
+            {
+                return;
+            }
+
+            bool returnValue = stock[category].Remove(product);
+
+            if (!returnValue)
+            {
+                return;
+            }
+
+            Action<string, int> notification = LowStock;
+
+            if (stock[category].Count <= thirdThreshold)
+            {
+                notification(category, thirdThreshold);
+            }
+            else if (stock[category].Count <= secondThreshold)
+            {
+                notification(category, secondThreshold);
+            }
+            else if (stock[category].Count <= firstThreshold)
+            {
+                notification(category, firstThreshold);
             }
         }
 
@@ -46,10 +71,17 @@ namespace LinqExercitii
 
         private void CheckExistingCategory(string category)
         {
-            if (!stock.ContainsKey(category))
+            if (stock.ContainsKey(category))
             {
-                throw new ArgumentNullException(category, "nameof(category) does not exist");
+                return;
             }
+
+            throw new ArgumentNullException(category, "nameof(category) does not exist");
+        }
+
+        private void LowStock(string category, int numberOfProducts)
+        {
+            throw new ArgumentException($"Only {numberOfProducts} left in {category}.");
         }
     }
 }
