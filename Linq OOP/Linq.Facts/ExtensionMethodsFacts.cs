@@ -371,12 +371,14 @@ namespace Linq.Facts
                 new Student { Id = 5, Name = "Bianca", Rank = 2, Age = 39, Grade = 5.75 }
             };
 
-            List<Student> result = new List<Student>();
-            result.Add(students[1]);
-            result.Add(students[0]);
-            result.Add(students[4]);
-            result.Add(students[2]);
-            result.Add(students[3]);
+            List<Student> result = new List<Student>
+            {
+                students[1],
+                students[0],
+                students[4],
+                students[2],
+                students[3]
+            };
 
             var orederedStudents = students.OrderBy(x => x.Rank, null).ThenBy(x => x.Age, Comparer<int>.Default).ThenBy(x => x.Grade, Comparer<double>.Default).ToList();
 
