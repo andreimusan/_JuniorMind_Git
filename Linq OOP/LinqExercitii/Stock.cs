@@ -77,9 +77,20 @@ namespace LinqExercitii
             throw new ArgumentNullException(category, "nameof(category) does not exist");
         }
 
-        private void LowStock(string category, int numberOfProducts)
+        private void LowStock(string category)
         {
-            throw new ArgumentException($"Only {numberOfProducts} left in {category}.");
+            if (stock[category].Count <= thirdThreshold)
+            {
+                throw new ArgumentException($"Only {stock[category].Count} left in {category}.");
+            }
+            else if (stock[category].Count <= secondThreshold)
+            {
+                throw new ArgumentException($"Only {stock[category].Count} left in {category}.");
+            }
+            else if (stock[category].Count <= firstThreshold)
+            {
+                throw new ArgumentException($"Only {stock[category].Count} left in {category}.");
+            }
         }
     }
 }
