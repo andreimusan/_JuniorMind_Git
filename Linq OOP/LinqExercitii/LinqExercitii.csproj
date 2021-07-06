@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>juniormind.ruleset</CodeAnalysisRuleSet>
+		<ApplicationIcon />
+		<StartupObject />
 	</PropertyGroup>
 
   <ItemGroup>
