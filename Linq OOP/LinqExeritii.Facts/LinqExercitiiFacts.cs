@@ -23,6 +23,7 @@ namespace LinqExeritii.Facts
             var samsungFlip2 = new Product { Name = "Samsung Flip2", ProductCode = "09", Cost = 1000 };
             var huaweiP20 = new Product { Name = "Huawei P20", ProductCode = "10", Cost = 800 };
             var iPhoneXR = new Product { Name = "iPhone XR", ProductCode = "11", Cost = 400 };
+            var iPhone8 = new Product { Name = "iPhone XR", ProductCode = "11", Cost = 400 };
 
             newStock.AddProduct("phone", iPhone12);
             newStock.AddProduct("phone", samsungS21);
@@ -34,14 +35,32 @@ namespace LinqExeritii.Facts
             newStock.AddProduct("phone", samsungFold2);
             newStock.AddProduct("phone", samsungFlip2);
             newStock.AddProduct("phone", huaweiP20);
-            newStock.AddProduct("phone", iPhoneXR);
 
             var exception = Assert.Throws<ArgumentException>(() => newStock.RemoveProduct("phone", nokia3, LowStock(newStock, "phone")));
             Assert.Equal("Only 10 products left in phone category.", exception.Message);
         }
-        private Action<string, int> LowStock(Stock<string, List<Product>> stock, string category)
+        private Action<string> LowStock(Stock<string, List<Product>> stock, string category)
         {
-            throw new ArgumentException($"Only {stock.GetCategoryCount(category)} products left in {category} category.");
+            int firstThreshold = 10;
+            int secondThreshold = 5;
+            int thirdThreshold = 2;
+
+            int stockCount = stock.GetCategoryCount(category);
+
+            if (stockCount <= thirdThreshold)
+            {
+                throw new ArgumentException($"Less than {thirdThreshold} products left in {category} category.");
+            }
+            else if (stockCount <= secondThreshold)
+            {
+                throw new ArgumentException($"Only {secondThreshold} products left in {category} category.");
+            }
+            else if (stockCount <= firstThreshold)
+            {
+                throw new ArgumentException($"Only {firstThreshold} products left in {category} category.");
+            }
+
+            return null;
         }
     }
 }

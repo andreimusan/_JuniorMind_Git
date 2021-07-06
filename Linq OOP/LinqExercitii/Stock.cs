@@ -6,9 +6,6 @@ namespace LinqExercitii
     public class Stock<TKey, TValue>
     {
         private readonly Dictionary<string, List<Product>> stock;
-        private readonly int firstThreshold = 10;
-        private readonly int secondThreshold = 5;
-        private readonly int thirdThreshold = 2;
 
         public Stock()
         {
@@ -27,9 +24,9 @@ namespace LinqExercitii
             }
         }
 
-        public void RemoveProduct(string category, Product product, Action<string, int> notification)
+        public void RemoveProduct(string category, Product product, Action<string> lowStockNotification)
         {
-            if (notification == null || !stock.ContainsKey(category))
+            if (lowStockNotification == null || !stock.ContainsKey(category))
             {
                 return;
             }
@@ -41,18 +38,7 @@ namespace LinqExercitii
                 return;
             }
 
-            if (stock[category].Count <= thirdThreshold)
-            {
-                notification(category, thirdThreshold);
-            }
-            else if (stock[category].Count <= secondThreshold)
-            {
-                notification(category, secondThreshold);
-            }
-            else if (stock[category].Count <= firstThreshold)
-            {
-                notification(category, firstThreshold);
-            }
+            lowStockNotification(category);
         }
 
         public int GetCategoryCount(string category)
