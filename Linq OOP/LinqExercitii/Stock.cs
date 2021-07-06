@@ -27,9 +27,9 @@ namespace LinqExercitii
             }
         }
 
-        public void RemoveProduct(string category, Product product)
-            {
-            if (!stock.ContainsKey(category))
+        public void RemoveProduct(string category, Product product, Action<string, int> notification)
+        {
+            if (notification == null || !stock.ContainsKey(category))
             {
                 return;
             }
@@ -40,8 +40,6 @@ namespace LinqExercitii
             {
                 return;
             }
-
-            Action<string, int> notification = LowStock;
 
             if (stock[category].Count <= thirdThreshold)
             {
