@@ -10,7 +10,7 @@ namespace LinqExeritii.Facts
         [Fact]
         public void TestStock()
         {
-            var newStock = new Stock<string, List<Product>>();
+            var newStock = new Stock<string, List<Product>>((int number) => throw new ArgumentException($"Less than {number} products left in stock."));
 
             var iPhone12 = new Product { Name = "iPhone 12", ProductCode = "01", Cost = 1000 };
             var samsungS21 = new Product { Name = "Samsung S21", ProductCode = "02", Cost = 1000 };
@@ -35,32 +35,10 @@ namespace LinqExeritii.Facts
             newStock.AddProduct("phone", samsungFold2);
             newStock.AddProduct("phone", samsungFlip2);
             newStock.AddProduct("phone", huaweiP20);
+            newStock.AddProduct("phone", iPhone8);
 
-            var exception = Assert.Throws<ArgumentException>(() => newStock.RemoveProduct("phone", nokia3, LowStock(newStock, "phone")));
-            Assert.Equal("Only 10 products left in phone category.", exception.Message);
-        }
-        private Action<string> LowStock(Stock<string, List<Product>> stock, string category)
-        {
-            int firstThreshold = 10;
-            int secondThreshold = 5;
-            int thirdThreshold = 2;
-
-            int stockCount = stock.GetCategoryCount(category);
-
-            if (stockCount <= thirdThreshold)
-            {
-                throw new ArgumentException($"Less than {thirdThreshold} products left in {category} category.");
-            }
-            else if (stockCount <= secondThreshold)
-            {
-                throw new ArgumentException($"Only {secondThreshold} products left in {category} category.");
-            }
-            else if (stockCount <= firstThreshold)
-            {
-                throw new ArgumentException($"Only {firstThreshold} products left in {category} category.");
-            }
-
-            return null;
+            var exception = Assert.Throws<ArgumentException>(() => newStock.RemoveProduct("phone", nokia3));
+            Assert.Equal("Less than 10 products left in stock.", exception.Message);
         }
     }
 }

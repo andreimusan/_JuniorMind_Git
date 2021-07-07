@@ -6,10 +6,15 @@ namespace LinqExercitii
     public class Stock<TKey, TValue>
     {
         private readonly Dictionary<string, List<Product>> stock;
+        private readonly int firstThreshold = 10;
+        private readonly int secondThreshold = 5;
+        private readonly int thirdThreshold = 2;
+        private readonly Action<int> lowStockNotification;
 
-        public Stock()
+        public Stock(Action<int> lowStockNotification)
         {
             this.stock = new Dictionary<string, List<Product>>();
+            this.lowStockNotification = lowStockNotification;
         }
 
         public void AddProduct(string category, Product product)
@@ -24,9 +29,9 @@ namespace LinqExercitii
             }
         }
 
-        public void RemoveProduct(string category, Product product, Action<string> lowStockNotification)
-        {
-            if (lowStockNotification == null || !stock.ContainsKey(category))
+        public void RemoveProduct(string category, Product product)
+            {
+            if (!stock.ContainsKey(category))
             {
                 return;
             }
@@ -38,7 +43,7 @@ namespace LinqExercitii
                 return;
             }
 
-            lowStockNotification(category);
+            LowStock(category);
         }
 
         public int GetCategoryCount(string category)
@@ -61,6 +66,24 @@ namespace LinqExercitii
             }
 
             throw new ArgumentNullException(category, "nameof(category) does not exist");
+        }
+
+        private void LowStock(string category)
+        {
+            int stockCount = stock[category].Count;
+
+            if (stockCount <= thirdThreshold)
+            {
+                lowStockNotification(thirdThreshold);
+            }
+            else if (stockCount <= secondThreshold)
+            {
+                lowStockNotification(secondThreshold);
+            }
+            else if (stockCount <= firstThreshold)
+            {
+                lowStockNotification(firstThreshold);
+            }
         }
     }
 }
