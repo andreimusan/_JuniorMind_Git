@@ -46,22 +46,27 @@ namespace LinqExeritii.Facts
         {
             var iPhone12 = "iPhone 12";
 
-            var newStock = new Stock2((object iPhone12, string message, int number) => throw new ArgumentException($"Less than {number} products left in stock."));
+            var newStock = new Stock2((object emptyProduct, object product, string message, int number) => {
+                emptyProduct = product;
+                message = $"Less than {number} products left in stock.";
+            }, iPhone12);
 
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
-            newStock.AddProduct(iPhone12);
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
+            newStock.AddProduct();
 
-            var exception = Assert.Throws<ArgumentException>(() => newStock.RemoveProduct(iPhone12));
-            Assert.Equal("Less than 10 products left in stock.", exception.Message);
+            newStock.RemoveProduct();
+
+            Assert.Equal(10, newStock.GetStockCount());
+            Assert.Equal("Less than 10 products left in stock.", newStock.NotificationMessage);
         }
     }
 }

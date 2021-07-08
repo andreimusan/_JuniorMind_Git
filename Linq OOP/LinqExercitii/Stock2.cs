@@ -7,23 +7,31 @@ namespace LinqExercitii
     public class Stock2
     {
         private readonly List<object> stock;
+        private readonly object product;
         private readonly int firstThreshold = 10;
         private readonly int secondThreshold = 5;
         private readonly int thirdThreshold = 2;
-        private readonly Action<object, string, int> lowStockNotification;
+        private readonly Action<object, object, string, int> lowStockNotification;
 
-        public Stock2(Action<object, string, int> lowStockNotification)
+        public Stock2(Action<object, object, string, int> lowStockNotification, object product)
         {
             this.stock = new List<object>();
             this.lowStockNotification = lowStockNotification;
+            this.product = product;
+            this.NotificationMessage = $"{GetStockCount()} products left in stock.";
+            this.NotificationObject = product;
         }
 
-        public void AddProduct(object product)
+        public object NotificationObject { get; set; }
+
+        public string NotificationMessage { get; set; }
+
+        public void AddProduct()
         {
             stock.Add(product);
         }
 
-        public void RemoveProduct(object product)
+        public void RemoveProduct()
         {
             bool removed = stock.Remove(product);
 
@@ -32,7 +40,7 @@ namespace LinqExercitii
                 return;
             }
 
-            LowStock(product);
+            LowStock();
         }
 
         public int GetStockCount()
@@ -40,21 +48,21 @@ namespace LinqExercitii
             return stock.Count;
         }
 
-        private void LowStock(object product)
+        private void LowStock()
         {
             int productCount = GetStockCount();
 
             if (productCount <= thirdThreshold)
             {
-                lowStockNotification(product, "message", thirdThreshold);
+                lowStockNotification(NotificationObject, product, NotificationMessage, thirdThreshold);
             }
             else if (productCount <= secondThreshold)
             {
-                lowStockNotification(product, "message", secondThreshold);
+                lowStockNotification(NotificationObject, product, NotificationMessage, secondThreshold);
             }
             else if (productCount <= firstThreshold)
             {
-                lowStockNotification(product, "message", firstThreshold);
+                lowStockNotification(NotificationObject, product, NotificationMessage, firstThreshold);
             }
         }
     }
