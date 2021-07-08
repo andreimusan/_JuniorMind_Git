@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LinqExercitii
 {
-    class Stock2
+    public class Stock2
     {
         private readonly List<List<object>> stock;
         private readonly int firstThreshold = 10;
@@ -29,18 +29,27 @@ namespace LinqExercitii
             else
             {
                 stock.Add(new List<object>());
-                stock[stock.Count][0] = product;
+                stock[^1].Add(product);
             }
         }
 
         public void RemoveProduct(object product)
-        {
+            {
             int index = GetProductIndex(product);
 
-            if (index < stock.Count)
+            if (index >= stock.Count)
             {
-                stock[index].Remove(product);
+                return;
             }
+
+            bool removed = stock[index].Remove(product);
+
+            if (!removed)
+            {
+                return;
+            }
+
+            LowStock(product);
         }
 
         public int GetProductCount(object product)
