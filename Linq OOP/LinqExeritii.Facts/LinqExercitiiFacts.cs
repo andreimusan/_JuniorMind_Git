@@ -45,7 +45,6 @@ namespace LinqExeritii.Facts
         public void TestStock2()
         {
             var iPhone12 = "iPhone 12";
-            var samsungS21 = "Samsung S21";
 
             var newStock = new Stock2((object iPhone12, string message, int number) => throw new ArgumentException($"Less than {number} products left in stock."));
 
@@ -60,7 +59,6 @@ namespace LinqExeritii.Facts
             newStock.AddProduct(iPhone12);
             newStock.AddProduct(iPhone12);
             newStock.AddProduct(iPhone12);
-            newStock.AddProduct(samsungS21);
 
             var exception = Assert.Throws<ArgumentException>(() => newStock.RemoveProduct(iPhone12));
             Assert.Equal("Less than 10 products left in stock.", exception.Message);
