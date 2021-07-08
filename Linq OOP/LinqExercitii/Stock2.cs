@@ -6,7 +6,7 @@ namespace LinqExercitii
 {
     public class Stock2
     {
-        private readonly List<List<object>> stock;
+        private readonly List<object> stock;
         private readonly int firstThreshold = 10;
         private readonly int secondThreshold = 5;
         private readonly int thirdThreshold = 2;
@@ -14,35 +14,18 @@ namespace LinqExercitii
 
         public Stock2(Action<object, string, int> lowStockNotification)
         {
-            this.stock = new List<List<object>>();
+            this.stock = new List<object>();
             this.lowStockNotification = lowStockNotification;
         }
 
         public void AddProduct(object product)
         {
-            int index = GetProductIndex(product);
-
-            if (index < stock.Count)
-            {
-                stock[index].Add(product);
-            }
-            else
-            {
-                stock.Add(new List<object>());
-                stock[^1].Add(product);
-            }
+            stock.Add(product);
         }
 
         public void RemoveProduct(object product)
-            {
-            int index = GetProductIndex(product);
-
-            if (index >= stock.Count)
-            {
-                return;
-            }
-
-            bool removed = stock[index].Remove(product);
+        {
+            bool removed = stock.Remove(product);
 
             if (!removed)
             {
@@ -52,39 +35,14 @@ namespace LinqExercitii
             LowStock(product);
         }
 
-        public int GetProductCount(object product)
-        {
-            int index = GetProductIndex(product);
-
-            if (index < stock.Count)
-            {
-                return stock[index].Count;
-            }
-
-            return 0;
-        }
-
         public int GetStockCount()
         {
             return stock.Count;
         }
 
-        private int GetProductIndex(object product)
-        {
-            for (int i = 0; i < stock.Count; i++)
-            {
-                if (stock[i][0] == product)
-                {
-                    return i;
-                }
-            }
-
-            return stock.Count;
-        }
-
         private void LowStock(object product)
         {
-            int productCount = GetProductCount(product);
+            int productCount = GetStockCount();
 
             if (productCount <= thirdThreshold)
             {
