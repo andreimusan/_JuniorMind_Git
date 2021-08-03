@@ -11,9 +11,9 @@ namespace LinqExercitii
         private readonly int firstThreshold = 10;
         private readonly int secondThreshold = 5;
         private readonly int thirdThreshold = 2;
-        private readonly Action<object, object, string, int> lowStockNotification;
+        private readonly Action<object, object, string, string> lowStockNotification;
 
-        public Stock2(Action<object, object, string, int> lowStockNotification, object product)
+        public Stock2(Action<object, object, string, string> lowStockNotification, object product)
         {
             this.stock = new List<object>();
             this.lowStockNotification = lowStockNotification;
@@ -54,15 +54,15 @@ namespace LinqExercitii
 
             if (productCount <= thirdThreshold)
             {
-                lowStockNotification(NotificationObject, product, NotificationMessage, thirdThreshold);
+                lowStockNotification(product, NotificationObject, NotificationMessage, $"{GetStockCount()} products left in stock.");
             }
             else if (productCount <= secondThreshold)
             {
-                lowStockNotification(NotificationObject, product, NotificationMessage, secondThreshold);
+                lowStockNotification(product, NotificationObject, NotificationMessage, $"{GetStockCount()} products left in stock.");
             }
             else if (productCount <= firstThreshold)
             {
-                lowStockNotification(NotificationObject, product, NotificationMessage, firstThreshold);
+                lowStockNotification(product, NotificationObject, NotificationMessage, $"{GetStockCount()} products left in stock.");
             }
         }
     }

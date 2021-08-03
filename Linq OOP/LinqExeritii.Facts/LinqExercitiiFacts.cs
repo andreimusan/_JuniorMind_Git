@@ -46,9 +46,9 @@ namespace LinqExeritii.Facts
         {
             var iPhone12 = "iPhone 12";
 
-            var newStock = new Stock2((object emptyProduct, object product, string message, int number) => {
+            var newStock = new Stock2((object emptyProduct, object product, string emptyMessage, string message) => {
                 emptyProduct = product;
-                message = $"Less than {number} products left in stock.";
+                emptyMessage = message;
             }, iPhone12);
 
             newStock.AddProduct();
