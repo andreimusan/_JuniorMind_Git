@@ -13,7 +13,7 @@ namespace LinqExeritii.Facts
         public void TestGenerateTextSubstringPalindrome()
         {
             var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 6);
-            var result = intOperation.GenerateSubArrayWithSumLessThanNumber().Cast<List<int>>().ToList();
+            var result = intOperation.GenerateSubArraysWithSumLessThanNumber().Cast<List<int>>().ToList();
             var options = new List<List<int>>() 
             {
                 new List<int> { 1 },
@@ -23,6 +23,20 @@ namespace LinqExeritii.Facts
                 new List<int> { 1, 2 },
                 new List<int> { 2, 3 },
                 new List<int> { 1, 2, 3 }
+            };
+
+            Assert.True(result.SequenceEqual(options));
+        }
+
+        [Fact]
+        public void TestGenerateCombinations()
+        {
+            var array = new int[] { 1, 2, 3, 4 };
+            var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 6);
+            var result = intOperation.GenerateCombinations().ToList();
+            var options = new List<List<int>>()
+            {
+                
             };
 
             Assert.True(result.SequenceEqual(options));
