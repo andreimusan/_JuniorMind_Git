@@ -16,6 +16,7 @@ namespace LinqExercitii
         public IntOperations(int[] array, int sum, int number = 0)
         {
             this.array = array;
+            this.newArray = array;
             this.number = number;
             this.sum = sum;
         }
@@ -35,7 +36,9 @@ namespace LinqExercitii
         public IEnumerable GenerateCombinationsWithSumEqualToNumber()
         {
             int[] zero = { 0 };
-            newArray = Enumerable.Range(-number, number).Except(zero);
+            var negativeValues = Enumerable.Range(-number, number).Select(x => x);
+            var positiveValues = Enumerable.Range(0, number + 1).Select(x => x);
+            newArray = Enumerable.Range(-number, number + number + 1).Select(x => x).Except(zero);
             var result = this.GenerateCombinations().Where(value => value.Sum() == sum).ToList();
 
             return result;
