@@ -45,8 +45,10 @@ namespace LinqExeritii.Facts
         public void TestStock2()
         {
             var iPhone12 = "iPhone 12";
+            object emptyProduct = "Samsung Galaxy S10";
+            string emptyMessage = "Products in stock";
 
-            var newStock = new Stock2((object emptyProduct, object product, string emptyMessage, string message) => {
+            var newStock = new Stock2((object product, string message) => {
                 emptyProduct = product;
                 emptyMessage = message;
             }, iPhone12);
@@ -66,7 +68,8 @@ namespace LinqExeritii.Facts
             newStock.RemoveProduct();
 
             Assert.Equal(10, newStock.GetStockCount());
-            Assert.Equal("Less than 10 products left in stock.", newStock.NotificationMessage);
+            Assert.Equal(iPhone12, emptyProduct);
+            Assert.Equal("Less than 10 products left in stock.", emptyMessage);
         }
     }
 }

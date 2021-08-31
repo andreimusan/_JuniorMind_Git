@@ -61,7 +61,7 @@ namespace LinqExeritii.Facts
         {
             var array = new int[] { 1, 2, 3, 4 };
             var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 6, 4);
-            var result = intOperation.GenerateCombinationsWithSumEqualToNumber();
+            var result = intOperation.GenerateCombinationsWithSumEqualToNumber().Cast<List<int>>().ToList();
             var options = new List<List<int>>()
             {
                 new List<int> { 1, 2, 3, 4 },
