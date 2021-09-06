@@ -10,7 +10,7 @@ namespace LinqExeritii.Facts
     public class IntOperationsFacts
     {
         [Fact]
-        public void TestGenerateTextSubstringPalindrome()
+        public void TestGenerateCombinationsWithSumLessThanNumber()
         {
             var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 6);
             var result = intOperation.GenerateSubArraysWithSumLessThanNumber().Cast<List<int>>().ToList();
@@ -25,7 +25,7 @@ namespace LinqExeritii.Facts
                 new List<int> { 1, 2, 3 }
             };
 
-            Assert.True(result.SequenceEqual(options));
+            Assert.Equal(result, options);
         }
 
         [Fact]
@@ -43,6 +43,7 @@ namespace LinqExeritii.Facts
                 new List<int> { 1, 3, 4 },
                 new List<int> { 1, 3 },
                 new List<int> { 1, 4 },
+                new List<int> { 1 },
                 new List<int> { 2, 3, 4 },
                 new List<int> { 2, 3 },
                 new List<int> { 2, 4 },
@@ -53,35 +54,27 @@ namespace LinqExeritii.Facts
                 new List<int> { }
             };
 
-            Assert.True(result.SequenceEqual(options));
+            Assert.Equal(result, options);
         }
 
         [Fact]
         public void TestGenerateCombinationsWithSumEqualToNumber()
         {
             var array = new int[] { 1, 2, 3, 4 };
-            var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 6, 4);
-            var result = intOperation.GenerateCombinationsWithSumEqualToNumber().Cast<List<int>>().ToList();
+            var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 2, 3);
+            var result = intOperation.GenerateCombinationsWithSumEqualToNumber();
             var options = new List<List<int>>()
             {
-                new List<int> { 1, 2, 3, 4 },
-                new List<int> { 1, 2, 3 },
-                new List<int> { 1, 2, 4 },
-                new List<int> { 1, 2 },
-                new List<int> { 1, 3, 4 },
-                new List<int> { 1, 3 },
-                new List<int> { 1, 4 },
-                new List<int> { 2, 3, 4 },
-                new List<int> { 2, 3 },
-                new List<int> { 2, 4 },
-                new List<int> { 2 },
-                new List<int> { 3, 4 },
-                new List<int> { 3 },
-                new List<int> { 4 },
-                new List<int> { }
+                new List<int> { -3, -1, 1, 2, 3 },
+                new List<int> { -3, 2, 3 },
+                new List<int> { -2, -1, 2, 3 },
+                new List<int> { -2, 1, 3 },
+                new List<int> { -1, 1, 2 },
+                new List<int> { -1, 3 },
+                new List<int> { 2 }
             };
 
-            Assert.True(result.SequenceEqual(options));
+            Assert.Equal(result, options);
         }
     }
 }
