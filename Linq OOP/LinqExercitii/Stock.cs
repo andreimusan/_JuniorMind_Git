@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqExercitii
 {
     public class Stock<TKey, TValue>
     {
         private readonly Dictionary<string, List<Product>> stock;
-        private readonly int firstThreshold = 10;
-        private readonly int secondThreshold = 5;
-        private readonly int thirdThreshold = 2;
         private readonly Action<object, string> lowStockNotification;
+        private readonly int[] threshold = { 2, 5, 10 };
 
         public Stock(Action<object, string> lowStockNotification)
         {
@@ -36,6 +35,8 @@ namespace LinqExercitii
                 return;
             }
 
+            int oldStockCount = stock[category].Count;
+
             bool returnValue = stock[category].Remove(product);
 
             if (!returnValue)
@@ -43,7 +44,7 @@ namespace LinqExercitii
                 return;
             }
 
-            LowStock(category);
+            LowStock(category, oldStockCount);
         }
 
         public int GetCategoryCount(string category)
@@ -68,22 +69,11 @@ namespace LinqExercitii
             throw new ArgumentNullException(category, "nameof(category) does not exist");
         }
 
-        private void LowStock(string category)
+        private void LowStock(string category, int oldStockCount)
         {
-            int stockCount = stock[category].Count;
+            int newStockCount = stock[category].Count;
 
-            if (stockCount <= thirdThreshold)
-            {
-                lowStockNotification(category, $"Less than {stockCount} products left in stock.");
-            }
-            else if (stockCount <= secondThreshold)
-            {
-                lowStockNotification(category, $"Less than {stockCount} products left in stock.");
-            }
-            else if (stockCount <= firstThreshold)
-            {
-                lowStockNotification(category, $"Less than {stockCount} products left in stock.");
-            }
+            threshold.Where(value => oldStockCount > value && newStockCount <= value).ToList().ForEach(i => lowStockNotification(category, $"Less than {i} products left in stock."));
         }
     }
 }
