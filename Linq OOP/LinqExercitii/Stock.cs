@@ -9,9 +9,9 @@ namespace LinqExercitii
         private readonly int firstThreshold = 10;
         private readonly int secondThreshold = 5;
         private readonly int thirdThreshold = 2;
-        private readonly Action<int> lowStockNotification;
+        private readonly Action<object, string> lowStockNotification;
 
-        public Stock(Action<int> lowStockNotification)
+        public Stock(Action<object, string> lowStockNotification)
         {
             this.stock = new Dictionary<string, List<Product>>();
             this.lowStockNotification = lowStockNotification;
@@ -30,7 +30,7 @@ namespace LinqExercitii
         }
 
         public void RemoveProduct(string category, Product product)
-            {
+        {
             if (!stock.ContainsKey(category))
             {
                 return;
@@ -74,15 +74,15 @@ namespace LinqExercitii
 
             if (stockCount <= thirdThreshold)
             {
-                lowStockNotification(thirdThreshold);
+                lowStockNotification(category, $"Less than {stockCount} products left in stock.");
             }
             else if (stockCount <= secondThreshold)
             {
-                lowStockNotification(secondThreshold);
+                lowStockNotification(category, $"Less than {stockCount} products left in stock.");
             }
             else if (stockCount <= firstThreshold)
             {
-                lowStockNotification(firstThreshold);
+                lowStockNotification(category, $"Less than {stockCount} products left in stock.");
             }
         }
     }
