@@ -21,12 +21,12 @@ namespace LinqExeritii.Facts
             var samsungFlip2 = new Product { Name = "Samsung Flip2", ProductCode = "09", Cost = 1000 };
             var huaweiP20 = new Product { Name = "Huawei P20", ProductCode = "10", Cost = 800 };
             var iPhoneXR = new Product { Name = "iPhone XR", ProductCode = "11", Cost = 400 };
-            var iPhone8 = new Product { Name = "iPhone XR", ProductCode = "11", Cost = 400 };
+            var iPhone8 = new Product { Name = "iPhone 8", ProductCode = "12", Cost = 400 };
 
-            object emptyProduct = "";
+            Product emptyProduct = new Product { };
             string emptyMessage = "Products in stock";
 
-            var newStock = new Stock<string, List<Product>>((object product, string message) => {
+            var newStock = new Stock<string, List<Product>>((Product product, string message) => {
                 emptyProduct = product;
                 emptyMessage = message;
             });
@@ -42,12 +42,15 @@ namespace LinqExeritii.Facts
             newStock.AddProduct("phone", samsungFlip2);
             newStock.AddProduct("phone", huaweiP20);
             newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
 
             newStock.RemoveProduct("phone", iPhone8);
 
-            Assert.Equal(10, newStock.GetCategoryCount("phone"));
-            Assert.Equal("phone", emptyProduct);
-            Assert.Equal("Less than 10 products left in stock.", emptyMessage);
+            Assert.Equal(12, newStock.GetCategoryCount("phone"));
+            Assert.Equal("iPhone 8", emptyProduct.Name);
+            Assert.Equal("12", emptyProduct.ProductCode);
+            Assert.Equal("Less than 2 products left in stock.", emptyMessage);
         }
 
         [Fact]
