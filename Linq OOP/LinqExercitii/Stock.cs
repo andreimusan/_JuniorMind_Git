@@ -61,14 +61,7 @@ namespace LinqExercitii
 
         private int GetProductCount(string category, Product product)
         {
-            int count = 0;
-            foreach (var value in stock[category])
-            {
-                if (value.Name == product.Name)
-                {
-                    count++;
-                }
-            }
+            var count = stock[category].Count(prod => prod.Name == product.Name);
 
             return count;
         }
