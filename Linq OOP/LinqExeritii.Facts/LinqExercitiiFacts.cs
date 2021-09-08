@@ -33,21 +33,50 @@ namespace LinqExeritii.Facts
 
             newStock.AddProduct("phone", iPhone12);
             newStock.AddProduct("phone", samsungS21);
-            newStock.AddProduct("phone", samsungNote10);
-            newStock.AddProduct("phone", nokia3);
-            newStock.AddProduct("phone", iPhone11);
-            newStock.AddProduct("phone", iPhoneX);
-            newStock.AddProduct("phone", samsungS10);
-            newStock.AddProduct("phone", samsungFold2);
-            newStock.AddProduct("phone", samsungFlip2);
-            newStock.AddProduct("phone", huaweiP20);
             newStock.AddProduct("phone", iPhone8);
             newStock.AddProduct("phone", iPhone8);
             newStock.AddProduct("phone", iPhone8);
 
             newStock.RemoveProduct("phone", iPhone8);
 
-            Assert.Equal(12, newStock.GetCategoryCount("phone"));
+            Assert.Equal(4, newStock.GetCategoryCount("phone"));
+            Assert.Equal("iPhone 8", emptyProduct.Name);
+            Assert.Equal("12", emptyProduct.ProductCode);
+            Assert.Equal("Less than 2 products left in stock.", emptyMessage);
+        }
+
+        [Fact]
+        public void TestStockRemoveMultipleValues()
+        {
+            var iPhone12 = new Product { Name = "iPhone 12", ProductCode = "01", Cost = 1000 };
+            var samsungS21 = new Product { Name = "Samsung S21", ProductCode = "02", Cost = 1000 };
+            var iPhone8 = new Product { Name = "iPhone 8", ProductCode = "12", Cost = 400 };
+
+            Product emptyProduct = new Product { };
+            string emptyMessage = "Products in stock";
+
+            var newStock = new Stock((Product product, string message) => {
+                emptyProduct = product;
+                emptyMessage = message;
+            });
+
+            newStock.AddProduct("phone", iPhone12);
+            newStock.AddProduct("phone", samsungS21);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+
+            newStock.RemoveProduct("phone", iPhone8, 7);
+
+            Assert.Equal(6, newStock.GetCategoryCount("phone"));
             Assert.Equal("iPhone 8", emptyProduct.Name);
             Assert.Equal("12", emptyProduct.ProductCode);
             Assert.Equal("Less than 2 products left in stock.", emptyMessage);

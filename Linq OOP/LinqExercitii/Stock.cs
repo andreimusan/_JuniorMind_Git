@@ -18,6 +18,11 @@ namespace LinqExercitii
 
         public void AddProduct(string category, Product product)
         {
+            if (product == null)
+            {
+                return;
+            }
+
             if (stock.ContainsKey(category))
             {
                 stock[category].Add(product);
@@ -26,25 +31,32 @@ namespace LinqExercitii
             {
                 stock.Add(category, new List<Product> { product });
             }
+
+            product.Count++;
         }
 
-        public void RemoveProduct(string category, Product product)
+        public void RemoveProduct(string category, Product product, int quantity = 1)
         {
             if (!stock.ContainsKey(category) || product == null)
             {
                 return;
             }
 
-            int oldStockCount = GetProductCount(category, product);
+            int oldStockCount = product.Count;
+            bool returnValue = false;
 
-            bool returnValue = stock[category].Remove(product);
+            for (int i = 0; i < quantity; i++)
+            {
+                returnValue = stock[category].Remove(product);
+                product.Count--;
+            }
 
             if (!returnValue)
             {
                 return;
             }
 
-            LowStock(category, product, oldStockCount);
+            LowStock(product, oldStockCount);
         }
 
         public int GetCategoryCount(string category)
@@ -59,13 +71,6 @@ namespace LinqExercitii
             return stock.Count;
         }
 
-        private int GetProductCount(string category, Product product)
-        {
-            var count = stock[category].Count(prod => prod.Name == product.Name);
-
-            return count;
-        }
-
         private void CheckExistingCategory(string category)
         {
             if (stock.ContainsKey(category))
@@ -76,9 +81,9 @@ namespace LinqExercitii
             throw new ArgumentNullException(category, "nameof(category) does not exist");
         }
 
-        private void LowStock(string category, Product product, int oldStockCount)
+        private void LowStock(Product product, int oldStockCount)
         {
-            int newStockCount = GetProductCount(category, product);
+            int newStockCount = product.Count;
 
             threshold.Where(value => oldStockCount > value && newStockCount <= value).ToList().ForEach(i => lowStockNotification(product, $"Less than {i} products left in stock."));
         }
