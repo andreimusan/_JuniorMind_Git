@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LinqExercitii
 {
-    public class Stock<TKey, TValue>
+    public class Stock
     {
         private readonly Dictionary<string, List<Product>> stock;
         private readonly Action<Product, string> lowStockNotification;

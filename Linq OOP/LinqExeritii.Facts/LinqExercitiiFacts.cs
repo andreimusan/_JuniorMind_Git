@@ -26,7 +26,7 @@ namespace LinqExeritii.Facts
             Product emptyProduct = new Product { };
             string emptyMessage = "Products in stock";
 
-            var newStock = new Stock<string, List<Product>>((Product product, string message) => {
+            var newStock = new Stock((Product product, string message) => {
                 emptyProduct = product;
                 emptyMessage = message;
             });
