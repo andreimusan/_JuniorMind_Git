@@ -85,7 +85,7 @@ namespace LinqExercitii
         {
             int newStockCount = product.Count;
 
-            int passedThreshold = threshold.Where(value => oldStockCount > value && newStockCount <= value).Select(x => x).FirstOrDefault();
+            int passedThreshold = threshold.FirstOrDefault(value => oldStockCount > value && newStockCount <= value);
 
             if (passedThreshold > 0)
             {
