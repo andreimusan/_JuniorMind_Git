@@ -85,7 +85,12 @@ namespace LinqExercitii
         {
             int newStockCount = product.Count;
 
-            threshold.Where(value => oldStockCount > value && newStockCount <= value).ToList().ForEach(i => lowStockNotification(product, $"Less than {i} products left in stock."));
+            int passedThreshold = threshold.Where(value => oldStockCount > value && newStockCount <= value).Select(x => x).FirstOrDefault();
+
+            if (passedThreshold > 0)
+            {
+                lowStockNotification(product, $"Less than {passedThreshold} products left in stock.");
+            }
         }
     }
 }

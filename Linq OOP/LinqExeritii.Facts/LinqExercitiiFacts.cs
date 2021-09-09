@@ -24,7 +24,7 @@ namespace LinqExeritii.Facts
             var iPhone8 = new Product { Name = "iPhone 8", ProductCode = "12", Cost = 400 };
 
             Product emptyProduct = new Product { };
-            string emptyMessage = "Products in stock";
+            string emptyMessage = "Product in stock";
 
             var newStock = new Stock((Product product, string message) => {
                 emptyProduct = product;
@@ -53,7 +53,7 @@ namespace LinqExeritii.Facts
             var iPhone8 = new Product { Name = "iPhone 8", ProductCode = "12", Cost = 400 };
 
             Product emptyProduct = new Product { };
-            string emptyMessage = "Products in stock";
+            string emptyMessage = "Product in stock";
 
             var newStock = new Stock((Product product, string message) => {
                 emptyProduct = product;
@@ -79,7 +79,46 @@ namespace LinqExeritii.Facts
             Assert.Equal(6, newStock.GetCategoryCount("phone"));
             Assert.Equal("iPhone 8", emptyProduct.Name);
             Assert.Equal("12", emptyProduct.ProductCode);
-            Assert.Equal("Less than 2 products left in stock.", emptyMessage);
+            Assert.Equal("Less than 5 products left in stock.", emptyMessage);
+        }
+
+        [Fact]
+        public void TestStockRemoveMultipleValuesWithoutNotification()
+        {
+            var iPhone12 = new Product { Name = "iPhone 12", ProductCode = "01", Cost = 1000 };
+            var samsungS21 = new Product { Name = "Samsung S21", ProductCode = "02", Cost = 1000 };
+            var iPhone8 = new Product { Name = "iPhone 8", ProductCode = "12", Cost = 400 };
+
+            Product emptyProduct = new Product { };
+            string emptyMessage = "Product in stock";
+
+            var newStock = new Stock((Product product, string message) => {
+                emptyProduct = product;
+                emptyMessage = message;
+            });
+
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+            newStock.AddProduct("phone", iPhone8);
+
+            newStock.RemoveProduct("phone", iPhone8, 3);
+
+            Assert.Equal(12, newStock.GetCategoryCount("phone"));
+            Assert.Null(emptyProduct.Name);
+            Assert.Null(emptyProduct.ProductCode);
+            Assert.Equal("Product in stock", emptyMessage);
         }
 
         [Fact]
@@ -87,7 +126,7 @@ namespace LinqExeritii.Facts
         {
             var iPhone12 = "iPhone 12";
             object emptyProduct = "Samsung Galaxy S10";
-            string emptyMessage = "Products in stock";
+            string emptyMessage = "Product in stock";
 
             var newStock = new Stock2((object product, string message) => {
                 emptyProduct = product;
