@@ -13,7 +13,7 @@ namespace LinqExercitii
         private readonly int sum;
         private IEnumerable<int> newArray;
 
-        public IntOperations(int[] array, int sum, int number = 0)
+        public IntOperations(int[] array, int sum = 0, int number = 0)
         {
             this.array = array;
             this.newArray = array;
@@ -44,6 +44,43 @@ namespace LinqExercitii
             return result;
         }
 
+        public IEnumerable<IEnumerable<int>> GeneratePythagoreanTriples()
+        {
+            var combinationsOf3 = this.GenerateCombinations().Where(value => value.ToList().Count == 3).ToList();
+            var permutations = new List<List<int>>();
+
+            foreach (var list in combinationsOf3)
+            {
+                var permutate = GeneratePermutations(list.ToList(), list.ToList().Count);
+                foreach (var p in permutate)
+                {
+                    if (IsPythagoreanTriples(p.ToList()))
+                    {
+                        permutations.Add(p.ToList());
+                    }
+                }
+            }
+
+            return permutations;
+        }
+
+        public IEnumerable<IEnumerable<int>> GeneratePermutations(IEnumerable<int> list, int length)
+        {
+            if (list == null)
+            {
+                return null;
+            }
+
+            if (length == 1)
+            {
+                return list.Select(t => new[] { t });
+            }
+
+            var permutations = GeneratePermutations(list, length - 1).SelectMany(p => list.Where(x => !p.Contains(x)), (p1, p2) => p1.Concat(new[] { p2 }));
+
+            return permutations;
+        }
+
         public IEnumerable<IEnumerable<int>> GenerateCombinations()
         {
             if (!newArray.Any())
@@ -72,6 +109,11 @@ namespace LinqExercitii
             var result = subArray.Concat(remainingElements);
 
             return result;
+        }
+
+        private bool IsPythagoreanTriples(List<int> source)
+        {
+            return (source.First() * source.First()) + (source.ElementAt(1) * source.ElementAt(1)) == source.Last() * source.Last();
         }
     }
 }
