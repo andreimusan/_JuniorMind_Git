@@ -11,7 +11,7 @@ namespace LinqExercitii
         private readonly int[] array;
         private readonly int number;
         private readonly int sum;
-        private IEnumerable<int> newArray;
+        private readonly IEnumerable<int> newArray;
 
         public IntOperations(int[] array, int sum = 0, int number = 0)
         {
@@ -32,13 +32,17 @@ namespace LinqExercitii
             return result;
         }
 
-        public IEnumerable GenerateCombinationsWithSumEqualToNumber()
+        public IEnumerable<int[]> GenerateCombinationsWithSumEqualToNumber()
         {
-            int[] zero = { 0 };
-            var negativeValues = Enumerable.Range(-number, number).Select(x => x);
-            var positiveValues = Enumerable.Range(0, number + 1).Select(x => x);
-            newArray = Enumerable.Range(-number, number + number + 1).Select(x => x).Except(zero);
-            var result = this.GenerateCombinations().Where(value => value.Sum() == sum).ToList();
+            var negativeAndPositive = new[] { -1, 1 };
+            var numberOfCombinations = (int)Math.Pow(2, number);
+            const int two = 2;
+
+            var result = Enumerable.Range(1, numberOfCombinations).
+                Select(i => Enumerable.Range(1, number).
+                        Select(j => negativeAndPositive[((i * j) / numberOfCombinations) % two] * j)).
+                Where(value => value.Sum() == sum).
+                Select(x => x.ToArray());
 
             return result;
         }

@@ -59,17 +59,15 @@ namespace LinqExeritii.Facts
         [Fact]
         public void TestGenerateCombinationsWithSumEqualToNumber()
         {
-            var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 2, 3);
+            var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 2, 4);
+
             var result = intOperation.GenerateCombinationsWithSumEqualToNumber();
-            var options = new List<List<int>>()
+            var options = new List<int[]>()
             {
-                new List<int> { -3, -1, 1, 2, 3 },
-                new List<int> { -3, 2, 3 },
-                new List<int> { -2, -1, 2, 3 },
-                new List<int> { -2, 1, 3 },
-                new List<int> { -1, 1, 2 },
-                new List<int> { -1, 3 },
-                new List<int> { 2 }
+                new[] { -1, 2, -3, 4 },
+                new[] { -1, 2, -3, 4 },
+                new[] { -1, 2, -3, 4 },
+                new[] { -1, 2, -3, 4 }
             };
 
             Assert.Equal(options, result);
