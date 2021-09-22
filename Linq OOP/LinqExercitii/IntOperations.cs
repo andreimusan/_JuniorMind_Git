@@ -21,14 +21,13 @@ namespace LinqExercitii
             this.sum = sum;
         }
 
-        public IEnumerable GenerateSubArraysWithSumLessThanNumber()
+        public IEnumerable<int[]> GenerateSubArraysWithSumLessThanNumber()
         {
-            var result = from i in Enumerable.Range(0, array.Length)
-                         from j in Enumerable.Range(1, array.Length - i)
-                         let subarray = array.Skip(i).Take(j)
-                         orderby subarray.Count()
-                         where subarray.Sum() <= sum
-                         select subarray.ToList();
+            var result = Enumerable.Range(0, array.Length).
+                SelectMany(i => Enumerable.Range(1, array.Length - i), (i, j) => array.Skip(i).Take(j)).
+                OrderBy(s => s.Count()).
+                Where(s => s.Sum() <= sum).
+                Select(s => s.ToArray());
 
             return result;
         }

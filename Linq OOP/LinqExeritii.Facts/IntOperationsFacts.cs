@@ -13,16 +13,16 @@ namespace LinqExeritii.Facts
         public void TestGenerateCombinationsWithSumLessThanNumber()
         {
             var intOperation = new IntOperations(new int[] { 1, 2, 3, 4 }, 6);
-            var result = intOperation.GenerateSubArraysWithSumLessThanNumber().Cast<List<int>>().ToList();
-            var options = new List<List<int>>() 
+            var result = intOperation.GenerateSubArraysWithSumLessThanNumber();
+            var options = new List<int[]>() 
             {
-                new List<int> { 1 },
-                new List<int> { 2 },
-                new List<int> { 3 },
-                new List<int> { 4 },
-                new List<int> { 1, 2 },
-                new List<int> { 2, 3 },
-                new List<int> { 1, 2, 3 }
+                new[] { 1 },
+                new[] { 2 },
+                new[] { 3 },
+                new[] { 4 },
+                new[] { 1, 2 },
+                new[] { 2, 3 },
+                new[] { 1, 2, 3 }
             };
 
             Assert.Equal(options, result);

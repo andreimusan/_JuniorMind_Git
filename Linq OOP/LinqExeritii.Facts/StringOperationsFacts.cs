@@ -13,9 +13,10 @@ namespace LinqExeritii.Facts
         public void TestVowelsAndConsonantsCount()
         {
             var sentence = new StringOperations("Enter a Sentence or a Character?!");
-            
-            Assert.Equal(11, sentence.CountVowels());
-            Assert.Equal(15, sentence.CountConsonants());
+            var lettersCount = sentence.CountVowelsAndConsonants();
+
+            Assert.Equal(11, lettersCount.vowels);
+            Assert.Equal(15, lettersCount.consonants);
         }
 
         [Fact]
@@ -24,6 +25,14 @@ namespace LinqExeritii.Facts
             var sentence = new StringOperations("enter a sentence or a character?!");
             
             Assert.Equal('s', sentence.FirstUniqueCharacter());
+        }
+
+        [Fact]
+        public void TestConvertStringToInt()
+        {
+            var sentence = new StringOperations("-1234");
+
+            Assert.Equal(-1234, sentence.ConvertStringToInt());
         }
 
         [Fact]
