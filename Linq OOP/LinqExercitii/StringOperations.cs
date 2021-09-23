@@ -19,8 +19,10 @@ namespace LinqExercitii
         {
             var lettersCount = (vowels: 0, consonants: 0);
 
-            lettersCount.vowels = text.ToLower().Count(c => "aeiou".Contains(c));
-            lettersCount.consonants = text.ToLower().Count(char.IsLetter) - lettersCount.vowels;
+            var letterGroup = text.ToLower().Where(c => char.IsLetter(c)).GroupBy(l => "aeiou".Contains(l), (key, letter) => new { Key = key, Count = letter.Count() }).ToList();
+
+            lettersCount.vowels = letterGroup[0].Count;
+            lettersCount.consonants = letterGroup[1].Count;
 
             return lettersCount;
         }
