@@ -25,7 +25,6 @@ namespace LinqExercitii
         {
             var result = Enumerable.Range(0, array.Length).
                 SelectMany(i => Enumerable.Range(1, array.Length - i), (i, j) => array.Skip(i).Take(j)).
-                OrderBy(s => s.Count()).
                 Where(s => s.Sum() <= sum).
                 Select(s => s.ToArray());
 
@@ -34,89 +33,25 @@ namespace LinqExercitii
 
         public IEnumerable<int[]> GenerateCombinationsWithSumEqualToNumber()
         {
-            var negativeAndPositive = new[] { -1, 1 };
-            var numberOfCombinations = (int)Math.Pow(2, number);
-            const int two = 2;
-
-            var result = Enumerable.Range(1, numberOfCombinations).
-                Select(i => Enumerable.Range(1, number).
-                        Select(j => negativeAndPositive[((i * j) / numberOfCombinations) % two] * j)).
-                Where(value => value.Sum() == sum).
-                Select(x => x.ToArray());
+            var numberOfOptions = (int)Math.Pow(2, number);
+            var numbersToString = Enumerable.Range(1, array.Length).Select(i => Convert.ToString(i, 10)).Aggregate((i, j) => i + j);
+            var binaryNumbers = Enumerable.Range(0, numberOfOptions).Select(i => Convert.ToString(i, 2).PadLeft(array.Length, '0'));
+            var signCombinations = binaryNumbers.Select(i => i.Select(sign => sign == '0' ? "-" : "+").Aggregate((i, j) => i + j));
+            var numbersWithSigns = signCombinations.Select(i => i.Zip(numbersToString, (first, second) => first.ToString() + second.ToString()).Select(j => int.Parse(j)));
+            var result = numbersWithSigns.Where(i => i.Sum() == sum).Select(i => i.ToArray());
 
             return result;
         }
 
-        public IEnumerable<IEnumerable<int>> GeneratePythagoreanTriples()
+        public IEnumerable<int[]> GeneratePythagoreanTriples()
         {
-            var combinationsOf3 = this.GenerateCombinations().Where(value => value.ToList().Count == 3).ToList();
-            var permutations = new List<List<int>>();
-
-            foreach (var list in combinationsOf3)
-            {
-                var permutate = GeneratePermutations(list.ToList(), list.ToList().Count);
-                foreach (var p in permutate)
-                {
-                    if (IsPythagoreanTriples(p.ToList()))
-                    {
-                        permutations.Add(p.ToList());
-                    }
-                }
-            }
-
-            return permutations;
-        }
-
-        public IEnumerable<IEnumerable<int>> GeneratePermutations(IEnumerable<int> list, int length)
-        {
-            if (list == null)
-            {
-                return null;
-            }
-
-            if (length == 1)
-            {
-                return list.Select(t => new[] { t });
-            }
-
-            var permutations = GeneratePermutations(list, length - 1).SelectMany(p => list.Where(x => !p.Contains(x)), (p1, p2) => p1.Concat(new[] { p2 }));
-
-            return permutations;
-        }
-
-        public IEnumerable<IEnumerable<int>> GenerateCombinations()
-        {
-            if (!newArray.Any())
-            {
-                return Enumerable.Repeat(Enumerable.Empty<int>(), 1);
-            }
-
-            var firstElement = newArray.Take(1);
-            var remainingElements = GenerateCombinations(newArray.Skip(1));
-            var subArray = remainingElements.Select(elem => firstElement.Concat(elem));
-            var result = subArray.Concat(remainingElements);
+            var result = Enumerable.Range(0, array.Length).
+                SelectMany(i => Enumerable.Range(0, array.Length).
+                SelectMany(j => Enumerable.Range(0, array.Length).
+                Where(k => array[i] * array[i] + array[j] * array[j] == array[k] * array[k]).
+                Select(k => new[] { array[i], array[j], array[k] })));
 
             return result;
-        }
-
-        private IEnumerable<IEnumerable<int>> GenerateCombinations(IEnumerable<int> newArray)
-        {
-            if (!newArray.Any())
-            {
-                return Enumerable.Repeat(Enumerable.Empty<int>(), 1);
-            }
-
-            var firstElement = newArray.Take(1);
-            var remainingElements = GenerateCombinations(newArray.Skip(1));
-            var subArray = remainingElements.Select(elem => firstElement.Concat(elem));
-            var result = subArray.Concat(remainingElements);
-
-            return result;
-        }
-
-        private bool IsPythagoreanTriples(List<int> source)
-        {
-            return (source.First() * source.First()) + (source.ElementAt(1) * source.ElementAt(1)) == source.Last() * source.Last();
         }
     }
 }
