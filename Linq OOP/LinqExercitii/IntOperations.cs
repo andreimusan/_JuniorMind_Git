@@ -35,9 +35,12 @@ namespace LinqExercitii
         {
             var numberOfOptions = (int)Math.Pow(2, number);
             var numbersToString = Enumerable.Range(1, array.Length).Select(i => Convert.ToString(i, 10)).Aggregate((i, j) => i + j);
+
             var binaryNumbers = Enumerable.Range(0, numberOfOptions).Select(i => Convert.ToString(i, 2).PadLeft(array.Length, '0'));
             var signCombinations = binaryNumbers.Select(i => i.Select(sign => sign == '0' ? "-" : "+").Aggregate((i, j) => i + j));
-            var numbersWithSigns = signCombinations.Select(i => i.Zip(numbersToString, (first, second) => first.ToString() + second.ToString()).Select(j => int.Parse(j)));
+
+            var plusMinus = Enumerable.Range(0, number).Aggregate(new[] { "" }, (prev, sign) => prev.SelectMany(s => { return new[] { s + "-", s + "+" }; }).ToArray());
+            var numbersWithSigns = plusMinus.Select(i => i.Zip(numbersToString, (first, second) => first.ToString() + second.ToString()).Select(j => int.Parse(j)));
             var result = numbersWithSigns.Where(i => i.Sum() == sum).Select(i => i.ToArray());
 
             return result;
