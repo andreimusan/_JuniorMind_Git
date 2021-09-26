@@ -8,10 +8,6 @@ namespace LinqExercitii
     {
         public string Name { get; set; }
 
-        public string ProductCode { get; set; }
-
-        public double Cost { get; set; }
-
-        public int Count { get; set; }
+        public ICollection<Feature> Features { get; set; }
     }
 }

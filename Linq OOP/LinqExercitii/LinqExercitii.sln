@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqExercitii", "LinqExercitii.csproj", "{50F7D702-B701-4C9F-86FB-9D9096814F2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinqExeritii.Facts", "..\LinqExeritii.Facts\LinqExeritii.Facts.csproj", "{621A83C3-AC17-4F47-9E70-3D06B1DF05FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinqExeritii.Facts", "..\LinqExeritii.Facts\LinqExeritii.Facts.csproj", "{621A83C3-AC17-4F47-9E70-3D06B1DF05FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EBD51195-8B6E-47CD-ADF9-B1C0CBCBE1FF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

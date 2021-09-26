@@ -6,17 +6,17 @@ namespace LinqExercitii
 {
     public class Stock
     {
-        private readonly Dictionary<string, List<Product>> stock;
-        private readonly Action<Product, string> lowStockNotification;
+        private readonly Dictionary<string, List<ProductInStock>> stock;
+        private readonly Action<ProductInStock, string> lowStockNotification;
         private readonly int[] threshold = { 2, 5, 10 };
 
-        public Stock(Action<Product, string> lowStockNotification)
+        public Stock(Action<ProductInStock, string> lowStockNotification)
         {
-            this.stock = new Dictionary<string, List<Product>>();
+            this.stock = new Dictionary<string, List<ProductInStock>>();
             this.lowStockNotification = lowStockNotification;
         }
 
-        public void AddProduct(string category, Product product)
+        public void AddProduct(string category, ProductInStock product)
         {
             if (product == null)
             {
@@ -29,13 +29,13 @@ namespace LinqExercitii
             }
             else
             {
-                stock.Add(category, new List<Product> { product });
+                stock.Add(category, new List<ProductInStock> { product });
             }
 
             product.Count++;
         }
 
-        public void RemoveProduct(string category, Product product, int quantity = 1)
+        public void RemoveProduct(string category, ProductInStock product, int quantity = 1)
         {
             if (!stock.ContainsKey(category) || product == null)
             {
@@ -81,7 +81,7 @@ namespace LinqExercitii
             throw new ArgumentNullException(category, "nameof(category) does not exist");
         }
 
-        private void LowStock(Product product, int oldStockCount)
+        private void LowStock(ProductInStock product, int oldStockCount)
         {
             int newStockCount = product.Count;
 
