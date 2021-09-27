@@ -54,15 +54,16 @@ namespace LinqExercitii
             return result;
         }
 
-        public static IEnumerable<string> MostUsedWords(string text)
+        public static IEnumerable<string> MostUsedWords(string text, int topWords)
         {
             if (text == null)
             {
                 return null;
             }
 
-            var words = text.Split(new[] { '.', '?', '!', ' ', ';', ':', ',' }, StringSplitOptions.RemoveEmptyEntries);
-            var result = words.GroupBy(x => x.ToLower()).Where(n => n.Count() > 1).OrderByDescending(n => n.Count()).Select(w => w.Key).Take(3);
+            topWords = Math.Abs(topWords);
+            var words = text.Split(".?!;:, ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var result = words.GroupBy(x => x.ToLower()).OrderByDescending(n => n.Count()).Select(w => w.Key).Take(topWords);
 
             return result;
         }

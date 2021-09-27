@@ -163,7 +163,7 @@ namespace LinqExeritii.Facts
 
             var result = new List<string> { "ana", "si", "au" };
 
-            Assert.Equal(result, FilterOperations.MostUsedWords(text));
+            Assert.Equal(result, FilterOperations.MostUsedWords(text, 3));
         }
     }
 }
