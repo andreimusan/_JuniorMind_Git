@@ -18,16 +18,16 @@ namespace LinqExercitii
 
             var sudokuLines = GenerateSudokuLines(sudokuBoard);
             var sudokuColumns = GenerateSudokuColumns(sudokuBoard);
-            var sudokuBlocks = GenerateSudokuColumns(sudokuBoard);
+            var sudokuBlocks = GenerateSudokuBlocks(sudokuBoard);
 
-            var result = IsValidSudokuItem(sudokuLines) && IsValidSudokuItem(sudokuColumns) && IsValidSudokuItem(sudokuBlocks);
+            var result = IsValidSudokuItem(sudokuLines.Concat(sudokuColumns).Concat(sudokuBlocks));
 
             return result;
         }
 
         public static bool IsValidSudokuItem(IEnumerable<IEnumerable<byte>> itemType)
         {
-            var result = itemType.Count(item => item.Where(value => value >= 1 && value <= 9).Distinct().Count() == 9) == itemType.Count();
+            var result = itemType.All(item => item.All(value => value >= 1 && value <= 9) && item.Count() == item.Distinct().Count() && item.Count() == 9);
 
             return result;
         }
