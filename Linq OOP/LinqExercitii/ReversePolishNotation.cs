@@ -17,7 +17,7 @@ namespace LinqExercitii
             var operationArray = operation.Split(' ');
 
             var result = operationArray.Aggregate(
-                new List<double>().AsEnumerable(), (operand, current) => double.TryParse(current, out var value) ?
+                    Enumerable.Empty<double>(), (operand, current) => double.TryParse(current, out var value) ?
                     operand.Append(value) :
                     operand.SkipLast(2).Append(OperationResult(operand.TakeLast(2), current))).First();
 
