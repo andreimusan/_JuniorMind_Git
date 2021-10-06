@@ -16,11 +16,10 @@ namespace MermaidFlowChart
                 return;
             }
 
-            string text = File.ReadAllText(args[0]);
-            var lines = text.Split("\n\r".ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            string[] text = File.ReadAllLines(args[0]);
 
             var rectangles = new List<IFlowChartShape>();
-            Array.ForEach(lines, x => rectangles.Add(new RectangleNode(x)));
+            Array.ForEach(text, x => rectangles.Add(new RectangleNode(x)));
 
             rectangles.ForEach(x => x.UpdateWidth());
             int maxLenghth = rectangles.OrderBy(x => x.GetDimensions().width).Last().GetDimensions().width;
