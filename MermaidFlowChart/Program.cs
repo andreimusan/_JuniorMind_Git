@@ -19,20 +19,32 @@ namespace MermaidFlowChart
             string fileName = Path.GetFileName(args[0]);
             string newFileExtension = Path.ChangeExtension(fileName, ".svg");
 
-            string[] text = File.ReadAllLines(args[0]);
+            string text2 = File.ReadAllText(args[0]);
+            var elements = text2.Split(new[] { "\r\n", "\r", "\n", " -", "> " }, StringSplitOptions.RemoveEmptyEntries);
+            var rectangles2 = new List<IFlowChartShape>();
 
-            var rectangles = new List<IFlowChartShape>();
-            Array.ForEach(text, x => rectangles.Add(new RectangleNode(x)));
+            foreach (var elem in elements)
+            {
+                if (elem == "-")
+                {
+                    rectangles2.Add(new ArrowDown());
+                }
+                else
+                {
+                    rectangles2.Add(new RectangleNode(elem));
+                }
+            }
 
-            rectangles.ForEach(x => x.UpdateWidth());
-            int maxLenghth = rectangles.OrderBy(x => x.GetDimensions().width).Last().GetDimensions().width;
+            rectangles2.ForEach(x => x.UpdateWidth());
+            int maxLenghth = rectangles2.OrderBy(x => x.GetDimensions().width).Last().GetDimensions().width;
             int prevHeight = 0;
             string svg = "";
+            int half = 2;
 
-            foreach (var elem in rectangles)
+            foreach (var elem in rectangles2)
             {
                 int currentHeight = elem.GetDimensions().height;
-                (int, int) newCoordinates = (maxLenghth, prevHeight + currentHeight);
+                (int, int) newCoordinates = (maxLenghth, prevHeight + (currentHeight / half));
                 elem.UpdateCoordinates(newCoordinates);
                 svg += elem.DrawShape();
                 prevHeight += currentHeight;
