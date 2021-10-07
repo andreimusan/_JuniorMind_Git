@@ -16,6 +16,9 @@ namespace MermaidFlowChart
                 return;
             }
 
+            string fileName = Path.GetFileName(args[0]);
+            string newFileExtension = Path.ChangeExtension(fileName, ".svg");
+
             string[] text = File.ReadAllLines(args[0]);
 
             var rectangles = new List<IFlowChartShape>();
@@ -36,7 +39,7 @@ namespace MermaidFlowChart
             }
 
             string file = "<svg width = \"1000\" height = \"1000\" xmlns = \"http://www.w3.org/2000/svg\" xmlns:svg = \"http://www.w3.org/2000/svg\">" + svg + "</svg>";
-            StreamWriter write = File.CreateText(@"test_diagrams\drawing.svg");
+            StreamWriter write = File.CreateText(@"test_diagrams\" + newFileExtension);
             write.Write(file);
             write.Close();
         }
