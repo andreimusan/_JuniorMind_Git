@@ -37,7 +37,7 @@ namespace MermaidFlowChart
 
             rectangles2.ForEach(x => x.UpdateWidth());
             int maxLenghth = rectangles2.OrderBy(x => x.GetDimensions().width).Last().GetDimensions().width;
-            int prevHeight = 0;
+            int prevHeight = 10;
             string svg = "";
             int half = 2;
 

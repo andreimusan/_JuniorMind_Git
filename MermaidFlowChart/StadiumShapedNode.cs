@@ -4,14 +4,15 @@ using System.Text;
 
 namespace MermaidFlowChart
 {
-    public class StadiumShapedNode
+    public class StadiumShapedNode : IFlowChartShape
     {
-        private readonly int defaultWidth = 70;
+        private readonly int defaultWidth = 80;
         private readonly int defaultHeight = 40;
         private readonly int defaultTextWidth = 5;
         private readonly int textWidthMultiplier = 8;
         private readonly string text;
         private (int width, int height) dimensions;
+        private (int x, int y) coordinates;
 
         public StadiumShapedNode(string textInput)
         {
@@ -21,11 +22,19 @@ namespace MermaidFlowChart
 
         public string DrawShape()
         {
-            int textX = dimensions.width / 2;
-            int textY = dimensions.height / 2 + 5;
-            string shape = "<rect fill=\"#aaaaff\" stroke=\"#3f007f\" stroke-width=\"1\" rx=\"20\" ry=\"20\" height=\"" + dimensions.height + "\" width=\"" + dimensions.width + "\" x=\"0\" y=\"0\"/>";
+            int textX = coordinates.x;
+            int textY = coordinates.y + 5;
+            int x = coordinates.x - dimensions.width / 2;
+            int y = coordinates.y - dimensions.height / 2;
+            string shape = "<rect fill=\"#aaaaff\" stroke=\"#3f007f\" stroke-width=\"1\" rx=\"20\" ry=\"20\" height=\"" + dimensions.height + "\" width=\"" + dimensions.width +
+                            "\" x=\"" + x + "\" y=\"" + y + "\"/>";
             string shapeText = "<text fill=\"#000000\" font-size=\"20\" text-anchor=\"middle\" x=\"" + textX + "\" xml:space=\"preserve\" y=\"" + textY + "\">" + text + "</text>";
             return shape + shapeText;
+        }
+
+        public (int width, int height) GetDimensions()
+        {
+            return this.dimensions;
         }
 
         public void UpdateWidth()
@@ -36,6 +45,11 @@ namespace MermaidFlowChart
             }
 
             dimensions.width += (text.Length - defaultTextWidth) * textWidthMultiplier;
+        }
+
+        public void UpdateCoordinates((int x, int y) coordinates)
+        {
+            this.coordinates = coordinates;
         }
     }
 }
