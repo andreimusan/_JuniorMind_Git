@@ -31,7 +31,7 @@ namespace MermaidFlowChart
                 }
                 else
                 {
-                    rectangles2.Add(new RectangleNode(elem));
+                    rectangles2.Add(new AsymmetricNode(elem));
                 }
             }
 

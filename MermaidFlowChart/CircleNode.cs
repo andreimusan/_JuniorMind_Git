@@ -11,7 +11,7 @@ namespace MermaidFlowChart
         private readonly int textWidthMultiplier = 8;
         private readonly string text;
         private (int width, int height) dimensions;
-        private (int x, int y) coordinates;
+        private (int x, int y) coordinatesCenter;
 
         public CircleNode(string textInput)
         {
@@ -21,12 +21,12 @@ namespace MermaidFlowChart
 
         public string DrawShape()
         {
-            int textX = coordinates.x;
-            int textY = coordinates.y + 5;
-            int x = coordinates.x - dimensions.width / 2;
-            int y = coordinates.y - dimensions.height / 2;
+            int textX = coordinatesCenter.x;
+            int textY = coordinatesCenter.y + 5;
+            int x = coordinatesCenter.x - dimensions.width / 2;
+            int y = coordinatesCenter.y - dimensions.height / 2;
             string shape = "<ellipse fill=\"#aaaaff\" stroke=\"#3f007f\" stroke-width=\"1\" ry=\"" + dimensions.height + "\" rx=\"" + dimensions.width +
-                            "\" cx=\"" + coordinates.x + "\" cy=\"" + coordinates.y + "\"/>";
+                            "\" cx=\"" + coordinatesCenter.x + "\" cy=\"" + coordinatesCenter.y + "\"/>";
             string shapeText = "<text fill=\"#000000\" font-size=\"20\" text-anchor=\"middle\" x=\"" + textX + "\" xml:space=\"preserve\" y=\"" + textY + "\">" + text + "</text>";
             return shape + shapeText;
         }
@@ -49,7 +49,7 @@ namespace MermaidFlowChart
 
         public void UpdateCoordinates((int x, int y) coordinates)
         {
-            this.coordinates = coordinates;
+            this.coordinatesCenter = coordinates;
         }
     }
 }
