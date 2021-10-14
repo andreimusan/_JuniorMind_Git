@@ -7,7 +7,7 @@ namespace MermaidFlowChart
 {
     public class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args, string fileLocation = "test_diagrams")
         {
             if (args == null || args.Length == 0)
             {
@@ -51,7 +51,7 @@ namespace MermaidFlowChart
             }
 
             string file = "<svg width = \"1000\" height = \"1000\" xmlns = \"http://www.w3.org/2000/svg\" xmlns:svg = \"http://www.w3.org/2000/svg\">" + svg + "</svg>";
-            StreamWriter write = File.CreateText(@"test_diagrams\" + newFileExtension);
+            StreamWriter write = File.CreateText("@" + fileLocation + "\\" + newFileExtension);
             write.Write(file);
             write.Close();
         }
