@@ -23,8 +23,6 @@ namespace MermaidFlowChart
         {
             int textX = coordinatesCenter.x;
             int textY = coordinatesCenter.y + 5;
-            int x = coordinatesCenter.x - dimensions.width / 2;
-            int y = coordinatesCenter.y - dimensions.height / 2;
             string shape = "<ellipse fill=\"#aaaaff\" stroke=\"#3f007f\" stroke-width=\"1\" ry=\"" + dimensions.height + "\" rx=\"" + dimensions.width +
                             "\" cx=\"" + coordinatesCenter.x + "\" cy=\"" + coordinatesCenter.y + "\"/>";
             string shapeText = "<text fill=\"#000000\" font-size=\"20\" text-anchor=\"middle\" x=\"" + textX + "\" xml:space=\"preserve\" y=\"" + textY + "\">" + text + "</text>";
