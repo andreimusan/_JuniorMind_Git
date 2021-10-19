@@ -27,27 +27,27 @@ namespace MermaidFlowChart
             {
                 if (elem == "-")
                 {
-                    rectangles2.Add(new ArrowDown());
+                    rectangles2.Add(new ArrowLeft());
                 }
                 else
                 {
-                    rectangles2.Add(new CylindricalNode(elem));
+                    rectangles2.Add(new RectangleNode(elem));
                 }
             }
 
             rectangles2.ForEach(x => x.UpdateWidth());
-            int maxLenghth = rectangles2.OrderBy(x => x.GetDimensions().width).Last().GetDimensions().width;
-            int prevHeight = 10;
+            int maxHeight = rectangles2.OrderBy(x => x.GetDimensions().height).Last().GetDimensions().height;
+            int prevWidth = 10;
             string svg = "";
             int half = 2;
 
             foreach (var elem in rectangles2)
             {
-                int currentHeight = elem.GetDimensions().height;
-                (int, int) newCoordinates = (maxLenghth, prevHeight + (currentHeight / half));
+                int currentWidth = elem.GetDimensions().width;
+                (int, int) newCoordinates = (prevWidth + (currentWidth / half), maxHeight);
                 elem.UpdateCoordinates(newCoordinates);
                 svg += elem.DrawShape();
-                prevHeight += currentHeight;
+                prevWidth += currentWidth;
             }
 
             var fileLocation = args.Length > 1 ? args[1] : "test_diagrams";
