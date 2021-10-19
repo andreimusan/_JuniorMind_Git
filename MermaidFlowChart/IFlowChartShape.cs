@@ -10,7 +10,7 @@ namespace MermaidFlowChart
 
         public string DrawShape();
 
-        public void UpdateWidth();
+        public void UpdateDimensions();
 
         public void UpdateCoordinates((int x, int y) coordinates);
     }

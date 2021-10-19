@@ -31,13 +31,13 @@ namespace MermaidFlowChart
                 }
                 else
                 {
-                    rectangles2.Add(new RectangleNode(elem));
+                    rectangles2.Add(new TrapezoidNode(elem));
                 }
             }
 
-            rectangles2.ForEach(x => x.UpdateWidth());
+            rectangles2.ForEach(x => x.UpdateDimensions());
             int maxHeight = rectangles2.OrderBy(x => x.GetDimensions().height).Last().GetDimensions().height;
-            int prevWidth = 10;
+            int prevWidth = 20;
             string svg = "";
             int half = 2;
 

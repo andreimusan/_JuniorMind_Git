@@ -34,7 +34,7 @@ namespace MermaidFlowChart
             return (dimensions.width + dimensions.width, dimensions.height + dimensions.height);
         }
 
-        public void UpdateWidth()
+        public void UpdateDimensions()
         {
             if (text.Length <= defaultTextWidth)
             {

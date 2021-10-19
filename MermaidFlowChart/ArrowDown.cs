@@ -34,7 +34,7 @@ namespace MermaidFlowChart
             return this.dimensions;
         }
 
-        public void UpdateWidth()
+        public void UpdateDimensions()
         {
             dimensions.width = 0;
         }
