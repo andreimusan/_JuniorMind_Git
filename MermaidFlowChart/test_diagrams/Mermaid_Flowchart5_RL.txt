@@ -1,0 +1,3 @@
+graph RL
+{Christmas} --> >Go shopping]
+Z --> [[Get presents]]

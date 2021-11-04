@@ -1,4 +1,3 @@
-Tastez
-Scriu
-Multe cuvinte lungi
-Eu
+Tastez --> Scriu
+c --> Multe cuvinte lungi
+d --> Eu

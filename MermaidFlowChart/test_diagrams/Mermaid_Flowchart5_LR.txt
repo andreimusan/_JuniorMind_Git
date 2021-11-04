@@ -1,0 +1,5 @@
+graph LR
+{{Christmas}} --> [/Go shopping/]
+Z --> [\Get presents\]
+Z --> {{Eat a lot}}
+Z --> (Celebrate)

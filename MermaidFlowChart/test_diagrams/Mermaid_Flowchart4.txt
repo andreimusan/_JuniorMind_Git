@@ -1,0 +1,3 @@
+graph TB
+([Christmas]) --> [\Go shopping/]
+Z --> [/Get presents\]
