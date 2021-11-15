@@ -9,11 +9,13 @@ namespace MermaidFlowChart
     public class DrawFlowChart
     {
         private readonly IFlowChartOrientation orientation;
+        private string remainingText;
 
         public DrawFlowChart(string textInput)
         {
-            var text = File.ReadLines(textInput).ToList();
-            orientation = SetOrientation(text);
+            this.remainingText = File.ReadAllText(textInput);
+            GenerateFlowchart();
+            orientation = SetOrientation();
         }
 
         public string Draw()
@@ -21,26 +23,55 @@ namespace MermaidFlowChart
             return orientation.Draw();
         }
 
-        private IFlowChartOrientation SetOrientation(List<string> text)
+        private void GenerateFlowchart()
         {
-            var flowchartGenerator = new[] { "flowchart", "graph", "subgraph" };
-            string newOrientation = "TB";
+            var whitespace = new Many(new Any(" \r\n\t"));
+            var graph = new Choice(
+                            new CharacterText("flowchart"),
+                            new CharacterText("graph"),
+                            new CharacterText("subgraph"));
+            var graphSequence = new Sequence(
+                                    new Many(whitespace),
+                                    graph,
+                                    new Many(whitespace));
+            var graphElement = graphSequence.Match(remainingText);
 
-            foreach (var elem in flowchartGenerator)
+            if (!graphElement.Success())
             {
-                if (text[0].Contains(elem))
-                {
-                    newOrientation = text[0].Substring(text[0].Length - 1 - 1, 1 + 1);
-                    text.RemoveAt(0);
-                }
+                throw new ArgumentException("Use correct format to generate flowchart!");
             }
+
+            remainingText = graphElement.RemainingText();
+        }
+
+        private IFlowChartOrientation SetOrientation()
+        {
+            var whitespace = new Many(new Any(" \r\n\t"));
+            var orientationText = new Choice(
+                                    new CharacterText("TB"),
+                                    new CharacterText("BT"),
+                                    new CharacterText("LR"),
+                                    new CharacterText("RL"));
+            var orientationTextSequence = new Sequence(
+                                            new Many(whitespace),
+                                            orientationText,
+                                            new Many(whitespace));
+            var orientationElement = orientationTextSequence.Match(remainingText);
+
+            if (!orientationElement.Success())
+            {
+                throw new ArgumentException("Use correct format to generate flowchart orientation!");
+            }
+
+            string newOrientation = orientationElement.CutText().Trim();
+            remainingText = orientationElement.RemainingText();
 
             return newOrientation switch
             {
-                "BT" => new OrientationBT(text),
-                "LR" => new OrientationLR(text),
-                "RL" => new OrientationRL(text),
-                _ => new OrientationTB(text),
+                "BT" => new OrientationBT(remainingText),
+                "LR" => new OrientationLR(remainingText),
+                "RL" => new OrientationRL(remainingText),
+                _ => new OrientationTB(remainingText),
             };
         }
     }

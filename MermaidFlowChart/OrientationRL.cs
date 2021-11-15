@@ -13,9 +13,9 @@ namespace MermaidFlowChart
         private int prevWidth = 20;
         private string svg = "";
 
-        public OrientationRL(ICollection<string> elements)
+        public OrientationRL(string text)
         {
-            var textToShapes = new TextToShape(elements.ToList(), "RL");
+            var textToShapes = new TextToShape(text, "RL");
             shapes = textToShapes.AddShapes().ToList();
             shapes.Reverse();
         }

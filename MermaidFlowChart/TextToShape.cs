@@ -6,43 +6,53 @@ namespace MermaidFlowChart
 {
     public class TextToShape
     {
-        private readonly List<string> text;
+        private readonly string text;
         private readonly List<IFlowChartShape> shapes;
         private readonly string orientation;
+        private readonly List<IPattern> pattern;
 
-        public TextToShape(ICollection<string> text, string orientation)
+        public TextToShape(string text, string orientation)
         {
-            this.text = (List<string>)text;
+            this.text = text;
             shapes = new List<IFlowChartShape>();
+            pattern = new List<IPattern>() { new ShapeTextSequence(), new LinkTextSequence() };
             this.orientation = orientation;
         }
 
         public ICollection<IFlowChartShape> AddShapes()
         {
             var lines = new List<string>();
+            var remainingText = text;
+            var prevText = "";
 
-            var firstLine = text[0].Split(new[] { "\r\n", "\r", "\n", " -", "> " }, StringSplitOptions.RemoveEmptyEntries);
-            lines.Add(firstLine[0]);
-            lines.Add(firstLine[1]);
-            lines.Add(firstLine[1 + 1]);
-            text.RemoveAt(0);
-
-            foreach (var line in text)
+            while (remainingText != "" || remainingText != prevText)
             {
-                var elements = line.Split(new[] { "\r\n", "\r", "\n", " -", "> " }, StringSplitOptions.RemoveEmptyEntries);
-                lines.Add(elements[1]);
-                lines.Add(elements[1 + 1]);
+                foreach (var elem in pattern)
+                {
+                    var match = elem.Match(remainingText);
+                    prevText = remainingText;
+
+                    if (match.Success())
+                    {
+                        lines.Add(elem.CutText().Trim());
+                    }
+
+                    remainingText = match.RemainingText();
+                }
             }
+
+            string shapeElement = ")]}";
+            string linkElement = "|-=>";
 
             foreach (var elem in lines)
             {
-                if (elem == "-")
-                {
-                    SelectArrow();
-                }
-                else
+                if (shapeElement.Contains(elem[^1]))
                 {
                     SelectShape(elem);
+                }
+                else if (linkElement.Contains(elem[^1]))
+                {
+                    SelectArrow();
                 }
             }
 
@@ -53,19 +63,19 @@ namespace MermaidFlowChart
         {
             if (orientation == "TB")
             {
-                shapes.Add(new ArrowDown());
+                shapes.Add(new ArrowDown(false, false, true));
             }
             else if (orientation == "BT")
             {
-                shapes.Add(new ArrowUp());
+                shapes.Add(new ArrowUp(false, false, false));
             }
             else if (orientation == "LR")
             {
-                shapes.Add(new ArrowRight());
+                shapes.Add(new ArrowRight(false, false, false));
             }
             else if (orientation == "RL")
             {
-                shapes.Add(new ArrowLeft());
+                shapes.Add(new ArrowLeft(false, false, false));
             }
         }
 
